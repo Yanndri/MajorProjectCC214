@@ -3,7 +3,7 @@ class BookNode {
 		private String author;
 		private BookNode next;
 
-		public BookNode(String title, String author, Node next) {
+		public BookNode(String title, String author, BookNode next) {
 			this.title = title;
 			this.author = author;
 			this.next = next;
