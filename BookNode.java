@@ -1,7 +1,7 @@
 class BookNode {
 		private String title;
 		private String author;
-		private Node next;
+		private BookNode next;
 
 		public BookNode(String title, String author, Node next) {
 			this.title = title;
