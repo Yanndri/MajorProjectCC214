@@ -1,7 +1,3 @@
-package Encrypting;
-
-import DataStructures.Node;
-
 public class HashTable {
     Node[] slots = new Node[10];
 

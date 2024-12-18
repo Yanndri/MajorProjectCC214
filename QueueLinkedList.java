@@ -1,7 +1,3 @@
-
-
-import Activity.Exercise_6.MyLinkedList;
-
 public class QueueLinkedList extends MyLinkedList{
  public void enqueue(Object item){
   addLast(item);

@@ -117,6 +117,25 @@ public class MyLinkedList {
         return result;
     }
 
+    public Object getItemAt(int pos){
+        if (!isEmpty()) {
+            if (pos >= 1 && pos <= count) {
+                if (head == tail && pos == 1) {
+                    return head.getItem();
+                } else if (pos == count)
+                    return tail.getItem();
+                else {
+                    Node p = head;
+                    for (int i = 1; i < pos; i++) {
+                        p = p.getLink();
+                    }
+                    return p.getItem();
+                }
+            }
+        }
+        return null;
+    }
+
     public int getPosition(Object item) {
         if (!isEmpty()) {
             if (head.getItem().equals(item)) {
@@ -145,10 +164,11 @@ public class MyLinkedList {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         Node p = head;
-        while (p != null) {
-            sb.append(p.getItem() + " ");
+        while (p.getLink() != null) {
+            sb.append(p.getItem() + ", ");
             p = p.getLink();
         }
+        sb.append(" and " + p.getItem() + ".");
         return sb.toString();
     }
 
@@ -172,7 +192,7 @@ public class MyLinkedList {
         System.out.println(list);
 
 
-        // System.out.println("Is the linked list empty? " + list.isEmpty());
+        // System.out.println("Is the Nexted list empty? " + list.isEmpty());
         // System.out.println("List contains: " + list);
         // // System.out.println("count: " + list.count);
 
@@ -247,7 +267,7 @@ public class MyLinkedList {
         // System.out.println("head: " + list.head.getItem());
         // System.out.println("tail: " + list.tail.getItem());
 
-        // System.out.println("\nIs the linked list empty? " + list.isEmpty());
+        // System.out.println("\nIs the Nexted list empty? " + list.isEmpty());
         // System.out.println("List contains: " + list);
         // System.out.println("count: " + list.count);
         // System.out.println("head: " + list.head.getItem());
