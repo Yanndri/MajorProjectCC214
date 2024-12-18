@@ -34,8 +34,8 @@ public class Login {
         return true;
     }
 
-    
 
+    // stores the Users Account to the Hash table
     public void storeGmail(String gmail) {
         int slot = encrypt(gmail) % array.length;
 
@@ -52,11 +52,12 @@ public class Login {
         }
     }
 
+    // encrypts a string so that it is unreadable
     public int encrypt(String unEncryptedString) {
         int key = 0;
         for (int i = 0; i < unEncryptedString.length(); i++) {
-            int value = unEncryptedString.charAt(i);
-            key += value;
+            int value = unEncryptedString.charAt(i); // replaces each character to int
+            key += value; // and add them all together
         }
         return key;
     }
