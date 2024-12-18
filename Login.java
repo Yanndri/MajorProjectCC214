@@ -1,6 +1,11 @@
 // Coretico workspace only
+
+import java.util.Scanner;
+
 public class Login {
     Node[] array = new Node[100];
+    Borrower[] borrowerAccounts = new Borrower[100];
+    Librarian[] librarianAccounts = new Librarian[100];
 
     public void SignUp() {
         String gmail = "cyrandi639@gmail.com";
@@ -14,20 +19,21 @@ public class Login {
     // return true if Gmail is already registered
     public boolean checkGmail(String gmail) {
         int slot = encrypt(gmail) % array.length;
-        if (array[slot] != null && array[slot].item.equals(gmail))
+        if (array[slot] != null && array[slot].getItem().equals(gmail))
             return true;
-        else if (array[slot].next != null && array[slot].next.item.equals(gmail))
+        else if (array[slot].getLink() != null && array[slot].getLink().getItem().equals(gmail))
             return true;
         else {
             Node tempNode = array[slot];
-            while (!tempNode.next.item.equals(gmail)) { // iterate until false
-                if (tempNode.next == null) // if reached null that means the gmail hasnt been registered
+            while (!tempNode.getLink().getItem().equals(gmail)) { // iterate until false
+                if (tempNode.getLink() == null) // if reached null that means the gmail hasnt been registered
                     return false;
-                tempNode = tempNode.next;
+                tempNode = tempNode.getLink();
             }
         }
         return true;
     }
+
 
     // stores the Users Account to the Hash table
     public void storeGmail(String gmail) {
@@ -35,14 +41,14 @@ public class Login {
 
         if (array[slot] == null) { // insert if array is null
             array[slot] = new Node(gmail);
-        } else if (array[slot].next == null) { // if array has no connected node
-            array[slot].next = new Node(gmail);
+        } else if (array[slot].getLink() == null) { // if array has no connected node
+            array[slot].setLink(new Node(gmail));
         } else {
             Node tempNode = array[slot];
-            while (tempNode.next != null) { // iterate until node link is null
-                tempNode = tempNode.next;
+            while (tempNode.getLink() != null) { // iterate until node link is null
+                tempNode = tempNode.getLink();
             }
-            tempNode.next = new Node(gmail);
+            tempNode.setLink(new Node(gmail));
         }
     }
 
@@ -55,18 +61,24 @@ public class Login {
         }
         return key;
     }
-}
 
-class Node {
-    Object item;
-    Node next;
+    public static void main(String[] args) {
+        String username, password;
+        int flg = 0;
+        Scanner scan = new Scanner(System.in);
 
-    Node(Object item) {
-        this(item, null);
-    }
+        while(flg != -1){
 
-    Node(Object item, Node next) {
-        this.item = item;
-        this.next = next;
+            System.out.println("\n\n\tLibrary Management System");
+            System.out.println("\n\n\tLogin or Sign Up\n\n\tEnter 1 for Login, 2 for Sign up: ");
+            flg = scan.nextInt();
+            System.out.print("\n\n\tEnter Username or Email: ");
+            username = scan.next();
+            System.out.print("\n\n\tEnter Password: ");
+            password = scan.next();
+
+
+        }
+
     }
 }
