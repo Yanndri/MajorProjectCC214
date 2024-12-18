@@ -1,72 +1,75 @@
+class Account {
+    Object gmail;
+    Object password;
 
-class Node {
-    Object item;
-    Node next;
+    Account nextAccount;
 
-    Node(Object item) {
-        this(item, null);
+    Account(Object gmail) {
+        this(gmail, null, null);
     }
 
-    Node(Object item, Node next) {
-        this.item = item;
-        this.next = next;
+    Account(Object gmail, Object password, Account nextAccount) {
+        this.gmail = gmail;
+        this.password = password;
+        this.nextAccount = nextAccount;
     }
 }
 
 public class UserAccounts {
-    Node[] array = new Node[10];
+    private Account[] accounts = new Account[10];
 
-    public void SignUp(String gmail) {
-
-        if (checkGmail(gmail))
+    public void SignUp(String gmail, String password) {
+        if (checkGmail(gmail)) {
             System.out.println("Gmail already registered");
-        else
-            storeGmail(gmail);
+            return;
+        }
+        storeGmail(gmail);
     }
 
+    // Use to check if Gmail is already registered
     // return true if Gmail is already registered
-    public boolean checkGmail(String gmail) {
-        int slot = encrypt(gmail) % array.length;
-        if (array[slot] == null)
+    private boolean checkGmail(String gmail) {
+        int slot = encrypt(gmail) % accounts.length;
+        if (accounts[slot] == null)
             return false;
-        if (array[slot].item.equals(gmail))
+        if (accounts[slot].gmail.equals(gmail))
             return true;
-        if (array[slot].next != null && array[slot].next.item.equals(gmail))
+        if (accounts[slot].nextAccount != null && accounts[slot].nextAccount.gmail.equals(gmail))
             return true;
         else {
-            Node tempNode = array[slot];
-            while (!tempNode.next.item.equals(gmail)) { // iterate until false
-                if (tempNode.next == null) // if reached null that means the gmail hasnt been registered
+            Account tempNode = accounts[slot];
+            while (!tempNode.nextAccount.gmail.equals(gmail)) { // iterate until false
+                if (tempNode.nextAccount == null) // if reached null that means the gmail hasnt been registered
                     return false;
-                tempNode = tempNode.next;
+                tempNode = tempNode.nextAccount;
             }
         }
         return true;
     }
 
     // stores the Users Account to the Hash table
-    public void storeGmail(String gmail) {
-        int slot = encrypt(gmail) % array.length;
+    private void storeGmail(String gmail) {
+        int slot = encrypt(gmail) % accounts.length;
 
-        if (array[slot] == null) { // insert if array is null
-            array[slot] = new Node(gmail);
-        } else if (array[slot].next == null) { // if array has no connected node
-            array[slot].next = new Node(gmail);
+        if (accounts[slot] == null) { // insert if accounts is null
+            accounts[slot] = new Account(gmail);
+        } else if (accounts[slot].nextAccount == null) { // if accounts has no connected node
+            accounts[slot].nextAccount.gmail = gmail;
         } else {
-            Node tempNode = array[slot];
-            while (tempNode.next != null) { // iterate until node link is null
-                tempNode = tempNode.next;
+            Account tempNode = accounts[slot];
+            while (tempNode.nextAccount != null) { // iterate until node link is null
+                tempNode = tempNode.nextAccount;
             }
-            tempNode.next = new Node(gmail);
+            tempNode.nextAccount.gmail = gmail;
         }
     }
 
     // encrypts a string so that it is unreadable
-    public int encrypt(String unEncryptedString) {
+    private int encrypt(String unEncryptedString) {
         int key = 0;
         for (int i = 0; i < unEncryptedString.length(); i++) {
             int value = unEncryptedString.charAt(i); // replaces each character to int
-            key += value; // and add them all together
+            key += value; // and add them all together()
         }
         return key;
     }
@@ -76,8 +79,12 @@ public class UserAccounts {
         StringBuffer sb = new StringBuffer();
 
         sb.append("{");
-        for (int i = 0; i < array.length; i++) {
-            sb.append(array[i] + " ,");
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i] == null)
+                sb.append(accounts[i]);
+            else
+                sb.append(accounts[i].gmail);
+            sb.append(" ,");
         }
         sb.append("}");
 
@@ -86,9 +93,10 @@ public class UserAccounts {
 
     public static void main(String[] args) {
         UserAccounts login = new UserAccounts();
-
         System.out.println(login);
-        login.SignUp("@gmail.com");
+        System.out.println("Gmail found = " + login.checkGmail("@gmail.com"));
+        login.SignUp("@gmail.com", "password");
         System.out.println(login);
+        System.out.println("Gmail found = " + login.checkGmail("@gmail.com"));
     }
 }
