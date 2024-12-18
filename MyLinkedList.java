@@ -138,6 +138,17 @@ public class MyLinkedList {
         return 0;
     }
 
+    public Object getItemAt(int pos){ //UPDATE 12/18/24 
+        int c = 1;
+        Node tempNode = head;
+        while(c < pos){
+            tempNode = tempNode.getLink();
+            c++;
+        }
+
+        return tempNode.getItem();
+    }
+
     public Object getFirstElement(){
         return head.getItem();
     }
@@ -170,6 +181,7 @@ public class MyLinkedList {
 
         list.deleteLast();
         System.out.println(list);
+        System.out.println("Get: " + list.getItemAt(2));
 
 
         // System.out.println("Is the linked list empty? " + list.isEmpty());
