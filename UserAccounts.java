@@ -1,18 +1,3 @@
-
-class Node {
-    Object item;
-    Node next;
-
-    Node(Object item) {
-        this(item, null);
-    }
-
-    Node(Object item, Node next) {
-        this.item = item;
-        this.next = next;
-    }
-}
-
 public class UserAccounts {
     Node[] array = new Node[10];
 
