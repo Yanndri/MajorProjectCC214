@@ -1,5 +1,3 @@
-package DoublyLinkedList;
-
 public class DNode{
     protected Object item;
     protected DNode next, prev;
