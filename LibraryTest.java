@@ -4,9 +4,9 @@ import java.util.Scanner;
 public class LibraryTest extends DLinkedList<Book> {
 
     // Searching Methods
-    public static String searchTitle(DLinkedList<Book> list, String title) {
+    public String searchTitle(String title) {
         DLinkedList<Book> results = new DLinkedList<>();
-        DNode<Book> temp = list.head;
+        DNode<Book> temp = head;
 
         while (temp != null) {
             Book currBook = temp.getItem();
@@ -36,6 +36,7 @@ public class LibraryTest extends DLinkedList<Book> {
 
         Scanner scanf = new Scanner(System.in);
         DLinkedList<Book> list = new DLinkedList<>();
+        LibraryTest lib = new LibraryTest();
         byte choice = 0;
 
         System.out.println("Bookshelf");
@@ -74,7 +75,7 @@ public class LibraryTest extends DLinkedList<Book> {
                     break;
                 case 3:
                     System.out.println("Search by Title: ");
-                    String result = searchTitle(list, scanf.nextLine());
+                    String result = lib.searchTitle(scanf.nextLine());
 
             }
         }
