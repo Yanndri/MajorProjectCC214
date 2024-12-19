@@ -3,7 +3,7 @@ public class Book {
     private int totalCopies, borrowedCopies;
     private MyLinkedList borrowers;
     private QueueLinkedList requesters;
-    private MyLinkedList authors = new MyLinkedList();
+    private MyLinkedList authors;
 
     public Book(MyLinkedList authors, String title, String description, String publicationDate, int noOfCopies) {
         this.authors = authors;
