@@ -12,41 +12,73 @@ public class HashTable {
 
     public void insert(Object item) {
 
+        if (item != null) {
+
+            int i = hash(item);
+
+            MyLinkedList currentChain = accounts[i];
+
+            if (currentChain == null)
+
+                accounts[i] = new MyLinkedList(item);
+
+            else
+
+                currentChain.addLast(item);
+
+        }
+    }
+
+    public boolean isFound(Object item) {
+
+        if (item == null)
+
+            return false;
+
         int i = hash(item);
 
         MyLinkedList currentChain = accounts[i];
 
         if (currentChain == null)
-            accounts[i] = new MyLinkedList(item);
-        else 
-            currentChain.addLast(item);
-            
-    }
 
-    public boolean isFound(Object item) {
-        int i = hash(item);
-
-        MyLinkedList currentChain = accounts[i];
+            return false;
 
         return currentChain.isFound(item);
+
     }
 
     public boolean delete(Object item) {
+
+        if (item == null)
+
+            return false;
+
         int i = hash(item);
 
         MyLinkedList currentChain = accounts[i];
 
+        if (currentChain == null)
+
+            return false;
+
         if (currentChain.isFound(item)) {
+
             Object existingAcc = currentChain.getItemAt(currentChain.getPosition(item));
 
             if (item == existingAcc)
+
                 currentChain.deleteItemAt(currentChain.getPosition(item));
+
             return true;
         }
         return false;
     }
 
     public int hash(Object item) {
+        if (item == null)
+
+            return -1;
+
         return Integer.parseInt(item.toString()) % accounts.length;
     }
 
@@ -64,11 +96,16 @@ public class HashTable {
         return sb.toString();
     }
 
-    public Object getAccount(Object item){
+    public Object getAccount(Object item) {
 
-        if(isFound(item)){
+        if (item == null)
+
+            return null;
+
+        if (isFound(item)) {
+
             int i = hash(item);
-            
+
             MyLinkedList currentChain = accounts[i];
 
             return currentChain.getItemAt(currentChain.getPosition(item));
@@ -79,7 +116,7 @@ public class HashTable {
     }
 
     public static void main(String[] args) {
-       HashTable ht = new HashTable();
+        HashTable ht = new HashTable();
 
         ht.insert(5);
         ht.insert(15);
