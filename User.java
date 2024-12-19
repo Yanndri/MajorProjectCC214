@@ -82,4 +82,18 @@ public class User {
     public int getAge() {
         return age;
     }
+
+    public String getUserName() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    //Search
 }

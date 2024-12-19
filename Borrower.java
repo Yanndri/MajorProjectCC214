@@ -1,10 +1,34 @@
-public class Borrower extends User{
+public class Borrower extends User {
     String borrowerIdNumber;
-    String username, password;
+    MyLinkedList borrowedBooks, requestedBooks;
 
-    Borrower(String firstName, String lastName, String middleName, String address, String gender, String emailAddress, String phoneNumber, String collegeDepartment, int age, String borrowerIdNumber, String username, String password){
-        super(firstName, lastName, middleName, address, gender, emailAddress, phoneNumber, collegeDepartment, age);
+    public Borrower(String firstName, String lastName, String middleName, String address, String gender,
+            String phoneNumber, int age, String emailAddress,
+            String username, String password, String borrowerIdNumber) {
+        super(firstName, lastName, middleName, address, gender, phoneNumber, age, emailAddress,
+                username, password);
         this.borrowerIdNumber = borrowerIdNumber;
     }
-    
+
+    public Borrower(){
+        this(null, null, null, null, null, null, 0, null, null, null, null);
+    }
+
+    //setters
+    public void setBorrowerIdNumber(String borrowerIdNumber){
+        this.borrowerIdNumber = borrowerIdNumber;
+    }
+
+    //getters
+    public String getBorrowerIdNumber(){
+        return borrowerIdNumber;
+    }
+
+    //Borrow/Request Books
+
+    //Return Books
+
+    //Cancel Request
+
+    //toString
 }
