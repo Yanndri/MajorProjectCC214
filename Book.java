@@ -3,7 +3,7 @@ public class Book {
     private int totalCopies, borrowedCopies;
     private MyLinkedList borrowers;
     private QueueLinkedList requesters;
-    private MyLinkedList authors;
+    private MyLinkedList authors = new MyLinkedList();
 
     public Book(MyLinkedList authors, String title, String description, String publicationDate, int noOfCopies) {
         this.authors = authors;
@@ -35,6 +35,9 @@ public class Book {
     }
 
     public String addAuthor(String author) {
+        if (authors == null) {
+            authors = new MyLinkedList();  //ensure authors list is initialized
+        }
         authors.addFront(author);
         return authors.getFirstElement().toString();
     }

@@ -1,40 +1,40 @@
-public class DNode{
-    protected Object item;
-    protected DNode next, prev;
+public class DNode<B>{
+    protected B item;
+    protected DNode<B> next, prev;
 
-    public DNode(Object item, DNode prev, DNode next) {
+    public DNode(B item, DNode<B> prev, DNode<B> next) {
         this.item = item;
         this.prev = prev;
         this.next = next;
     }
 
-    public DNode(Object item) {
+    public DNode(B item) {
         this(item, null, null);
     }
 
     //getters
-    public Object getItem() {
+    public B getItem() {
         return item;
     }
 
-    public DNode getNext() {
+    public DNode<B> getNext() {
         return next;
     }
 
-    public DNode getPrev(){
+    public DNode<B> getPrev(){
         return prev;
     }
     
     //setters
-    public void setItem(Object item) {
+    public void setItem(B item) {
         this.item = item;
     }
 
-    public void setNext(DNode next) {
+    public void setNext(DNode<B> next) {
         this.next = next;
     }
 
-    public void setPrev(DNode prev){
+    public void setPrev(DNode<B> prev){
         this.prev = prev;
     }
 }
