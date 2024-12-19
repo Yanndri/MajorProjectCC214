@@ -35,6 +35,9 @@ public class Book {
     }
 
     public String addAuthor(String author) {
+        if (authors == null) {
+            authors = new MyLinkedList();  //ensure authors list is initialized
+        }
         authors.addFront(author);
         return authors.getFirstElement().toString();
     }
