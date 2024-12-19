@@ -1,31 +1,30 @@
-
 import java.util.Scanner;
 
-public class LibraryTest extends DLinkedList<Book> {
+public class LibraryTest {
 
     // Searching Methods
-    public String searchTitle(String title) {
+    public String searchTitle(DLinkedList<Book> list, String title) {
         DLinkedList<Book> results = new DLinkedList<>();
-        DNode<Book> temp = head;
+        DNode<Book> temp = list.head; // Use DNode<Book> for type safety
 
         while (temp != null) {
-            Book currBook = temp.getItem();
+            Book currBook = temp.getItem(); // Item is now a Book, no need for casting
             if (currBook.getTitle().contains(title)) {
-                results.addLast(currBook);
+                results.addLast(currBook); // add Book to results
             }
             temp = temp.getNext();
         }
         return results.toString();
     }
 
-    public String searchAuthor(String author) {
+    public String searchAuthor(DLinkedList<Book> list, String author) {
         DLinkedList<Book> results = new DLinkedList<>();
-        DNode<Book> temp = head;
+        DNode<Book> temp = list.head;
 
         while (temp != null) {
-            Book currBook = temp.getItem();
+            Book currBook = temp.getItem(); // Item is now a Book, no need for casting
             if (currBook.getAuthors().contains(author)) {
-                results.addLast(currBook);
+                results.addLast(currBook); // add Book to results
             }
             temp = temp.getNext();
         }
@@ -43,39 +42,35 @@ public class LibraryTest extends DLinkedList<Book> {
         while (choice != 4) {
             System.out.print("\nManage Books: \n\t1.) ADD Book \n\t2.) REMOVE Book\n\t3.) SEARCH\n\t4.) EXIT\n\t>> ");
             choice = scanf.nextByte();
-
-            System.out.println();
+            scanf.nextLine(); // "ENTER" (\n) consumer
 
             switch (choice) {
                 case 1:
                     System.out.print("Add Book: ");
                     Book newBook = new Book();
 
-                    System.out.print("Title: ");
+                    System.out.print("\nTitle: ");
                     newBook.setTitle(scanf.nextLine());
 
-                    // Read author name
-                    System.out.print("Author: ");
+                    System.out.print("\nAuthor: ");
                     newBook.addAuthor(scanf.nextLine());
 
-                    // Read description
-                    System.out.print("Description: ");
+                    System.out.print("\nDescription: ");
                     newBook.setDescription(scanf.nextLine());
 
-                    // Read publication date
-                    System.out.print("Publication Date: ");
+                    System.out.print("\nPublication Date: ");
                     newBook.setPublicatonDate(scanf.nextLine());
 
-                    // Consume the leftover newline after reading the number of copies
                     System.out.print("\nNo. of Copies: ");
                     newBook.setNoOfCopies(scanf.nextInt());
-                    scanf.nextLine();
+                    scanf.nextLine(); // "ENTER" (\n) consumer
 
                     list.addLast(newBook);
                     break;
                 case 3:
                     System.out.println("Search by Title: ");
-                    String result = lib.searchTitle(scanf.nextLine());
+                    String result = lib.searchTitle(list, scanf.nextLine());
+                    System.out.println(result);
 
             }
         }
