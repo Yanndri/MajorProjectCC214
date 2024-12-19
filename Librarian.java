@@ -3,33 +3,20 @@ public class Librarian extends User {
     String position;
 
     public Librarian(String firstName, String lastName, String middleName, String address, String gender,
-            String phoneNumber, int age, String librarianIdNumber, String position, String emailAddress,
-            String username, String password) {
-        super(firstName, lastName, middleName, address, gender, phoneNumber, age, emailAddress,
-                username, password);
+            String phoneNumber, int age, String librarianIdNumber, String position, String identifier, String password) {
+        super(firstName, lastName, middleName, address, gender, phoneNumber, age,
+                identifier, password);
         this.librarianIdNumber = librarianIdNumber;
         this.position = position;
     }
 
     public Librarian() {
-        this(null, null, null, null, null, null, 0, null, null, null, null, null);
+        this(null, null, null, null, null, null, 0, null, null, null, null);
     }
 
     // setters
     public void setLibrarianIDNumber(String librarianIdNumber) {
         this.librarianIdNumber = librarianIdNumber;
-    }
-
-    public void setUserName(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
     }
 
     public void setPosition(String position) {

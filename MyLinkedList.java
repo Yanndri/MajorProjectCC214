@@ -3,6 +3,16 @@ public class MyLinkedList {
     public Node head, tail;
     public int count = 0;
 
+    public MyLinkedList(Object item) {
+        if (item != null) {
+            addLast(item);
+        }
+    }
+
+    public MyLinkedList() {
+        this(null);
+    }
+
     // adders
     public void addFront(Object item) {
         if (isEmpty())
@@ -17,7 +27,7 @@ public class MyLinkedList {
         if (isEmpty())
             head = tail = new Node(item);
         else {
-            tail.setLink(tail = new Node (item));
+            tail.setLink(tail = new Node(item));
         }
         count++;
     }
@@ -86,7 +96,7 @@ public class MyLinkedList {
                 for (int i = 1; i < pos - 1; i++) {
                     p = p.getLink();
                 }
-                p.setLink(new Node (item, p.getLink()));
+                p.setLink(new Node(item, p.getLink()));
                 count++;
             }
         }
@@ -117,7 +127,7 @@ public class MyLinkedList {
         return result;
     }
 
-    public Object getItemAt(int pos){
+    public Object getItemAt(int pos) {
         if (!isEmpty()) {
             if (pos >= 1 && pos <= count) {
                 if (head == tail && pos == 1) {
@@ -157,18 +167,25 @@ public class MyLinkedList {
         return 0;
     }
 
-    public Object getFirstElement(){
+    public Object getFirstElement() {
         return head.getItem();
     }
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
         Node p = head;
-        while (p.getLink() != null) {
-            sb.append(p.getItem() + ", ");
-            p = p.getLink();
+        if (p != null) {
+            while (p.getLink() != null) {
+                sb.append(p.getItem() + " --> ");
+                p = p.getLink();
+            }
+            if (head == tail)
+                sb.append(p.getItem() + " --> ");
+            else
+                sb.append(p.getItem() + " --> ");
         }
-        sb.append(" and " + p.getItem() + ".");
+        sb.append("null");
+
         return sb.toString();
     }
 
@@ -190,7 +207,6 @@ public class MyLinkedList {
 
         list.deleteLast();
         System.out.println(list);
-
 
         // System.out.println("Is the Nexted list empty? " + list.isEmpty());
         // System.out.println("List contains: " + list);

@@ -3,15 +3,15 @@ public class Borrower extends User {
     MyLinkedList borrowedBooks, requestedBooks;
 
     public Borrower(String firstName, String lastName, String middleName, String address, String gender,
-            String phoneNumber, int age, String emailAddress,
-            String username, String password, String borrowerIdNumber) {
-        super(firstName, lastName, middleName, address, gender, phoneNumber, age, emailAddress,
-                username, password);
+            String phoneNumber, int age,
+            String identifier, String password, String borrowerIdNumber) {
+        super(firstName, lastName, middleName, address, gender, phoneNumber, age,
+                identifier, password);
         this.borrowerIdNumber = borrowerIdNumber;
     }
 
     public Borrower(){
-        this(null, null, null, null, null, null, 0, null, null, null, null);
+        this(null, null, null, null, null, null, 0, null, null, null);
     }
 
     //setters

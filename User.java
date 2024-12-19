@@ -1,24 +1,23 @@
 public class User {
 
-    String firstName, lastName, middleName, address, gender, phoneNumber, emailAddress, username, password;
+    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password, key;
     int age;
     // Date of Birth
 
     public User(String firstName, String lastName, String middleName, String address, String gender, String phoneNumber,
-            int age, String emailAddress, String username, String password) {
+            int age, String identifier, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.address = address;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
-        this.username = username;
+        this.identifier = identifier;
         this.password = password;
     }
 
     public User() {
-        this(null, null, null, null, null, null, 0, null, null, null);
+        this(null, null, null, null, null, null, 0, null, null);
     }
 
     // setters
@@ -48,6 +47,18 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public void setIdentifier(String identifier){
+        this.identifier = identifier;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public void setKey(String key){
+        this.key = key;
     }
 
     // getters
@@ -83,17 +94,22 @@ public class User {
         return age;
     }
 
-    public String getUserName() {
-        return username;
+    public String getIdentifier() {
+        return identifier;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getKey(){
+        return key;
     }
-
+    
     //Search
+
+    @Override
+    public String toString(){
+        return getKey();
+    }
 }

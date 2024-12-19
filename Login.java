@@ -9,9 +9,7 @@ public class Login implements ActionListener {
 
     boolean logIn;
     int flg;
-    Node[] array = new Node[100];
-    Borrower[] borrowerAccounts = new Borrower[100];
-    Librarian[] librarianAccounts = new Librarian[100];
+    HashTable accounts = new HashTable();
 
     public void logIn() {
 
@@ -98,7 +96,7 @@ public class Login implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 if (checkAccountCredentials(identifier, password)) {
                     frame.dispose();
-                    borrowerOptions();
+                    // borrowerOptions();
                 } else {
                     messageLabel.setText("Incorrect username or password.");
                 }
@@ -130,39 +128,16 @@ public class Login implements ActionListener {
         frame.setVisible(true);
     }
 
-    // return true if Gmail is already registered
-    public boolean checkGmail(String gmail) {
-        int slot = encrypt(gmail) % array.length;
-        if (array[slot] != null && array[slot].getItem().equals(gmail))
-            return true;
-        else if (array[slot].getLink() != null && array[slot].getLink().getItem().equals(gmail))
-            return true;
-        else {
-            Node tempNode = array[slot];
-            while (!tempNode.getLink().getItem().equals(gmail)) { // iterate until false
-                if (tempNode.getLink() == null) // if reached null that means the gmail hasnt been registered
-                    return false;
-                tempNode = tempNode.getLink();
-            }
-        }
+
+    public boolean storeAccount(Object newAccount){
+        
+        User account = (User) newAccount;
+
+        account.setKey(String.valueOf(encrypt(account.getIdentifier())));
+
+        accounts.insert(account);
+
         return true;
-    }
-
-    // stores the Users Account to the Hash table
-    public void storeGmail(String gmail) {
-        int slot = encrypt(gmail) % array.length;
-
-        if (array[slot] == null) { // insert if array is null
-            array[slot] = new Node(gmail);
-        } else if (array[slot].getLink() == null) { // if array has no connected node
-            array[slot].setLink(new Node(gmail));
-        } else {
-            Node tempNode = array[slot];
-            while (tempNode.getLink() != null) { // iterate until node link is null
-                tempNode = tempNode.getLink();
-            }
-            tempNode.setLink(new Node(gmail));
-        }
     }
 
     // encrypts a string so that it is unreadable
@@ -176,12 +151,22 @@ public class Login implements ActionListener {
     }
 
     public boolean checkAccountCredentials(String identifier, String password) {
-        
-        return true;
+
+        int key = encrypt(identifier);
+
+        User existingAccount = (User) accounts.getAccount(key);
+
+        return (identifier == existingAccount.getIdentifier()) && (password == existingAccount.getPassword());
+
     }
 
-    public void borrowerOptions(){
-         JOptionPane.showMessageDialog(null, "example", "example", JOptionPane.INFORMATION_MESSAGE);
+    public boolean isIdentifierAvailable(String identifier){
+
+        int key = encrypt(identifier);
+
+        User existingAccount = (User) accounts.getAccount(key);
+
+        return existingAccount.getIdentifier() == identifier;
     }
 
     public static void main(String[] args) {
