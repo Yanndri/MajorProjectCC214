@@ -5,9 +5,112 @@ import javax.swing.*;
 public class LibraryManagementSystem {
 
     Login loginEssentials = new Login();
+    JFrame frame;
+    JPanel panel;
 
-    public void welcomePage() {
-        JPanel welcomePage = new JPanel();
+    public void frameConfig() {
+
+        frame = new JFrame("Library Management System");
+
+        setActivePanel(welcomePage());
+        adjustPanelLoc(frame, panel);
+
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                JPanel activePanel = getActivePanel(); // Method to get the active panel
+                if (activePanel != null) {
+                    Dimension newSize = frame.getSize();
+                    int newX = (newSize.width - activePanel.getWidth()) / 2;
+                    int newY = (newSize.height - activePanel.getHeight()) / 2;
+                    activePanel.setLocation(newX, newY);
+                }
+            }
+        });
+
+        frame.add(panel);
+        frame.setLayout(null);
+        frame.setSize(420, 420);
+        frame.setLocationRelativeTo(null);
+        frame.setBackground(Color.BLACK);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    // // Add ComponentListener to the frame to detect resizing
+    // frame.addComponentListener(new ComponentAdapter() {
+    // @Override
+    // public void componentResized(ComponentEvent e) {
+    // // Get the current size of the frame
+    // Dimension frameSize = frame.getSize();
+
+    // // Calculate new panel size based on the frame's width and height
+    // int x = (frameSize.width - panel.getWidth()) / 2; // Panel width is half of
+    // the frame's width
+    // int y = (frameSize.height - panel.getHeight()) / 2; // Panel height is a
+    // quarter of the frame's height
+
+    // // Update the panel's bounds (position and size)
+    // panel.setLocation(x, y);
+
+    // }
+    // });
+
+    public void setActivePanel(JPanel panel) {
+        this.panel = panel;
+    }
+
+    public JPanel getActivePanel() {
+        return panel;
+    }
+
+    // Method to center a panel inside the frame
+    private static void adjustPanelLoc(JFrame frame, JPanel panel) {
+        Dimension frameSize = frame.getSize();
+        Dimension panelSize = panel.getSize();
+
+        // Calculate center position
+        int x = (frameSize.width - panelSize.width) / 2;
+        int y = (frameSize.height - panelSize.height) / 2;
+
+        // Update the panel's location
+        panel.setLocation(x, y);
+    }
+
+    public JPanel welcomePage() {
+        JPanel welcomePagePanel = new JPanel();
+        JLabel titleLabel = new JLabel("Library Management System");
+        JButton loginButton = new JButton("Login");
+        JButton signUpButton = new JButton("Sign Up");
+
+        titleLabel.setBounds(80, 70, 270, 50);
+        titleLabel.setFont(new Font(null, Font.BOLD, 20));
+
+        loginButton.setBounds(150, 160, 100, 35);
+        loginButton.setFocusable(false);
+
+        signUpButton.setBounds(150, 210, 100, 35);
+        signUpButton.setFocusable(false);
+
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(logIn());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
+            }
+        });
+
+        welcomePagePanel.add(titleLabel);
+        welcomePagePanel.add(loginButton);
+        welcomePagePanel.add(signUpButton);
+        welcomePagePanel.setLayout(null);
+        welcomePagePanel.setSize(420, 420);
+        welcomePagePanel.setVisible(true);
+        return welcomePagePanel;
     }
 
     public JPanel logIn() {
@@ -106,9 +209,12 @@ public class LibraryManagementSystem {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // frame.dispose();
-                loginPanel.setVisible(false);
-                welcomePage();
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(welcomePage());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
             }
         });
 
@@ -148,35 +254,8 @@ public class LibraryManagementSystem {
 
     public static void main(String[] args) {
         LibraryManagementSystem system = new LibraryManagementSystem();
-        JFrame frame = new JFrame("Library Management System");
 
-        JPanel panel = system.logIn();
+        system.frameConfig();
 
-        frame.add(panel);
-        frame.setLayout(null);
-        frame.setSize(420, 420);
-        frame.setLocationRelativeTo(null);
-
-        frame.setBackground(Color.BLACK);
-
-        // Add ComponentListener to the frame to detect resizing
-        frame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                // Get the current size of the frame
-                Dimension frameSize = frame.getSize();
-
-                // Calculate new panel size based on the frame's width and height
-                int x = (frameSize.width - panel.getWidth()) / 2; // Panel width is half of the frame's width
-                int y = (frameSize.height - panel.getHeight()) / 2; // Panel height is a quarter of the frame's height
-
-                // Update the panel's bounds (position and size)
-                panel.setLocation(x, y);
-
-            }
-        });
-
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
     }
 }
