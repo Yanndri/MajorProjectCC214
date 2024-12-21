@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public class LibraryTest {
 
@@ -32,48 +31,23 @@ public class LibraryTest {
     }
 
     public static void main(String[] args) {
+        MyLinkedList author1 = new MyLinkedList();
+        author1.addLast("Peter");
+        author1.addLast("JK Rowling");
+        Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
 
-        Scanner scanf = new Scanner(System.in);
-        DLinkedList<Book> list = new DLinkedList<>();
+        MyLinkedList author2 = new MyLinkedList();
+        author2.addLast("Pete");
+        author2.addLast("John Rowling");
+        Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
+
+        DLinkedList<Book> dlist = new DLinkedList<>();
+
+        dlist.addLast(book2);
+        dlist.addLast(book1);
+
         LibraryTest lib = new LibraryTest();
-        byte choice = 0;
-
-        System.out.println("Bookshelf");
-        while (choice != 4) {
-            System.out.print("\nManage Books: \n\t1.) ADD Book \n\t2.) REMOVE Book\n\t3.) SEARCH\n\t4.) EXIT\n\t>> ");
-            choice = scanf.nextByte();
-            scanf.nextLine(); // "ENTER" (\n) consumer
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Add Book: ");
-                    Book newBook = new Book();
-
-                    System.out.print("\nTitle: ");
-                    newBook.setTitle(scanf.nextLine());
-
-                    System.out.print("\nAuthor: ");
-                    newBook.addAuthor(scanf.nextLine());
-
-                    System.out.print("\nDescription: ");
-                    newBook.setDescription(scanf.nextLine());
-
-                    System.out.print("\nPublication Date: ");
-                    newBook.setPublicatonDate(scanf.nextLine());
-
-                    System.out.print("\nNo. of Copies: ");
-                    newBook.setNoOfCopies(scanf.nextInt());
-                    scanf.nextLine(); // "ENTER" (\n) consumer
-
-                    list.addLast(newBook);
-                    break;
-                case 3:
-                    System.out.println("Search by Title: ");
-                    String result = lib.searchTitle(list, scanf.nextLine());
-                    System.out.println(result);
-
-            }
-        }
+        System.out.println(lib.searchAuthor(dlist, "Pe"));
     }
 
 }
