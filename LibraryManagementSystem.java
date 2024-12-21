@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class LibraryManagementSystem {
 
@@ -12,6 +13,7 @@ public class LibraryManagementSystem {
 
         frame = new JFrame("Library Management System");
 
+        // setActivePanel(welcomePage());
         setActivePanel(welcomePage());
         adjustPanelLoc(frame, panel);
 
@@ -32,7 +34,6 @@ public class LibraryManagementSystem {
         frame.setLayout(null);
         frame.setSize(420, 420);
         frame.setLocationRelativeTo(null);
-        frame.setBackground(Color.BLACK);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -96,7 +97,7 @@ public class LibraryManagementSystem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.remove(panel); // Remove the first panel
-                setActivePanel(logIn());
+                setActivePanel(logInPage());
                 adjustPanelLoc(frame, panel);
                 frame.add(panel); // Add the second panel
                 frame.revalidate(); // Refresh the frame layout
@@ -113,7 +114,7 @@ public class LibraryManagementSystem {
         return welcomePagePanel;
     }
 
-    public JPanel logIn() {
+    public JPanel logInPage() {
         JPanel loginPanel = new JPanel();
 
         JButton loginButton = new JButton("Login");
@@ -135,7 +136,7 @@ public class LibraryManagementSystem {
         messageLabel.setFont(new Font(null, Font.ITALIC, 10));
 
         identifierField.setBounds(125, 125, 200, 25);
-        String idPlaceholder = "Enter email or username";
+        String idPlaceholder = "Enter username";
         identifierField.setText(idPlaceholder);
         identifierField.setForeground(Color.GRAY);
         identifierField.addFocusListener(new FocusListener() {
@@ -158,7 +159,7 @@ public class LibraryManagementSystem {
             }
         });
 
-        String passwordPlaceholder = "Enter Password";
+        String passwordPlaceholder = "Enter password";
 
         passwordField.setBounds(125, 175, 200, 25);
         passwordField.setText("Enter Password");
@@ -197,9 +198,8 @@ public class LibraryManagementSystem {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (loginEssentials.checkAccountCredentials(identifier, password)) {
-                    // frame.dispose();
                     loginPanel.setVisible(false);
-                    borrowerOptions();
+                    borrowerPage();
                 } else {
                     messageLabel.setText("Incorrect username or password.");
                 }
@@ -235,15 +235,79 @@ public class LibraryManagementSystem {
         return loginPanel;
     }
 
-    public void signUp() {
+    // public JPanel dataPrivacyPage(){
+    // JPanel dataPrivacyPanel = new JPanel();
+    // JLabel textDataPrivacy = new JLabel("Data Privacy");
 
+    // textDataPrivacy.setPreferredSize(new Dimension(250, 5));
+    // textDataPrivacy.setFont(new Font(null, Font.BOLD, 35));
+
+    // JLabel textDataPrivacyDetails = new JLabel("<html>In accordance to the Data
+    // Privacy Act of 2012, the personal information shared will only be used to
+    // create and personal use of your account. All information collected during
+    // sign up will not be shared with any third parties.</html>");
+    // textDataPrivacyDetails.setPreferredSize(new Dimension(300, 250));
+    // textDataPrivacyDetails.setFont(new Font(null, Font.PLAIN, 12));
+
+    // dataPrivacyPanel.setLayout(new BoxLayout(dataPrivacyPanel,
+    // BoxLayout.Y_AXIS));
+    // dataPrivacyPanel.add(textDataPrivacy);
+    // dataPrivacyPanel.add(textDataPrivacyDetails);
+    // dataPrivacyPanel.setPreferredSize(new Dimension(420, 500));
+    // dataPrivacyPanel.setVisible(true);
+
+    // JScrollPane scrollPane = new JScrollPane(dataPrivacyPanel);
+    // scrollPane.setPreferredSize(new Dimension(420, 420));
+    // scrollPane.setVisible(true);
+
+    // JPanel finalPanel = new JPanel();
+    // finalPanel.add(scrollPane);
+    // finalPanel.setLayout(null);
+    // finalPanel.setSize(420, 420);
+    // finalPanel.setVisible(true);
+    // return finalPanel;
+    // }
+    public JPanel dataPrivacyPage() {
+        // Create the main panel that will hold all the components
+        JPanel dataPrivacyPanel = new JPanel();
+        dataPrivacyPanel.setLayout(new BoxLayout(dataPrivacyPanel, BoxLayout.Y_AXIS));
+
+        // Data Privacy title label
+        JLabel textDataPrivacy = new JLabel("Data Privacy");
+        textDataPrivacy.setFont(new Font(null, Font.BOLD, 35));
+        textDataPrivacy.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+
+        // Data Privacy details label
+        JLabel textDataPrivacyDetails = new JLabel(
+                "<html>In accordance to the Data Privacy Act of 2012, the personal information shared will only be used to create and for personal use of your account. "
+                        +
+                        "All information collected during sign-up will not be shared with any third parties.</html>");
+        textDataPrivacyDetails.setFont(new Font(null, Font.PLAIN, 12));
+        textDataPrivacyDetails.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+
+        // Add labels to the dataPrivacyPanel
+        dataPrivacyPanel.add(textDataPrivacy);
+        dataPrivacyPanel.add(Box.createVerticalStrut(20)); // Optional spacing between components
+        dataPrivacyPanel.add(textDataPrivacyDetails);
+
+        // Create the JScrollPane to make the content scrollable
+        JScrollPane scrollPane = new JScrollPane(dataPrivacyPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setPreferredSize(new Dimension(420, 420)); // Preferred size for the scroll pane
+
+        // Create a final JPanel to return
+        JPanel finalPanel = new JPanel();
+        finalPanel.setLayout(new BorderLayout());
+        finalPanel.add(scrollPane, BorderLayout.CENTER); // Add the scroll pane to the panel
+
+        return finalPanel; // Return the JPanel containing the JScrollPane
     }
 
-    public void borrowerOptions() {
+    public void borrowerPage() {
         JOptionPane.showMessageDialog(null, "hey");
     }
 
-    public void librarianOptions() {
+    public void librarianPage() {
 
     }
 
