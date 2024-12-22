@@ -13,4 +13,6 @@ public class User{
         this.phoneNumber = phoneNumber;
         this.collegeDepartment = collegeDepartment;
     }
+
+    public User(){}; //test
 }

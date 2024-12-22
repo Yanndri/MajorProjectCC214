@@ -48,6 +48,10 @@ public class LibraryTest {
 
         LibraryTest lib = new LibraryTest();
         System.out.println(lib.searchAuthor(dlist, "Pe"));
+
+        DLinkedList<User> lib2 = new DLinkedList<>();
+        User blnk = new User();
+        lib2.addFront(blnk);
     }
 
 }
