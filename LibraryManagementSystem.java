@@ -27,7 +27,6 @@ public class LibraryManagementSystem {
         });
         frame.add(panel);
         frame.setLayout(null);
-        frame.setLayout(null);
         frame.setMinimumSize(new Dimension(800, 600));
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -351,6 +350,18 @@ public class LibraryManagementSystem {
             }
         });
 
+        proceedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(signUpPage());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
+            }
+        });
+
         proceedButton.setPreferredSize(new Dimension(100, 25));
         proceedButton.setFocusable(false);
 
@@ -366,7 +377,7 @@ public class LibraryManagementSystem {
 
         dataPrivacyPanel.add(Box.createVerticalGlue());
         dataPrivacyPanel.add(textDataPrivacy);
-        dataPrivacyPanel.add(Box.createVerticalStrut(20)); // Optional spacing between components
+        dataPrivacyPanel.add(Box.createVerticalStrut(20));
         dataPrivacyPanel.add(scrollPane);
         dataPrivacyPanel.add(Box.createVerticalStrut(20));
         dataPrivacyPanel.add(buttons);
@@ -374,6 +385,276 @@ public class LibraryManagementSystem {
 
         dataPrivacyPanel.setSize(new Dimension(600, 550));
         return dataPrivacyPanel;
+    }
+
+    public JPanel signUpPage() {
+
+        // Variables needed for Sign Up
+
+        //String for Blank Fields
+        String messagePrompt = "*Field is Required.";
+
+        JPanel signUpPage = new JPanel();
+        signUpPage.setLayout(new BoxLayout(signUpPage, BoxLayout.Y_AXIS));
+        signUpPage.setSize(new Dimension(600, 550));
+        signUpPage.setVisible(true);
+
+        // Title
+        JPanel titleSignUp = new JPanel();
+        JLabel titleText = new JLabel("Sign Up");
+        titleText.setFont(new Font(null, Font.PLAIN, 35));
+        titleSignUp.add(titleText);
+        titleSignUp.setPreferredSize(new Dimension(250, 50));
+        titleSignUp.setVisible(true);
+
+        // Container for TextFields + messageLabels
+        JPanel textFields = new JPanel();
+        textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
+        textFields.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        textFields.setPreferredSize(new Dimension(550, 600));
+        textFields.setVisible(true);
+
+        // Container Panel for Phone Number and Sex at Birth
+        JPanel numAndSaB = new JPanel();
+        numAndSaB.setLayout(new BoxLayout(numAndSaB, BoxLayout.X_AXIS));
+        numAndSaB.setAlignmentX(Component.LEFT_ALIGNMENT);
+        numAndSaB.setPreferredSize(new Dimension(500, 75));
+        numAndSaB.setVisible(true);
+
+        // Panel for Phone Number
+        JPanel phoneNumberPanel = new JPanel();
+        phoneNumberPanel.setLayout(new BoxLayout(phoneNumberPanel, BoxLayout.Y_AXIS));
+        phoneNumberPanel.setPreferredSize(new Dimension(100, 100));
+        phoneNumberPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        phoneNumberPanel.setVisible(true);
+
+        // Panel for Sex at Birth
+        JPanel sexAtBirthPanel = new JPanel();
+        sexAtBirthPanel.setLayout(new BoxLayout(sexAtBirthPanel, BoxLayout.Y_AXIS));
+        sexAtBirthPanel.setPreferredSize(new Dimension(300, 100));
+        sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        sexAtBirthPanel.setVisible(true);
+
+        // Text fields [JLabel, Text Field, Message Label]
+
+        // First Name JLabel
+        JLabel labelFName = new JLabel("First Name");
+        labelFName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelFName.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldFName = new JTextField();
+        fieldFName.setPreferredSize(new Dimension(200, 25));
+        fieldFName.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelFName = new JLabel();
+        mLabelFName.setPreferredSize(new Dimension(200, 15));
+        mLabelFName.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelFName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelFName.setForeground(Color.RED);
+
+        // Middle Name JLabel
+        JLabel labelMName = new JLabel("Middle Name (Type N/A if not Applicable)");
+        labelMName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelMName.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldMName = new JTextField();
+        fieldMName.setPreferredSize(new Dimension(200, 25));
+        fieldMName.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelMName = new JLabel();
+        mLabelMName.setPreferredSize(new Dimension(200, 15));
+        mLabelMName.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelMName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelMName.setForeground(Color.RED);
+
+        // Last Name JLabel
+        JLabel labelLName = new JLabel("Last Name");
+        labelLName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelLName.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldLName = new JTextField();
+        fieldLName.setPreferredSize(new Dimension(200, 25));
+        fieldLName.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelLName = new JLabel();
+        mLabelLName.setPreferredSize(new Dimension(200, 15));
+        mLabelLName.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelLName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelLName.setForeground(Color.RED);
+
+        // Address JLabel
+        JLabel labelAddress = new JLabel("Address");
+        labelAddress.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelAddress.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldAddress = new JTextField();
+        fieldAddress.setPreferredSize(new Dimension(200, 25));
+        fieldAddress.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelAddress = new JLabel();
+        mLabelAddress.setPreferredSize(new Dimension(200, 15));
+        mLabelAddress.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelAddress.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelAddress.setForeground(Color.RED);
+
+        // Phone Number JLabel
+        JLabel labelPhoneNumber = new JLabel("Phone Number");
+        labelPhoneNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelPhoneNumber.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldPhoneNumber = new JTextField();
+        fieldPhoneNumber.setPreferredSize(new Dimension(200, 35));
+        fieldPhoneNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelPhoneNumber = new JLabel();
+        mLabelPhoneNumber.setPreferredSize(new Dimension(200, 15));
+        mLabelPhoneNumber.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelPhoneNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelPhoneNumber.setForeground(Color.RED);
+
+        // Sex At Birth JLabel
+        JLabel labelSexAtBirth = new JLabel("Sex at Birth");
+        labelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelSexAtBirth.setPreferredSize(new Dimension(75, 25));
+
+        JComboBox<String> choiceSex = new JComboBox<>(new String[] {"Assigned Male at Birth", "Assigned Female at Birth"});
+        choiceSex.setPreferredSize(new Dimension(500, 25));
+        choiceSex.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelSexAtBirth = new JLabel();
+        mLabelSexAtBirth.setPreferredSize(new Dimension(200, 15));
+        mLabelSexAtBirth.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelSexAtBirth.setForeground(Color.RED);
+
+
+        // mLabelAddress.setText(messagePrompt);;
+        // mLabelFName.setText(messagePrompt);
+        // mLabelLName.setText(messagePrompt);
+        // mLabelMName.setText(messagePrompt);
+        // mLabelPhoneNumber.setText(messagePrompt);
+        // mLabelSexAtBirth.setText(messagePrompt);
+        //Adding components to containers
+
+        //Phone Number
+        phoneNumberPanel.add(Box.createVerticalGlue());
+        phoneNumberPanel.add(labelPhoneNumber);
+        phoneNumberPanel.add(Box.createVerticalStrut(15));
+        phoneNumberPanel.add(fieldPhoneNumber);
+        phoneNumberPanel.add(Box.createVerticalStrut(10));
+        phoneNumberPanel.add(mLabelPhoneNumber);
+        phoneNumberPanel.add(Box.createVerticalGlue());
+
+        //Sex
+        sexAtBirthPanel.add(Box.createVerticalGlue());
+        sexAtBirthPanel.add(labelSexAtBirth);
+        sexAtBirthPanel.add(Box.createVerticalStrut(10));
+        sexAtBirthPanel.add(choiceSex);
+        sexAtBirthPanel.add(Box.createVerticalStrut(10));
+        sexAtBirthPanel.add(mLabelSexAtBirth);
+        sexAtBirthPanel.add(Box.createVerticalGlue());
+
+        //Phone Number and Sex
+        numAndSaB.add(Box.createHorizontalGlue());
+        numAndSaB.add(phoneNumberPanel);
+        numAndSaB.add(Box.createHorizontalGlue());
+        numAndSaB.add(sexAtBirthPanel);
+        numAndSaB.add(Box.createHorizontalGlue());
+
+        //Text Fields
+        textFields.add(Box.createVerticalGlue());
+        textFields.add(labelFName);
+        textFields.add(Box.createVerticalStrut(10));
+        textFields.add(fieldFName);
+        textFields.add(Box.createVerticalStrut(5));
+        textFields.add(mLabelFName);
+        textFields.add(Box.createVerticalStrut(15));
+        textFields.add(labelMName);
+        textFields.add(Box.createVerticalStrut(10));
+        textFields.add(fieldMName);
+        textFields.add(Box.createVerticalStrut(5));
+        textFields.add(mLabelMName);
+        textFields.add(Box.createVerticalStrut(15));
+        textFields.add(labelLName);
+        textFields.add(Box.createVerticalStrut(10));
+        textFields.add(fieldLName);
+        textFields.add(Box.createVerticalStrut(5));
+        textFields.add(mLabelLName);
+        textFields.add(Box.createVerticalStrut(15));
+        textFields.add(labelAddress);
+        textFields.add(Box.createVerticalStrut(10));
+        textFields.add(fieldAddress);
+        textFields.add(Box.createVerticalStrut(5));
+        textFields.add(mLabelAddress);
+        textFields.add(Box.createVerticalStrut(15));
+        textFields.add(numAndSaB);        
+        textFields.add(Box.createVerticalGlue());
+ 
+        // Scrolling Configuration
+        JScrollPane scrollPane = new JScrollPane(textFields);
+
+        scrollPane.setPreferredSize(new Dimension(600, 300));
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+            verticalScrollBar.setValue(0); // Set the vertical scroll to the top
+        });
+
+        // Container for buttons
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+
+        JButton cancelButton = new JButton("Cancel");
+        JButton proceedButton = new JButton("Proceed");
+        cancelButton.setPreferredSize(new Dimension(100, 25));
+        cancelButton.setFocusable(false);
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(welcomePage());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
+            }
+        });
+
+        proceedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(signUpPage());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
+            }
+        });
+
+        proceedButton.setPreferredSize(new Dimension(100, 25));
+        proceedButton.setFocusable(false);
+
+        buttons.add(Box.createHorizontalGlue());
+        buttons.add(cancelButton);
+        buttons.add(Box.createHorizontalStrut(10));
+        buttons.add(proceedButton);
+        buttons.add(Box.createHorizontalGlue());
+        buttons.setPreferredSize(new Dimension(500, 25));
+        buttons.setVisible(true);
+
+        // titleSignUp.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // numAndSaB.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // sexAtBirthPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // phoneNumberPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // buttons.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        signUpPage.add(Box.createVerticalGlue());
+        signUpPage.add(titleSignUp);
+        signUpPage.add(scrollPane);
+        signUpPage.add(buttons);
+        signUpPage.add(Box.createVerticalGlue());
+        return signUpPage;
     }
 
     public void borrowerPage() {
