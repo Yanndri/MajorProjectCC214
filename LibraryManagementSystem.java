@@ -20,19 +20,15 @@ public class LibraryManagementSystem {
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                JPanel activePanel = getActivePanel(); // Method to get the active panel
-                if (activePanel != null) {
-                    Dimension newSize = frame.getSize();
-                    int newX = (newSize.width - activePanel.getWidth()) / 2;
-                    int newY = (newSize.height - activePanel.getHeight()) / 2;
-                    activePanel.setLocation(newX, newY);
+                if (panel != null) {
+                    adjustPanelLoc(frame, panel);
                 }
             }
         });
-
         frame.add(panel);
         frame.setLayout(null);
-        frame.setSize(420, 420);
+        frame.setLayout(null);
+        frame.setMinimumSize(new Dimension(800, 600));
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
@@ -67,6 +63,7 @@ public class LibraryManagementSystem {
 
     // Method to center a panel inside the frame
     private static void adjustPanelLoc(JFrame frame, JPanel panel) {
+
         Dimension frameSize = frame.getSize();
         Dimension panelSize = panel.getSize();
 
@@ -84,8 +81,10 @@ public class LibraryManagementSystem {
         JButton loginButton = new JButton("Login");
         JButton signUpButton = new JButton("Sign Up");
 
-        titleLabel.setBounds(80, 70, 270, 50);
+        titleLabel.setBounds(75, 70, 270, 50);
         titleLabel.setFont(new Font(null, Font.BOLD, 20));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setVerticalAlignment(SwingConstants.CENTER);
 
         loginButton.setBounds(150, 160, 100, 35);
         loginButton.setFocusable(false);
@@ -98,6 +97,29 @@ public class LibraryManagementSystem {
             public void actionPerformed(ActionEvent e) {
                 frame.remove(panel); // Remove the first panel
                 setActivePanel(logInPage());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
+            }
+        });
+
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(logInPage());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
+            }
+        });
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(dataPrivacyPage());
                 adjustPanelLoc(frame, panel);
                 frame.add(panel); // Add the second panel
                 frame.revalidate(); // Refresh the frame layout
@@ -276,31 +298,82 @@ public class LibraryManagementSystem {
         JLabel textDataPrivacy = new JLabel("Data Privacy");
         textDataPrivacy.setFont(new Font(null, Font.BOLD, 35));
         textDataPrivacy.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        textDataPrivacy.setPreferredSize(new Dimension(50, 50));
 
-        // Data Privacy details label
-        JLabel textDataPrivacyDetails = new JLabel(
-                "<html>In accordance to the Data Privacy Act of 2012, the personal information shared will only be used to create and for personal use of your account. "
-                        +
-                        "All information collected during sign-up will not be shared with any third parties.</html>");
+        // Details for data privacy
+        String detailsDataPrivacy = "&nbsp;&nbsp;&nbsp;&nbsp;In accordance to the Data Privacy Act of 2012, the personal information shared will only be used to create and for personal use of your account."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;All information collected during sign-up will not be shared with any third parties."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;We will use your data solely for the purpose of providing services related to your account and will not disclose it to external parties without your consent."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;Your data will be stored securely using industry-standard encryption methods to ensure confidentiality."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;You will always have the right to access, modify, or delete your personal information upon request."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;Any information provided voluntarily for promotional purposes will be handled according to your preferences and consent."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;We will retain your information only for as long as necessary to fulfill the services, and all data will be securely deleted when it is no longer required."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;We will notify you in advance if there are any changes to this privacy policy or if any third-party service providers need access to your information for legal reasons.";
+        ;
+
+        // Container for details
+        JTextPane textDataPrivacyDetails = new JTextPane();
+        textDataPrivacyDetails.setContentType("text/html");
         textDataPrivacyDetails.setFont(new Font(null, Font.PLAIN, 12));
-        textDataPrivacyDetails.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        textDataPrivacyDetails.setText(
+                "<html><div style='text-align: justify;'>" + detailsDataPrivacy + "</div></html>");
+        textDataPrivacyDetails.setAlignmentX(JComponent.CENTER_ALIGNMENT); // Center the label
+        textDataPrivacyDetails.setEditable(false);
+        textDataPrivacyDetails.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Add labels to the dataPrivacyPanel
+        // Scrolling Configuration
+        JScrollPane scrollPane = new JScrollPane(textDataPrivacyDetails);
+
+        scrollPane.setPreferredSize(new Dimension(600, 300));
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+            verticalScrollBar.setValue(0); // Set the vertical scroll to the top
+        });
+
+        // Container for buttons
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+
+        JButton cancelButton = new JButton("Cancel");
+        JButton proceedButton = new JButton("Proceed");
+        cancelButton.setPreferredSize(new Dimension(100, 25));
+        cancelButton.setFocusable(false);
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(panel); // Remove the first panel
+                setActivePanel(welcomePage());
+                adjustPanelLoc(frame, panel);
+                frame.add(panel); // Add the second panel
+                frame.revalidate(); // Refresh the frame layout
+                frame.repaint(); // Repaint to ensure the new panel is shown
+            }
+        });
+
+        proceedButton.setPreferredSize(new Dimension(100, 25));
+        proceedButton.setFocusable(false);
+
+        buttons.add(Box.createHorizontalGlue());
+        buttons.add(cancelButton);
+        buttons.add(Box.createHorizontalStrut(10));
+        buttons.add(proceedButton);
+        buttons.add(Box.createHorizontalGlue());
+        buttons.setPreferredSize(new Dimension(500, 25));
+        buttons.setVisible(true);
+        // textDataPrivacy.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // textDataPrivacyDetails.setBackground(Color.BLUE);
+
+        dataPrivacyPanel.add(Box.createVerticalGlue());
         dataPrivacyPanel.add(textDataPrivacy);
         dataPrivacyPanel.add(Box.createVerticalStrut(20)); // Optional spacing between components
-        dataPrivacyPanel.add(textDataPrivacyDetails);
+        dataPrivacyPanel.add(scrollPane);
+        dataPrivacyPanel.add(Box.createVerticalStrut(20));
+        dataPrivacyPanel.add(buttons);
+        dataPrivacyPanel.add(Box.createVerticalGlue());
 
-        // Create the JScrollPane to make the content scrollable
-        JScrollPane scrollPane = new JScrollPane(dataPrivacyPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setPreferredSize(new Dimension(420, 420)); // Preferred size for the scroll pane
-
-        // Create a final JPanel to return
-        JPanel finalPanel = new JPanel();
-        finalPanel.setLayout(new BorderLayout());
-        finalPanel.add(scrollPane, BorderLayout.CENTER); // Add the scroll pane to the panel
-
-        return finalPanel; // Return the JPanel containing the JScrollPane
+        dataPrivacyPanel.setSize(new Dimension(600, 550));
+        return dataPrivacyPanel;
     }
 
     public void borrowerPage() {
