@@ -1,20 +1,3 @@
-class Account {
-    Object gmail;
-    Object password;
-
-    Account nextAccount;
-
-    Account(Object gmail) {
-        this(gmail, null, null);
-    }
-
-    Account(Object gmail, Object password, Account nextAccount) {
-        this.gmail = gmail;
-        this.password = password;
-        this.nextAccount = nextAccount;
-    }
-}
-
 public class UserAccounts {
     private Account[] accounts = new Account[10];
 
