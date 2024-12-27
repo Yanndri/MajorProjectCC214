@@ -9,6 +9,11 @@ public class LibraryManagementSystem {
     JFrame frame;
     JPanel panel;
 
+    LibraryManagementSystem() {
+        frameConfig();
+    }
+
+    // initialize the main frame
     public void frameConfig() {
 
         frame = new JFrame("Library Management System");
@@ -391,7 +396,7 @@ public class LibraryManagementSystem {
 
         // Variables needed for Sign Up
 
-        //String for Blank Fields
+        // String for Blank Fields
         String messagePrompt = "*Field is Required.";
 
         JPanel signUpPage = new JPanel();
@@ -517,7 +522,8 @@ public class LibraryManagementSystem {
         labelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
         labelSexAtBirth.setPreferredSize(new Dimension(75, 25));
 
-        JComboBox<String> choiceSex = new JComboBox<>(new String[] {"Assigned Male at Birth", "Assigned Female at Birth"});
+        JComboBox<String> choiceSex = new JComboBox<>(
+                new String[] { "Assigned Male at Birth", "Assigned Female at Birth" });
         choiceSex.setPreferredSize(new Dimension(500, 25));
         choiceSex.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -527,16 +533,15 @@ public class LibraryManagementSystem {
         mLabelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
         mLabelSexAtBirth.setForeground(Color.RED);
 
-
         // mLabelAddress.setText(messagePrompt);;
         // mLabelFName.setText(messagePrompt);
         // mLabelLName.setText(messagePrompt);
         // mLabelMName.setText(messagePrompt);
         // mLabelPhoneNumber.setText(messagePrompt);
         // mLabelSexAtBirth.setText(messagePrompt);
-        //Adding components to containers
+        // Adding components to containers
 
-        //Phone Number
+        // Phone Number
         phoneNumberPanel.add(Box.createVerticalGlue());
         phoneNumberPanel.add(labelPhoneNumber);
         phoneNumberPanel.add(Box.createVerticalStrut(15));
@@ -545,7 +550,7 @@ public class LibraryManagementSystem {
         phoneNumberPanel.add(mLabelPhoneNumber);
         phoneNumberPanel.add(Box.createVerticalGlue());
 
-        //Sex
+        // Sex
         sexAtBirthPanel.add(Box.createVerticalGlue());
         sexAtBirthPanel.add(labelSexAtBirth);
         sexAtBirthPanel.add(Box.createVerticalStrut(10));
@@ -554,14 +559,14 @@ public class LibraryManagementSystem {
         sexAtBirthPanel.add(mLabelSexAtBirth);
         sexAtBirthPanel.add(Box.createVerticalGlue());
 
-        //Phone Number and Sex
+        // Phone Number and Sex
         numAndSaB.add(Box.createHorizontalGlue());
         numAndSaB.add(phoneNumberPanel);
         numAndSaB.add(Box.createHorizontalGlue());
         numAndSaB.add(sexAtBirthPanel);
         numAndSaB.add(Box.createHorizontalGlue());
 
-        //Text Fields
+        // Text Fields
         textFields.add(Box.createVerticalGlue());
         textFields.add(labelFName);
         textFields.add(Box.createVerticalStrut(10));
@@ -587,9 +592,9 @@ public class LibraryManagementSystem {
         textFields.add(Box.createVerticalStrut(5));
         textFields.add(mLabelAddress);
         textFields.add(Box.createVerticalStrut(15));
-        textFields.add(numAndSaB);        
+        textFields.add(numAndSaB);
         textFields.add(Box.createVerticalGlue());
- 
+
         // Scrolling Configuration
         JScrollPane scrollPane = new JScrollPane(textFields);
 
@@ -623,6 +628,7 @@ public class LibraryManagementSystem {
         proceedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("User Pressed Proceed on Sign Up Page");
                 frame.remove(panel); // Remove the first panel
                 setActivePanel(signUpPage());
                 adjustPanelLoc(frame, panel);
@@ -670,10 +676,5 @@ public class LibraryManagementSystem {
 
     }
 
-    public static void main(String[] args) {
-        LibraryManagementSystem system = new LibraryManagementSystem();
-
-        system.frameConfig();
-
-    }
+    // RUSS AKO GIBUTANG SA Main.java, adto i run ang main function.
 }
