@@ -15,16 +15,7 @@ public class index {
     HomePage homePage = new HomePage();
     SearchBooksPage searchBooksPage = new SearchBooksPage();
     BorrowedBooksPage borrowedBooksPage = new BorrowedBooksPage();
-    JPanel currentPanel;
-
-    private final int width = 1000;
-    private final int height = 700;
-
-    // color palette
-    private final Color darkestColor = Color.decode("#921A40");
-    private final Color mediumColor = Color.decode("#C75B7A");
-    private final Color lighterColor = Color.decode("#D9ABAB");
-    private final Color lightestColor = Color.decode("#F4D9D0");
+    JPanel currentPanel; // the current panel page is checked here
 
     public index() {
         initialize();
@@ -34,7 +25,7 @@ public class index {
         // Frame initializors >>>>>>>>>>>>>>>>>>>
         System.out.println("Initialized");
         frame = new JFrame();
-        frame.setSize(width, height);
+        frame.setSize(GlobalVariables.width, GlobalVariables.height);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
         // frame.setResizable(false);
@@ -49,7 +40,7 @@ public class index {
         mainPanel.setBorder(BorderFactory.createMatteBorder(
                 40, 0, 0, 0, squareImage)); // this makes clones of an image(40 is the size of image)
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(lightestColor);
+        mainPanel.setBackground(GlobalVariables.lightestColor);
 
         // childrens
         currentPanel = homePage.getHomePagePanel(); // get the Home Page Panel
@@ -63,9 +54,10 @@ public class index {
     // display options here (home page, search books, borrowed books, etc?)
     private JPanel optionsPanel() {
         JPanel optionsPanel = new JPanel(new GridLayout(1, 3));
-        optionsPanel.setPreferredSize(new Dimension(width, height / 3));// using setSize() doesnt work on Grid Layouts
-        optionsPanel.setBackground(lightestColor);
-        optionsPanel.setBorder(new EmptyBorder(0, 0, 0, 20));
+        optionsPanel.setPreferredSize(new Dimension(GlobalVariables.width, GlobalVariables.height / 3));
+        // using setSize() doesnt work on Grid Layouts
+        optionsPanel.setBackground(GlobalVariables.lightestColor);
+        optionsPanel.setBorder(new EmptyBorder(20, 0, 0, 20));
 
         JButton homePageButton, searchBooksButton, borrowedBooksButton; // Create the main buttons
         homePageButton = new JButton("Home Page");
@@ -78,22 +70,22 @@ public class index {
         setOptionsButtonStyle(borrowedBooksButton);
 
         // since homePage is the first page to open once logged in
-        homePageButton.setBackground(darkestColor); // set button background to darkest(to tell the user is on homepage)
-        homePageButton.setForeground(lightestColor); // set button text to lightest for visual stuff
+        homePageButton.setBackground(GlobalVariables.darkestColor); // set button background to darkest
+        homePageButton.setForeground(GlobalVariables.lightestColor); // set button text to lightest for visual stuff
 
         // What to do when the buttons get clicked >>>>>>>>
         SingleActionListener(homePageButton, new ActionListener() { // listen for gui events on homePageButton
 
             @Override
             public void actionPerformed(ActionEvent e) { // when home page is clicked:
-                homePageButton.setBackground(darkestColor); // set the background to darkest color
-                homePageButton.setForeground(lightestColor); // set the text color to lightest color
+                homePageButton.setBackground(GlobalVariables.darkestColor); // set the background to darkest color
+                homePageButton.setForeground(GlobalVariables.lightestColor); // set the text color to lightest color
 
                 // do the opposite for other buttons
-                searchBooksButton.setForeground(darkestColor);
-                borrowedBooksButton.setForeground(darkestColor);
-                searchBooksButton.setBackground(lightestColor);
-                borrowedBooksButton.setBackground(lightestColor);
+                searchBooksButton.setForeground(GlobalVariables.darkestColor);
+                borrowedBooksButton.setForeground(GlobalVariables.darkestColor);
+                searchBooksButton.setBackground(GlobalVariables.lightestColor);
+                borrowedBooksButton.setBackground(GlobalVariables.lightestColor);
 
                 mainPanel.remove(currentPanel); // remove the current panel
                 currentPanel = homePage.getHomePagePanel(); // get a new current panel(in this case home page)
@@ -107,13 +99,13 @@ public class index {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchBooksButton.setBackground(darkestColor);
-                searchBooksButton.setForeground(lightestColor);
+                searchBooksButton.setBackground(GlobalVariables.darkestColor);
+                searchBooksButton.setForeground(GlobalVariables.lightestColor);
 
-                homePageButton.setForeground(darkestColor);
-                borrowedBooksButton.setForeground(darkestColor);
-                homePageButton.setBackground(lightestColor);
-                borrowedBooksButton.setBackground(lightestColor);
+                homePageButton.setForeground(GlobalVariables.darkestColor);
+                borrowedBooksButton.setForeground(GlobalVariables.darkestColor);
+                homePageButton.setBackground(GlobalVariables.lightestColor);
+                borrowedBooksButton.setBackground(GlobalVariables.lightestColor);
 
                 mainPanel.remove(currentPanel); // remove the current panel
                 currentPanel = searchBooksPage.getSearchBooksPage();
@@ -127,13 +119,13 @@ public class index {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                borrowedBooksButton.setBackground(darkestColor);
-                borrowedBooksButton.setForeground(lightestColor);
+                borrowedBooksButton.setBackground(GlobalVariables.darkestColor);
+                borrowedBooksButton.setForeground(GlobalVariables.lightestColor);
 
-                homePageButton.setForeground(darkestColor);
-                searchBooksButton.setForeground(darkestColor);
-                homePageButton.setBackground(lightestColor);
-                searchBooksButton.setBackground(lightestColor);
+                homePageButton.setForeground(GlobalVariables.darkestColor);
+                searchBooksButton.setForeground(GlobalVariables.darkestColor);
+                homePageButton.setBackground(GlobalVariables.lightestColor);
+                searchBooksButton.setBackground(GlobalVariables.lightestColor);
 
                 mainPanel.remove(currentPanel); // remove the current panel
                 currentPanel = borrowedBooksPage.getBorrowedBooksPage();
@@ -160,9 +152,10 @@ public class index {
     // Graphic Stuff Only >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // to change the style of Option buttons(when user hovers, font, etc.)
     private void setOptionsButtonStyle(JButton button) {
-        button.setBorder(new MatteBorder(1, 1, 0, 0, darkestColor)); // border
-        button.setBackground(lightestColor); // background color
-        button.setForeground(darkestColor); // text color
+        // border to have only specific sides have border lines while other sides dont
+        button.setBorder(new MatteBorder(1, 1, 0, 0, GlobalVariables.darkestColor));
+        button.setBackground(GlobalVariables.lightestColor); // background color
+        button.setForeground(GlobalVariables.darkestColor); // text color
         button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
         button.setFont(new Font("Comic Sans MS", Font.PLAIN, 16)); // set font of the button
 
@@ -170,17 +163,17 @@ public class index {
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                if (button.getBackground() != darkestColor) { // check if button is currently on
-                    button.setBackground(mediumColor); // Change background when mouse hovers
-                    button.setForeground(lightestColor); // Change text color when mouse hovers
+                if (button.getBackground() != GlobalVariables.darkestColor) { // check if button is currently on
+                    button.setBackground(GlobalVariables.mediumColor); // Change background when mouse hovers
+                    button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
                 }
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                if (button.getBackground() != darkestColor) {
-                    button.setBackground(lightestColor); // Restore original background when mouse exits
-                    button.setForeground(darkestColor); // Restore original text color when mouse exits
+                if (button.getBackground() != GlobalVariables.darkestColor) {
+                    button.setBackground(GlobalVariables.lightestColor); // Restore original background when mouse exits
+                    button.setForeground(GlobalVariables.darkestColor); // Restore original text color when mouse exits
                 }
             }
         });
