@@ -5,16 +5,16 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
 
-public class HomePage {
+public class HomePage extends JPanel {
 
     // returns the panel for the home page
     public JPanel getHomePagePanel() {
-        JPanel homePagePanel = new JPanel(new BorderLayout());
-        homePagePanel.setBorder(new EmptyBorder(20, 20, 0, 20));
-        homePagePanel.setBackground(GlobalVariables.lightestColor);
+        this.setLayout(new BorderLayout());
+        this.setBorder(new EmptyBorder(20, 20, 0, 20));
+        this.setBackground(GlobalVariables.lightestColor);
 
         JLabel projectTitle = new JLabel("<html>Library <br>Management <br>System<html>");
-        homePagePanel.add(projectTitle, BorderLayout.WEST);
+        this.add(projectTitle, BorderLayout.WEST);
         projectTitle.setVerticalAlignment(SwingConstants.NORTH);
         projectTitle.setFont(new Font("Monospaced", Font.PLAIN, 64));
         projectTitle.setForeground(GlobalVariables.mediumColor);
@@ -29,10 +29,10 @@ public class HomePage {
 
         JLabel bookImageIcon = new JLabel(resizedBookIcon); // Load image
         bookImageIcon.setVerticalAlignment(SwingConstants.NORTH);
-        homePagePanel.add(bookImageIcon, BorderLayout.EAST);
+        this.add(bookImageIcon, BorderLayout.EAST);
         // ==========================================================================
 
-        return homePagePanel;
+        return this;
     }
 
 }

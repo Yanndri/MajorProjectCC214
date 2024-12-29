@@ -6,18 +6,18 @@ import javax.swing.border.MatteBorder;
 
 import java.awt.*;
 
-public class SearchBooksPage {
+public class SearchBooksPage extends JPanel {
 
     // returns the panel for the search Books Page
     public JPanel getSearchBooksPage() {
-        JPanel borrowedBooksPage = new JPanel(new BorderLayout());
-        borrowedBooksPage.setBorder(new EmptyBorder(20, 20, 0, 20));
-        borrowedBooksPage.setBackground(GlobalVariables.lightestColor);
+        this.setLayout(new BorderLayout());
+        this.setBorder(new EmptyBorder(20, 20, 0, 20));
+        this.setBackground(GlobalVariables.lightestColor);
 
         // North Part (Header)
         // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel northPanel = new JPanel(new BorderLayout()); // to store components on the north side of the page
-        borrowedBooksPage.add(northPanel, BorderLayout.NORTH);
+        this.add(northPanel, BorderLayout.NORTH);
 
         northPanel.setBackground(GlobalVariables.lightestColor);
 
@@ -49,13 +49,13 @@ public class SearchBooksPage {
 
         // Center Part (Content) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel centerPanel = new JPanel(); // to store components on the north side of the page
-        borrowedBooksPage.add(centerPanel, BorderLayout.CENTER);
-        borrowedBooksPage.add(instantiateScrollBar(), BorderLayout.CENTER); // add the scroll bar to the page
+        this.add(centerPanel, BorderLayout.CENTER);
+        this.add(instantiateScrollBar(), BorderLayout.CENTER); // add the scroll bar to the page
 
         centerPanel.setBackground(GlobalVariables.lightestColor);
         // ===========================================================================
 
-        return borrowedBooksPage;
+        return this;
     }
 
     // Scroll Bar to display Books
