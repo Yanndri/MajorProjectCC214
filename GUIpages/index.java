@@ -15,6 +15,7 @@ public class index {
     HomePage homePage = new HomePage();
     SearchBooksPage searchBooksPage = new SearchBooksPage();
     BorrowedBooksPage borrowedBooksPage = new BorrowedBooksPage();
+    TimeFrame clock = new TimeFrame();
     JPanel currentPanel; // the current panel page is checked here
 
     public index() {
@@ -44,8 +45,9 @@ public class index {
 
         // childrens
         currentPanel = homePage.getHomePagePanel(); // get the Home Page Panel
-        setActivePage(currentPanel);// the page that opens first once logged in
-        mainPanel.add(optionsPanel(), BorderLayout.SOUTH);
+        setActivePage(currentPanel);// set homePage as the active panel(puts the panel at center border layout)
+        mainPanel.add(optionsPanel(), BorderLayout.SOUTH); // put the options panel down
+        // mainPanel.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Clock?
         // =========================================================
 
         frame.setVisible(true);// ensure all components are initialized before making the frame visible
@@ -89,7 +91,7 @@ public class index {
 
                 mainPanel.remove(currentPanel); // remove the current panel
                 currentPanel = homePage.getHomePagePanel(); // get a new current panel(in this case home page)
-                setActivePage(currentPanel); // pass it as the new active panel
+                setActivePage(currentPanel); // pass it as the new active panel (puts the panel at center)
                 frame.revalidate(); // inform the layout manager that something has changed in the frame
                 frame.repaint(); // repaints the frame, causing it to redraw itself.
             }
@@ -109,7 +111,7 @@ public class index {
 
                 mainPanel.remove(currentPanel); // remove the current panel
                 currentPanel = searchBooksPage.getSearchBooksPage();
-                setActivePage(currentPanel); // pass it as the new active panel
+                setActivePage(currentPanel); // pass it as the new active panel(puts the panel at center)
                 frame.revalidate(); // inform the layout manager that something has changed in the frame
                 frame.repaint(); // repaints the frame, causing it to redraw itself.
             }
