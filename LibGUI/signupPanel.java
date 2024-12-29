@@ -1,0 +1,339 @@
+package LibGUI;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
+
+public class signupPanel {
+
+    JPanel parent, prevPanel;
+    JPanel dataPrivacyPanel;
+    JPanel signUpPage;
+
+    public signupPanel(JPanel parent, JPanel prevPanel) {
+        this.parent = parent;
+        this.prevPanel = prevPanel;
+    }
+
+    public JPanel dataPrivacyPage() {
+        // Create the main panel that will hold all the components
+        dataPrivacyPanel = new JPanel();
+        dataPrivacyPanel.setLayout(new BoxLayout(dataPrivacyPanel, BoxLayout.Y_AXIS));
+        dataPrivacyPanel.setBackground(new java.awt.Color(245, 222, 179));
+
+        // Data Privacy title label
+        JLabel textDataPrivacy = new JLabel("Data Privacy");
+        textDataPrivacy.setFont(new Font("Times New Roman", Font.BOLD, 35));
+        textDataPrivacy.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the label
+        textDataPrivacy.setPreferredSize(new Dimension(50, 50));
+
+        // Details for data privacy
+        String detailsDataPrivacy = "&nbsp;&nbsp;&nbsp;&nbsp;In accordance to the Data Privacy Act of 2012, the personal information shared will only be used to create and for personal use of your account."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;All information collected during sign-up will not be shared with any third parties."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;We will use your data solely for the purpose of providing services related to your account and will not disclose it to external parties without your consent."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;Your data will be stored securely using industry-standard encryption methods to ensure confidentiality."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;You will always have the right to access, modify, or delete your personal information upon request."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;Any information provided voluntarily for promotional purposes will be handled according to your preferences and consent."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;We will retain your information only for as long as necessary to fulfill the services, and all data will be securely deleted when it is no longer required."
+                + "<p>&nbsp;&nbsp;&nbsp;&nbsp;We will notify you in advance if there are any changes to this privacy policy or if any third-party service providers need access to your information for legal reasons.";
+
+        // Container for details
+        JTextPane textDataPrivacyDetails = new JTextPane();
+        textDataPrivacyDetails.setContentType("text/html");
+        textDataPrivacyDetails.setFont(new Font(null, Font.PLAIN, 12));
+        textDataPrivacyDetails.setText(
+                "<html><div style='text-align: justify;'>" + detailsDataPrivacy + "</div></html>");
+        textDataPrivacyDetails.setAlignmentX(JComponent.CENTER_ALIGNMENT); // Center the label
+        textDataPrivacyDetails.setEditable(false);
+        textDataPrivacyDetails.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        textDataPrivacyDetails.setBackground(new java.awt.Color(245, 222, 179));
+        textDataPrivacyDetails.setOpaque(true);
+        // Scrolling Configuration
+        JScrollPane scrollPane = new JScrollPane(textDataPrivacyDetails);
+
+        scrollPane.setPreferredSize(new Dimension(600, 300));
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+            verticalScrollBar.setValue(0); // Set the vertical scroll to the top
+        });
+
+        // Container for buttons
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+
+        JButton cancelButton = new JButton("Cancel");
+        JButton proceedButton = new JButton("Proceed");
+        cancelButton.setPreferredSize(new Dimension(100, 25));
+        cancelButton.setFocusable(false);
+        cancelButton.addActionListener(e -> privacySwitchToPreviousPanel());
+        cancelButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        proceedButton.setPreferredSize(new Dimension(100, 25));
+        proceedButton.setFocusable(false);
+        proceedButton.addActionListener(e -> privacySwitchToSignUpPanel());
+        proceedButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        buttons.add(Box.createHorizontalGlue());
+        buttons.add(cancelButton);
+        buttons.add(Box.createHorizontalStrut(10));
+        buttons.add(proceedButton);
+        buttons.add(Box.createHorizontalGlue());
+        buttons.setPreferredSize(new Dimension(500, 25));
+        buttons.setOpaque(false);
+
+        dataPrivacyPanel.add(Box.createVerticalGlue());
+        dataPrivacyPanel.add(textDataPrivacy);
+        // dataPrivacyPanel.add(Box.createVerticalStrut(20));
+        dataPrivacyPanel.add(scrollPane);
+        // dataPrivacyPanel.add(Box.createVerticalStrut(20));
+        dataPrivacyPanel.add(buttons);
+        dataPrivacyPanel.add(Box.createVerticalGlue());
+
+        dataPrivacyPanel.setPreferredSize(new Dimension(500, 300));
+        dataPrivacyPanel.setMaximumSize(new Dimension(500, 300));
+
+        return dataPrivacyPanel;
+    }
+
+    public JPanel signUpPage() {
+
+        // String for Blank Fields
+        String messagePrompt = "*Field is Required.";
+
+        signUpPage = new JPanel();
+        signUpPage.setLayout(new BoxLayout(signUpPage, BoxLayout.Y_AXIS));
+        signUpPage.setPreferredSize(new Dimension(500, 300));
+        signUpPage.setMaximumSize(new Dimension(500, 300));
+        signUpPage.setBackground(new java.awt.Color(245, 222, 179));
+        signUpPage.setOpaque(true);
+
+        // Title
+        JPanel titleSignUp = new JPanel();
+        JLabel titleText = new JLabel("Sign Up");
+        titleText.setFont(new Font("Playfair Display", Font.BOLD, 35));
+        titleSignUp.add(titleText);
+        titleSignUp.setOpaque(false);
+        // titleSignUp.setPreferredSize(new Dimension(250, 50));
+
+        // Container for TextFields + messageLabels
+        JPanel textFields = new JPanel();
+        textFields.setBackground(new java.awt.Color(245, 222, 179));
+        textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
+        textFields.setBorder(BorderFactory.createEmptyBorder(5, 30, 5, 30));
+        textFields.setPreferredSize(new Dimension(500, 300));
+        textFields.setMaximumSize(new Dimension(500, 300));
+
+        // Container Panel for Phone Number and Sex at Birth
+        JPanel numAndSaB = new JPanel();
+        numAndSaB.setLayout(new BoxLayout(numAndSaB, BoxLayout.X_AXIS));
+        numAndSaB.setAlignmentX(Component.LEFT_ALIGNMENT);
+        numAndSaB.setPreferredSize(new Dimension(500, 75));
+        numAndSaB.setOpaque(false);
+
+        // Panel for Phone Number
+        JPanel phoneNumberPanel = new JPanel();
+        phoneNumberPanel.setLayout(new BoxLayout(phoneNumberPanel, BoxLayout.Y_AXIS));
+        phoneNumberPanel.setPreferredSize(new Dimension(100, 100));
+        phoneNumberPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        phoneNumberPanel.setOpaque(false);
+
+        // Panel for Sex at Birth
+        JPanel sexAtBirthPanel = new JPanel();
+        sexAtBirthPanel.setLayout(new BoxLayout(sexAtBirthPanel, BoxLayout.Y_AXIS));
+        sexAtBirthPanel.setPreferredSize(new Dimension(300, 100));
+        sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        sexAtBirthPanel.setOpaque(false);
+
+        // Text fields [JLabel, Text Field, Message Label]
+        // First Name JLabel
+        JLabel labelFName = new JLabel("First Name");
+        labelFName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelFName.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldFName = new JTextField();
+        fieldFName.setPreferredSize(new Dimension(80, 25));
+        fieldFName.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelFName = new JLabel();
+        mLabelFName.setPreferredSize(new Dimension(200, 15));
+        mLabelFName.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelFName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelFName.setForeground(Color.RED);
+
+        // Middle Name JLabel
+        JLabel labelMName = new JLabel("Middle Name (Type N/A if not Applicable)");
+        labelMName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelMName.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldMName = new JTextField();
+        fieldMName.setPreferredSize(new Dimension(200, 25));
+        fieldMName.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelMName = new JLabel();
+        mLabelMName.setPreferredSize(new Dimension(200, 15));
+        mLabelMName.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelMName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelMName.setForeground(Color.RED);
+
+        // Last Name JLabel
+        JLabel labelLName = new JLabel("Last Name");
+        labelLName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelLName.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldLName = new JTextField();
+        fieldLName.setPreferredSize(new Dimension(200, 25));
+        fieldLName.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelLName = new JLabel();
+        mLabelLName.setPreferredSize(new Dimension(200, 15));
+        mLabelLName.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelLName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelLName.setForeground(Color.RED);
+
+        // Address JLabel
+        JLabel labelAddress = new JLabel("Address");
+        labelAddress.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelAddress.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldAddress = new JTextField();
+        fieldAddress.setPreferredSize(new Dimension(200, 25));
+        fieldAddress.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelAddress = new JLabel();
+        mLabelAddress.setPreferredSize(new Dimension(200, 15));
+        mLabelAddress.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelAddress.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelAddress.setForeground(Color.RED);
+
+        // Phone Number JLabel
+        JLabel labelPhoneNumber = new JLabel("Phone Number");
+        labelPhoneNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelPhoneNumber.setPreferredSize(new Dimension(75, 25));
+
+        JTextField fieldPhoneNumber = new JTextField();
+        fieldPhoneNumber.setPreferredSize(new Dimension(200, 35));
+        fieldPhoneNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelPhoneNumber = new JLabel();
+        mLabelPhoneNumber.setPreferredSize(new Dimension(200, 15));
+        mLabelPhoneNumber.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelPhoneNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelPhoneNumber.setForeground(Color.RED);
+
+        // Sex At Birth JLabel
+        JLabel labelSexAtBirth = new JLabel("Sex at Birth");
+        labelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelSexAtBirth.setPreferredSize(new Dimension(75, 25));
+
+        JComboBox<String> choiceSex = new JComboBox<>(
+                new String[] { "Assigned Male at Birth", "Assigned Female at Birth" });
+        choiceSex.setPreferredSize(new Dimension(500, 25));
+        choiceSex.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelSexAtBirth = new JLabel();
+        mLabelSexAtBirth.setPreferredSize(new Dimension(200, 15));
+        mLabelSexAtBirth.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelSexAtBirth.setForeground(Color.RED);
+
+        // Phone Number
+        phoneNumberPanel.add(labelPhoneNumber);
+        phoneNumberPanel.add(fieldPhoneNumber);
+        phoneNumberPanel.add(mLabelPhoneNumber);
+
+        // Sex
+        sexAtBirthPanel.add(labelSexAtBirth);
+        sexAtBirthPanel.add(choiceSex);
+        sexAtBirthPanel.add(mLabelSexAtBirth);
+
+        // Phone Number and Sex
+        numAndSaB.add(phoneNumberPanel);
+        numAndSaB.add(sexAtBirthPanel);
+
+        // Text Fields
+        textFields.add(labelFName);
+        textFields.add(fieldFName);
+        textFields.add(mLabelFName);
+        textFields.add(labelMName);
+        textFields.add(fieldMName);
+        textFields.add(mLabelMName);
+        textFields.add(labelLName);
+        textFields.add(fieldLName);
+        textFields.add(mLabelLName);
+        textFields.add(labelAddress);
+        textFields.add(fieldAddress);
+        textFields.add(mLabelAddress);
+        textFields.add(numAndSaB);
+
+        // Scrolling Configuration
+        JScrollPane scrollPane = new JScrollPane(textFields);
+        scrollPane.setPreferredSize(new Dimension(500, 300));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        SwingUtilities.invokeLater(() -> {
+            JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+            verticalScrollBar.setValue(0); // Set the vertical scroll to the top
+        });
+
+        // Container for buttons
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+        buttons.setOpaque(false);
+
+        JButton cancelButton = new JButton("Cancel");
+        JButton proceedButton = new JButton("Proceed");
+        cancelButton.setPreferredSize(new Dimension(100, 25));
+        cancelButton.setFocusable(false);
+        cancelButton.addActionListener(e -> signupCancel());
+
+        proceedButton.setPreferredSize(new Dimension(100, 25));
+        proceedButton.setFocusable(false);
+
+        buttons.add(cancelButton);
+        buttons.add(Box.createRigidArea(new Dimension(10, 0)));
+        buttons.add(proceedButton);
+        buttons.setPreferredSize(new Dimension(500, 25));
+
+        signUpPage.add(Box.createVerticalGlue());
+        signUpPage.add(titleSignUp);
+        signUpPage.add(scrollPane);
+        signUpPage.add(buttons);
+        signUpPage.add(Box.createVerticalGlue());
+
+        return signUpPage;
+    }
+
+    public void privacySwitchToPreviousPanel() {
+        parent.remove(dataPrivacyPanel);
+        parent.add(prevPanel);
+        parent.revalidate();
+        parent.repaint();
+    }
+
+    public void privacySwitchToSignUpPanel() {
+        parent.remove(dataPrivacyPanel);
+        parent.add(signUpPage());
+        parent.revalidate();
+        parent.repaint();
+    }
+
+    public void signupCancel() { // check if fields are not empty
+        parent.remove(signUpPage);
+        parent.add(prevPanel);
+        parent.revalidate();
+        parent.repaint();
+    }
+}
