@@ -1,6 +1,7 @@
 package LibGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -30,7 +31,7 @@ public class signinPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(500, 300));
         this.setMaximumSize(new Dimension(500, 300));
-        this.setBackground(new java.awt.Color(255, 255, 255, 128));
+        this.setBackground(new Color(255, 255, 255, 128));
         this.setOpaque(true);
 
         // book Icon
@@ -48,14 +49,14 @@ public class signinPanel extends JPanel {
         fieldJPanel.setLayout(new BoxLayout(fieldJPanel, BoxLayout.Y_AXIS));
         fieldJPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
         fieldJPanel.setOpaque(true);
-        fieldJPanel.setBackground(new java.awt.Color(255, 255, 255, 128));
+        fieldJPanel.setBackground(new Color(255, 255, 255, 128));
         fieldJPanel.setOpaque(false);
 
         // buttonPanel
         buttonJPanel = new JPanel();
         buttonJPanel.setLayout(new BoxLayout(buttonJPanel, BoxLayout.X_AXIS));
         buttonJPanel.setPreferredSize(new Dimension(0, 70));
-        buttonJPanel.setBackground(new java.awt.Color(255, 255, 255, 128));
+        buttonJPanel.setBackground(new Color(255, 255, 255, 128));
         buttonJPanel.setOpaque(false);
 
         // text Fields

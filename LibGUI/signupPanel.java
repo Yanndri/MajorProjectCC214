@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -134,8 +136,8 @@ public class signupPanel {
         textFields.setBackground(new java.awt.Color(245, 222, 179));
         textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
         textFields.setBorder(BorderFactory.createEmptyBorder(5, 30, 5, 30));
-        textFields.setPreferredSize(new Dimension(500, 300));
-        textFields.setMaximumSize(new Dimension(500, 300));
+        textFields.setPreferredSize(new Dimension(500, 400));
+        textFields.setMaximumSize(new Dimension(500, 400));
 
         // Container Panel for Phone Number and Sex at Birth
         JPanel numAndSaB = new JPanel();
@@ -147,16 +149,42 @@ public class signupPanel {
         // Panel for Phone Number
         JPanel phoneNumberPanel = new JPanel();
         phoneNumberPanel.setLayout(new BoxLayout(phoneNumberPanel, BoxLayout.Y_AXIS));
-        phoneNumberPanel.setPreferredSize(new Dimension(100, 100));
-        phoneNumberPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+        phoneNumberPanel.setPreferredSize(new Dimension(200, 0));
+        phoneNumberPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         phoneNumberPanel.setOpaque(false);
 
         // Panel for Sex at Birth
         JPanel sexAtBirthPanel = new JPanel();
         sexAtBirthPanel.setLayout(new BoxLayout(sexAtBirthPanel, BoxLayout.Y_AXIS));
-        sexAtBirthPanel.setPreferredSize(new Dimension(300, 100));
-        sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        //sexAtBirthPanel.setPreferredSize(new Dimension(300, 1000));
+        //sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         sexAtBirthPanel.setOpaque(false);
+
+        // user & pass panel
+        JPanel identifierJPanel = new JPanel();
+        identifierJPanel.setLayout(new BoxLayout(identifierJPanel, BoxLayout.PAGE_AXIS));
+        //identifierJPanel.setPreferredSize(new Dimension(500,100));
+        //identifierJPanel.setMaximumSize(new Dimension(500,100));
+        //identifierJPanel.setBackground(Color.blue);
+        identifierJPanel.setOpaque(false);
+        identifierJPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // User & pass text Fields
+        JLabel userJLabel = new JLabel("Username");
+        userJLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        userJLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        userJLabel.setPreferredSize(new Dimension(75, 25));
+
+        JTextField userJField = new JTextField();
+        userJField.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel passJLabel = new JLabel("Password");
+        passJLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        passJLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        passJLabel.setPreferredSize(new Dimension(75, 25));
+
+        JTextField passJField = new JTextField();
+        passJField.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // Text fields [JLabel, Text Field, Message Label]
         // First Name JLabel
@@ -227,6 +255,13 @@ public class signupPanel {
         JTextField fieldPhoneNumber = new JTextField();
         fieldPhoneNumber.setPreferredSize(new Dimension(200, 35));
         fieldPhoneNumber.setAlignmentX(Component.LEFT_ALIGNMENT);
+        fieldPhoneNumber.addKeyListener(new KeyAdapter() { // limits 11 characters
+            @Override
+            public void keyReleased(KeyEvent evt) {
+                if (fieldPhoneNumber.getText().length() > 11)
+                    fieldPhoneNumber.setText(fieldPhoneNumber.getText().substring(0, 11));
+            }
+        });
 
         JLabel mLabelPhoneNumber = new JLabel();
         mLabelPhoneNumber.setPreferredSize(new Dimension(200, 15));
@@ -249,6 +284,14 @@ public class signupPanel {
         mLabelSexAtBirth.setFont(new Font(null, Font.ITALIC, 10));
         mLabelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
         mLabelSexAtBirth.setForeground(Color.RED);
+
+        // ADD COMPONENTS TO USER & PASS PANEL
+        identifierJPanel.add(Box.createVerticalGlue());
+        identifierJPanel.add(userJLabel);
+        identifierJPanel.add(userJField);
+        identifierJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        identifierJPanel.add(passJLabel);
+        identifierJPanel.add(passJField);
 
         // Phone Number
         phoneNumberPanel.add(labelPhoneNumber);
@@ -278,10 +321,11 @@ public class signupPanel {
         textFields.add(fieldAddress);
         textFields.add(mLabelAddress);
         textFields.add(numAndSaB);
+        textFields.add(identifierJPanel);
 
         // Scrolling Configuration
         JScrollPane scrollPane = new JScrollPane(textFields);
-        scrollPane.setPreferredSize(new Dimension(500, 300));
+        scrollPane.setPreferredSize(new Dimension(500, 700));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         SwingUtilities.invokeLater(() -> {
             JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
