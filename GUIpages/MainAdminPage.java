@@ -8,23 +8,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// Here you can find the options Panel(buttons: homePage, searchBooks, borrowedBooks), and the mainPanel that displays the pages
-public class index {
-    JFrame frame;
+public class MainAdminPage {
+    JFrame frame = new JFrame();
     JPanel mainPanel; // optional, but just in case it has some uses (lmao)
-    HomePage homePage = new HomePage();
-    SearchBooksPage searchBooksPage = new SearchBooksPage();
-    BorrowedBooksPage borrowedBooksPage = new BorrowedBooksPage();
-    TimeFrame clock = new TimeFrame();
     JPanel currentPanel; // the current panel page is checked here
 
-    public index() {
-        initialize();
+    // Panels instantiated from other classes >>>>>>>>>>>>>>>>>>>>
+    AddBooksPage addBooksPage = new AddBooksPage();
+    TimeFrame clock = new TimeFrame();
+    // Panels and Frames ==============================
+
+    MainAdminPage() {
+        instantiate();
     }
 
-    private void initialize() {
+    private void instantiate() {
         // Frame initializors >>>>>>>>>>>>>>>>>>>
-        System.out.println("Initialized");
+        System.out.println("Admin Page Instantiated");
         frame = new JFrame();
         frame.setSize(GlobalVariables.width, GlobalVariables.height);
         frame.setLayout(new BorderLayout());
@@ -38,16 +38,16 @@ public class index {
         frame.add(mainPanel);
 
         ImageIcon squareImage = new ImageIcon("GUIpages\\Images\\small square.png"); // design at the top
-        mainPanel.setBorder(BorderFactory.createMatteBorder(
-                40, 0, 0, 0, squareImage)); // this makes clones of an image(40 is the size of image)
+        mainPanel.setBorder(BorderFactory.createMatteBorder(// this makes clones of an image(40 is the size of image)
+                40, 0, 0, 0, squareImage)); // and the MatteBorder parallels the image infinitely
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(GlobalVariables.lightestColor);
 
         // childrens
-        currentPanel = homePage.getHomePagePanel(); // get the Home Page Panel
-        setActivePage(currentPanel);// set homePage as the active panel(puts the panel at center border layout)
+        currentPanel = addBooksPage.getAddBooksPage(); // get the Home Page Panel
+        setActivePage(currentPanel);// set addBooksPage as the active panel(puts the panel at center border layout)
         mainPanel.add(optionsPanel(), BorderLayout.SOUTH); // put the options panel down
-        // mainPanel.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Clock?
+        mainPanel.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Cock?
         // =========================================================
 
         frame.setVisible(true);// ensure all components are initialized before making the frame visible
@@ -55,16 +55,20 @@ public class index {
 
     // display options here (home page, search books, borrowed books, etc?)
     private JPanel optionsPanel() {
-        JPanel optionsPanel = new JPanel(new GridLayout(1, 3));
+        JPanel optionsPanel = new JPanel(new GridLayout(1, 0));
         optionsPanel.setPreferredSize(new Dimension(GlobalVariables.width, GlobalVariables.height / 3));
         // using setSize() doesnt work on Grid Layouts
         optionsPanel.setBackground(GlobalVariables.lightestColor);
         optionsPanel.setBorder(new EmptyBorder(20, 0, 0, 20));
 
-        JButton homePageButton, searchBooksButton, borrowedBooksButton; // Create the main buttons
-        homePageButton = new JButton("Home Page");
-        searchBooksButton = new JButton("Search Books");
-        borrowedBooksButton = new JButton("Borrowed Books");
+        // Create the main buttons
+        JButton homePageButton = new JButton("Home Page");
+        JButton searchBooksButton = new JButton("Add Books");
+        JButton borrowedBooksButton = new JButton("Borrowed Books");
+        // instantiate the buttons as children of optionsPanel
+        optionsPanel.add(homePageButton);
+        optionsPanel.add(searchBooksButton);
+        // optionsPanel.add(borrowedBooksButton);
 
         // change the style of buttons
         setOptionsButtonStyle(homePageButton);
@@ -89,9 +93,11 @@ public class index {
                 searchBooksButton.setBackground(GlobalVariables.lightestColor);
                 borrowedBooksButton.setBackground(GlobalVariables.lightestColor);
 
-                mainPanel.remove(currentPanel); // remove the current panel
-                currentPanel = homePage.getHomePagePanel(); // get a new current panel(in this case home page)
-                setActivePage(currentPanel); // pass it as the new active panel (puts the panel at center)
+                // mainPanel.remove(currentPanel); // remove the current panel
+                // currentPanel = homePage.getHomePagePanel(); // get a new current panel(in
+                // this case home page)
+                // setActivePage(currentPanel); // pass it as the new active panel (puts the
+                // panel at center)
                 frame.revalidate(); // inform the layout manager that something has changed in the frame
                 frame.repaint(); // repaints the frame, causing it to redraw itself.
             }
@@ -109,9 +115,10 @@ public class index {
                 homePageButton.setBackground(GlobalVariables.lightestColor);
                 borrowedBooksButton.setBackground(GlobalVariables.lightestColor);
 
-                mainPanel.remove(currentPanel); // remove the current panel
-                currentPanel = searchBooksPage.getSearchBooksPage();
-                setActivePage(currentPanel); // pass it as the new active panel(puts the panel at center)
+                // mainPanel.remove(currentPanel); // remove the current panel
+                // currentPanel = searchBooksPage.getSearchBooksPage();
+                // setActivePage(currentPanel); // pass it as the new active panel(puts the
+                // panel at center)
                 frame.revalidate(); // inform the layout manager that something has changed in the frame
                 frame.repaint(); // repaints the frame, causing it to redraw itself.
             }
@@ -129,19 +136,14 @@ public class index {
                 homePageButton.setBackground(GlobalVariables.lightestColor);
                 searchBooksButton.setBackground(GlobalVariables.lightestColor);
 
-                mainPanel.remove(currentPanel); // remove the current panel
-                currentPanel = borrowedBooksPage.getBorrowedBooksPage();
-                setActivePage(currentPanel); // pass it as the new active panel
+                // mainPanel.remove(currentPanel); // remove the current panel
+                // currentPanel = borrowedBooksPage.getBorrowedBooksPage();
+                // setActivePage(currentPanel); // pass it as the new active panel
                 frame.revalidate(); // inform the layout manager that something has changed in the frame
                 frame.repaint(); // repaints the frame, causing it to redraw itself.
             }
         });
         // ====================================================================
-
-        // instantiate the buttons as children of optionsPanel
-        optionsPanel.add(homePageButton);
-        optionsPanel.add(searchBooksButton);
-        optionsPanel.add(borrowedBooksButton);
 
         return optionsPanel;
     }
@@ -159,18 +161,23 @@ public class index {
         button.setBackground(GlobalVariables.lightestColor); // background color
         button.setForeground(GlobalVariables.darkestColor); // text color
         button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
+        button.setContentAreaFilled(false); // Disable default content area fill
+        button.setOpaque(true); // Make the button opaque to allow custom background colors
         button.setFont(new Font("Comic Sans MS", Font.PLAIN, 16)); // set font of the button
 
-        // check if the mouse is hovering over a button that is currently not toggled
+        // check for Mouse input events on the button
         button.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            // check if the mouse is hovering over a button
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                if (button.getBackground() != GlobalVariables.darkestColor) { // check if button is currently on
-                    button.setBackground(GlobalVariables.mediumColor); // Change background when mouse hovers
-                    button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
+                if (button.getBackground() != GlobalVariables.darkestColor) { // check if button is toggled on
+                    button.setBackground(GlobalVariables.lighterColor); // Change background when mouse hovers
+                    button.setForeground(GlobalVariables.darkestColor); // Change text color when mouse hovers
                 }
             }
 
+            // check if the mouse was hovering over a button but exited
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 if (button.getBackground() != GlobalVariables.darkestColor) {
@@ -178,10 +185,22 @@ public class index {
                     button.setForeground(GlobalVariables.darkestColor); // Restore original text color when mouse exits
                 }
             }
+
+            // check if mouse is holding press the button
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                button.setBackground(GlobalVariables.mediumColor); // Change color when button is pressed
+                button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
+            }
+
+            // check if the mouse was is holding press the button but exited
+            // @Override
+            // public void mouseReleased(java.awt.event.MouseEvent evt) {
+            // button.setBackground(Color.WHITE); // Reset to original color when released
+            // }
         });
 
     }
-    // END OF GRAPHIC STUFF ===============================================
 
     // SingleActionListener() Erases multiple Action Listeners(idk, this was on my
     // last project, some cases
@@ -205,6 +224,6 @@ public class index {
 
     public static void main(String[] args) {
         // MainFrame frame = new MainFrame();
-        new index();
+        new MainAdminPage();
     }
 }
