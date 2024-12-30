@@ -1,4 +1,4 @@
-package LibGUI;
+package Objects;
 
 public class User {
 

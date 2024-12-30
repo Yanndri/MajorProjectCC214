@@ -1,8 +1,9 @@
+package DataStructures;
 //Exercise 3
 
 import java.util.Scanner;
 
-public class MyArrayList{
+public class MyArrayList {
   // instance variables
   Object[] items; // items will hold the elements
   int count; // count monitors number of elements
@@ -17,7 +18,7 @@ public class MyArrayList{
     this(10);
   }
 
-  //Add options
+  // Add options
   public void addFront(Object item) {
     if (isEmpty()) {
       items[0] = item;
@@ -42,11 +43,11 @@ public class MyArrayList{
   public void insertItemAt(int pos, Object item) {
     if (!isFull())
       shiftRight(pos);
-      items[pos] = item;
-      count++;
+    items[pos] = item;
+    count++;
   }
 
-  //Delete options
+  // Delete options
   public void deleteFront() {
     if (!isEmpty()) {
       shiftLeft(0);
@@ -75,7 +76,7 @@ public class MyArrayList{
     return -1; // Not found
   }
 
-  //Checkers
+  // Checkers
   public boolean isEmpty() {
     return count == 0;
   }
@@ -97,7 +98,7 @@ public class MyArrayList{
     return pos;
   }
 
-  //Shifters
+  // Shifters
   public void shiftRight(int pos) {
     int count = this.count;
     while (count > pos) {
@@ -106,50 +107,50 @@ public class MyArrayList{
   }
 
   public void shiftLeft(int pos) {
-    int count = this.count-1;
+    int count = this.count - 1;
     while (count > pos) {
       items[pos] = items[++pos];
     }
   }
 
-  //additional methods
-  //Find position of item being searched
-  public int getPosition(Object item){
-  for(int i = 0; i < count; i++){
-    if(items[i].equals(item)){
-      return i;
+  // additional methods
+  // Find position of item being searched
+  public int getPosition(Object item) {
+    for (int i = 0; i < count; i++) {
+      if (items[i].equals(item)) {
+        return i;
+      }
     }
+    return -1;
   }
-   return -1;
- }
 
- //Get first element of array
- public Object getFirstElement(){
-  return !isEmpty()?items[0]:null;
-  //if the array is not empty return first element, else return null
- }
-
- public Object getLastElement(){
-  return !isEmpty()?items[count-1]:null;
-  //if the array is not empty return last element, else return null
- }
-
- public void resize(){
-  Object[] temp = new Object[items.length * 2];
-  for(int i = 0; i < count; i++){
-    temp[i] = items[i];
+  // Get first element of array
+  public Object getFirstElement() {
+    return !isEmpty() ? items[0] : null;
+    // if the array is not empty return first element, else return null
   }
-  items = temp;
- }
 
- public boolean isFound(Object item){
-  for(int i = 0; i < count; i++){
-    if(items[i].equals(item)){
-      return true;
+  public Object getLastElement() {
+    return !isEmpty() ? items[count - 1] : null;
+    // if the array is not empty return last element, else return null
+  }
+
+  public void resize() {
+    Object[] temp = new Object[items.length * 2];
+    for (int i = 0; i < count; i++) {
+      temp[i] = items[i];
     }
+    items = temp;
   }
+
+  public boolean isFound(Object item) {
+    for (int i = 0; i < count; i++) {
+      if (items[i].equals(item)) {
+        return true;
+      }
+    }
     return false;
- }
+  }
 
   // override toString(), assume that items are in numbers
   @Override

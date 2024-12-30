@@ -1,9 +1,12 @@
+package Objects;
+
 public class Librarian extends User {
     String librarianIdNumber;
     String position;
 
     public Librarian(String firstName, String lastName, String middleName, String address, String gender,
-            String phoneNumber, int age, String librarianIdNumber, String position, String identifier, String password) {
+            String phoneNumber, int age, String librarianIdNumber, String position, String identifier,
+            String password) {
         super(firstName, lastName, middleName, address, gender, phoneNumber, age,
                 identifier, password);
         this.librarianIdNumber = librarianIdNumber;

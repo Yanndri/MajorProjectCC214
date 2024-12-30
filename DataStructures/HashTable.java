@@ -1,3 +1,5 @@
+package DataStructures;
+
 public class HashTable {
 
     MyLinkedList[] accounts;
@@ -7,23 +9,17 @@ public class HashTable {
     }
 
     public HashTable() {
-        this(100);
+        this(5000);
     }
 
-    public void insert(Object item) {
+    public void insert(Object item, int key) {
 
         if (item != null) {
-
-            int i = hash(item);
-
-            MyLinkedList currentChain = accounts[i];
-
+            //int i = hash(item);
+            MyLinkedList currentChain = accounts[key];
             if (currentChain == null)
-
-                accounts[i] = new MyLinkedList(item);
-
+                accounts[key] = new MyLinkedList(item);
             else
-
                 currentChain.addLast(item);
 
         }
@@ -118,9 +114,9 @@ public class HashTable {
     public static void main(String[] args) {
         HashTable ht = new HashTable();
 
-        ht.insert(5);
-        ht.insert(15);
-        ht.insert(25);
+        //ht.insert(5);
+        //ht.insert(15);
+        //ht.insert(25);
         // ht.delete(15);
         System.out.print(ht.display());
     }
