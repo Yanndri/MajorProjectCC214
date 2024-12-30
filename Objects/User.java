@@ -1,25 +1,31 @@
 package Objects;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class User {
 
-    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password, key;
-    int age;
+    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
+    int age, key;
     // Date of Birth
 
-    public User(String firstName, String lastName, String middleName, String address, String gender, String phoneNumber,
-            int age, String identifier, String password) {
+    public User(String firstName, String lastName, String middleName, int age, String address, String gender,
+            String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
+        this.age = age;
         this.address = address;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.identifier = identifier;
         this.password = password;
+        this.key = key;
     }
 
     public User() {
-        this(null, null, null, null, null, null, 0, null, null);
+        this(null, null, null, 0, null, null, null, null, null, 0);
     }
 
     // setters
@@ -59,7 +65,7 @@ public class User {
         this.password = password;
     }
 
-    public void setKey(String key) {
+    public void setKey(int key) {
         this.key = key;
     }
 
@@ -104,14 +110,7 @@ public class User {
         return password;
     }
 
-    public String getKey() {
+    public int getKey() {
         return key;
-    }
-
-    // Search
-
-    @Override
-    public String toString() {
-        return getKey();
     }
 }
