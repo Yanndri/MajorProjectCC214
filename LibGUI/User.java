@@ -1,6 +1,12 @@
 package LibGUI;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class User {
+
+    BufferedReader reader = null;
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password, key;
     int age;
@@ -47,7 +53,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setAge(int age) {
+    public void setAge(int age) { 
         this.age = age;
     }
 
@@ -55,7 +61,7 @@ public class User {
         this.identifier = identifier;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String  password){
         this.password = password;
     }
 
@@ -100,18 +106,44 @@ public class User {
         return identifier;
     }
 
-    public String getPassword() {
+    public String getPassw ord() {
         return password;
     }
 
-    public String getKey(){
+    pu blic String getKey(){
         return key;
     }
-    
+     
     //Search
 
     @Override
     public String toString(){
         return getKey();
+    }
+
+        public void getAccounts(){
+        try {
+            reader = new BufferedReader(new FileReader("UserAccounts.txt"));
+            String line;
+            while ((line = reader.readLine()) != null){
+                System.out.println(line);
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally{
+            if(reader != null){
+                try{
+                    reader.close();
+                } catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+    public static void main(String[]args){
+        User user = new User();
+        user.getAccounts();
     }
 }
