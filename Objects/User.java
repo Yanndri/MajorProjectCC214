@@ -1,9 +1,5 @@
 package Objects;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
@@ -11,7 +7,7 @@ public class User {
     // Date of Birth
 
     public User(String firstName, String lastName, String middleName, int age, String address, String gender,
-            String phoneNumber, String identifier, String password, int key) {
+        String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
