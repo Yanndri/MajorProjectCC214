@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -156,16 +158,16 @@ public class signupPanel {
         // Panel for Sex at Birth
         JPanel sexAtBirthPanel = new JPanel();
         sexAtBirthPanel.setLayout(new BoxLayout(sexAtBirthPanel, BoxLayout.Y_AXIS));
-        //sexAtBirthPanel.setPreferredSize(new Dimension(300, 1000));
-        //sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        // sexAtBirthPanel.setPreferredSize(new Dimension(300, 1000));
+        // sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         sexAtBirthPanel.setOpaque(false);
 
         // user & pass panel
         JPanel identifierJPanel = new JPanel();
         identifierJPanel.setLayout(new BoxLayout(identifierJPanel, BoxLayout.PAGE_AXIS));
-        //identifierJPanel.setPreferredSize(new Dimension(500,100));
-        //identifierJPanel.setMaximumSize(new Dimension(500,100));
-        //identifierJPanel.setBackground(Color.blue);
+        // identifierJPanel.setPreferredSize(new Dimension(500,100));
+        // identifierJPanel.setMaximumSize(new Dimension(500,100));
+        // identifierJPanel.setBackground(Color.blue);
         identifierJPanel.setOpaque(false);
         identifierJPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -178,6 +180,12 @@ public class signupPanel {
         JTextField userJField = new JTextField();
         userJField.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        JLabel mLabelUser = new JLabel();
+        mLabelUser.setPreferredSize(new Dimension(200, 15));
+        mLabelUser.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelUser.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelUser.setForeground(Color.RED);
+
         JLabel passJLabel = new JLabel("Password");
         passJLabel.setFont(new Font("Segoe UI", Font.BOLD, 15));
         passJLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -185,6 +193,12 @@ public class signupPanel {
 
         JTextField passJField = new JTextField();
         passJField.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel mLabelPass = new JLabel();
+        mLabelPass.setPreferredSize(new Dimension(200, 15));
+        mLabelPass.setFont(new Font(null, Font.ITALIC, 10));
+        mLabelPass.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mLabelPass.setForeground(Color.RED);
 
         // Text fields [JLabel, Text Field, Message Label]
         // First Name JLabel
@@ -289,9 +303,11 @@ public class signupPanel {
         identifierJPanel.add(Box.createVerticalGlue());
         identifierJPanel.add(userJLabel);
         identifierJPanel.add(userJField);
+        identifierJPanel.add(mLabelUser);
         identifierJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         identifierJPanel.add(passJLabel);
         identifierJPanel.add(passJField);
+        identifierJPanel.add(mLabelPass);
 
         // Phone Number
         phoneNumberPanel.add(labelPhoneNumber);
@@ -346,6 +362,48 @@ public class signupPanel {
         proceedButton.setPreferredSize(new Dimension(100, 25));
         proceedButton.setFocusable(false);
 
+        proceedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int flg = 0;
+
+                if (isFieldEmpty(fieldFName)) {
+                    mLabelFName.setText(messagePrompt);
+                    flg = 1;
+                }
+                if (isFieldEmpty(fieldMName)) {
+                    mLabelMName.setText(messagePrompt);
+                    flg = 1;
+                }
+                if (isFieldEmpty(fieldLName)) {
+                    mLabelLName.setText(messagePrompt);
+                    flg = 1;
+                }
+                if (isFieldEmpty(fieldAddress)) {
+                    mLabelAddress.setText(messagePrompt);
+                    flg = 1;
+                }
+                if (isFieldEmpty(fieldPhoneNumber)) {
+                    mLabelPhoneNumber.setText(messagePrompt);
+                    flg = 1;
+                }
+                if (isFieldEmpty(userJField)) {
+                    mLabelUser.setText(messagePrompt);
+                    flg = 1;
+                }
+                if (isFieldEmpty(passJField)) {
+                    mLabelPass.setText(messagePrompt);
+                    flg = 1;
+                }
+                if (flg == 0){
+                    if(isUserExisting(userJField.getText()))
+                        mLabelUser.setText("Username is already taken.");
+                    else
+                    createAccount();
+                }
+            }
+        });
+
         buttons.add(cancelButton);
         buttons.add(Box.createRigidArea(new Dimension(10, 0)));
         buttons.add(proceedButton);
@@ -358,6 +416,17 @@ public class signupPanel {
         signUpPage.add(Box.createVerticalGlue());
 
         return signUpPage;
+    }
+
+    public boolean isFieldEmpty(JTextField field) {
+
+        if (field.getText().isEmpty())
+            return true;
+        return false;
+    }
+
+    public boolean isUserExisting(String username){
+        return true;
     }
 
     public void privacySwitchToPreviousPanel() {
@@ -380,4 +449,9 @@ public class signupPanel {
         parent.revalidate();
         parent.repaint();
     }
+
+    public void createAccount() {
+
+    }
+
 }

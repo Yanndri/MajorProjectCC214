@@ -35,12 +35,12 @@ public class LoginInterface extends JFrame {
         this.setLocationRelativeTo(null); // centers the frame
 
         // background label
-        bgLabel = new JLabel(new ImageIcon("C:\\Users\\Ashee\\Desktop\\asdqwae\\LibGUI\\libraryBg.jpg"));
+        bgLabel = new JLabel(new ImageIcon("libraryBg.jpg"));
         bgLabel.setLayout(new BorderLayout());
 
         // logoLabel attributes
         logoLabel = new JLabel(new ImageIcon(
-                new ImageIcon("C:\\Users\\Ashee\\Desktop\\asdqwae\\LibGUI\\ctuLogo.png")
+                new ImageIcon("ctuLogo.png")
                         .getImage()
                         .getScaledInstance(200, 200, Image.SCALE_DEFAULT))); // image resizing
 
@@ -97,7 +97,7 @@ public class LoginInterface extends JFrame {
 
         // Admin Button
         adminButton = new JButton(new ImageIcon(
-                new ImageIcon("C:\\Users\\Ashee\\Desktop\\asdqwae\\LibGUI\\icon-admin-8.jpg")
+                new ImageIcon("icon-admin-8.jpg")
                         .getImage()
                         .getScaledInstance(70, 70, Image.SCALE_DEFAULT)));
         adminButton.setPreferredSize(new Dimension(110, 100));
@@ -121,7 +121,7 @@ public class LoginInterface extends JFrame {
 
         // User Button
         userButton = new JButton(new ImageIcon(
-                new ImageIcon("C:\\Users\\Ashee\\Desktop\\asdqwae\\LibGUI\\icon-admin-8.jpg")
+                new ImageIcon("icon-admin-8.jpg")
                         .getImage()
                         .getScaledInstance(70, 70, Image.SCALE_DEFAULT)));
         userButton.setPreferredSize(new Dimension(110, 100));
