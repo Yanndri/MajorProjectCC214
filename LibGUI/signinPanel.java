@@ -36,7 +36,7 @@ public class signinPanel extends JPanel {
 
         // book Icon
         bookIcon = new JLabel(new ImageIcon(
-                new ImageIcon("C:\\Users\\Ashee\\Desktop\\asdqwae\\LibGUI\\bookIcon.png")
+                new ImageIcon("LibGUI\\images\\bookIcon.png")
                         .getImage()
                         .getScaledInstance(70, 70, Image.SCALE_DEFAULT)));
         bookIcon.setText("Welcome " + role + " !");
@@ -104,9 +104,9 @@ public class signinPanel extends JPanel {
     }
 
     public void switchToPreviousPanel() {
-        parent.remove(this); 
-        parent.add(prevPanel); 
-        parent.revalidate(); 
-        parent.repaint(); 
+        parent.remove(this);
+        parent.add(prevPanel);
+        parent.revalidate();
+        parent.repaint();
     }
 }

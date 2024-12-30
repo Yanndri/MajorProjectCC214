@@ -156,16 +156,16 @@ public class signupPanel {
         // Panel for Sex at Birth
         JPanel sexAtBirthPanel = new JPanel();
         sexAtBirthPanel.setLayout(new BoxLayout(sexAtBirthPanel, BoxLayout.Y_AXIS));
-        //sexAtBirthPanel.setPreferredSize(new Dimension(300, 1000));
-        //sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        // sexAtBirthPanel.setPreferredSize(new Dimension(300, 1000));
+        // sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         sexAtBirthPanel.setOpaque(false);
 
         // user & pass panel
         JPanel identifierJPanel = new JPanel();
         identifierJPanel.setLayout(new BoxLayout(identifierJPanel, BoxLayout.PAGE_AXIS));
-        //identifierJPanel.setPreferredSize(new Dimension(500,100));
-        //identifierJPanel.setMaximumSize(new Dimension(500,100));
-        //identifierJPanel.setBackground(Color.blue);
+        // identifierJPanel.setPreferredSize(new Dimension(500,100));
+        // identifierJPanel.setMaximumSize(new Dimension(500,100));
+        // identifierJPanel.setBackground(Color.blue);
         identifierJPanel.setOpaque(false);
         identifierJPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
