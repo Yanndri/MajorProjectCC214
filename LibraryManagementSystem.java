@@ -36,6 +36,7 @@ public class LibraryManagementSystem {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
+
     }
 
     // // Add ComponentListener to the frame to detect resizing

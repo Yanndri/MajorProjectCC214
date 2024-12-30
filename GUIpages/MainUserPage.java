@@ -46,11 +46,21 @@ public class MainUserPage {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(GlobalVariables.lightestColor);
 
+        // South Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        JPanel southPanel = new JPanel(new BorderLayout());
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
+        JPanel clockPanelLayout = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // used so hte clock is right aligned
+        southPanel.add(clockPanelLayout, BorderLayout.NORTH); // puts the clock panel on top of options
+
+        clockPanelLayout.setBackground(GlobalVariables.lightestColor);
+
+        clockPanelLayout.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Cock?(Clock)
+        southPanel.add(optionsPanel(), BorderLayout.SOUTH); // put the options panel underneath Clock
+
         // childrens
         currentPanel = homePage.getHomePagePanel(); // get the Home Page Panel
         setActivePage(currentPanel);// set homePage as the active panel(puts the panel at center border layout)
-        mainPanel.add(optionsPanel(), BorderLayout.SOUTH); // put the options panel down
-        // mainPanel.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Clock?
         // =========================================================
 
         frame.setVisible(true);// ensure all components are initialized before making the frame visible
@@ -59,10 +69,10 @@ public class MainUserPage {
     // display options here (home page, search books, borrowed books, etc?)
     private JPanel optionsPanel() {
         JPanel optionsPanel = new JPanel(new GridLayout(1, 0));
-        optionsPanel.setPreferredSize(new Dimension(GlobalVariables.width, GlobalVariables.height / 3));
+        optionsPanel.setPreferredSize(new Dimension(GlobalVariables.width, GlobalVariables.height / 4));
         // using setSize() doesnt work on Grid Layouts
         optionsPanel.setBackground(GlobalVariables.lightestColor);
-        optionsPanel.setBorder(new EmptyBorder(20, 0, 0, 20));
+        optionsPanel.setBorder(new EmptyBorder(0, 0, 0, 20));
 
         JButton homePageButton, searchBooksButton, borrowedBooksButton; // Create the main buttons
         homePageButton = new JButton("Home Page");

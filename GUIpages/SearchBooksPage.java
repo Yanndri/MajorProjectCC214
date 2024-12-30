@@ -81,8 +81,6 @@ public class SearchBooksPage extends JPanel {
             JButton placeholderButton = new JButton("Kiss MY ASS " + i);
             scrollBarPanel.add(placeholderButton); // add this component to the scroll bar
 
-            placeholderButton.setBackground(GlobalVariables.lighterColor);
-            placeholderButton.setForeground(GlobalVariables.darkestColor);
             setSearchButtonsStyle(placeholderButton);
         }
     }
@@ -94,6 +92,7 @@ public class SearchBooksPage extends JPanel {
         button.setSize(new Dimension(GlobalVariables.width / 2, 20)); // change size(important)
         button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
         button.setBorder(new EmptyBorder(5, 0, 5, 0)); // margin border
+        button.setBackground(Color.WHITE);
 
         // check if the mouse is hovering over a button that is currently not toggled
         button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -108,11 +107,10 @@ public class SearchBooksPage extends JPanel {
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 if (button.getBackground() != GlobalVariables.darkestColor) {
-                    button.setBackground(GlobalVariables.lighterColor); // Restore original background when mouse exits
+                    button.setBackground(Color.WHITE); // Restore original background when mouse exits
                     button.setForeground(GlobalVariables.darkestColor); // Restore original text color when mouse exits
                 }
             }
         });
-
     }
 }
