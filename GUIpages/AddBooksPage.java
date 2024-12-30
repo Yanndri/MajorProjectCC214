@@ -18,52 +18,61 @@ public class AddBooksPage extends JPanel {
         this.setBorder(new EmptyBorder(20, 20, 0, 20));
         this.setBackground(GlobalVariables.lightestColor);
 
-        JPanel bookContentPanel = new JPanel(new BorderLayout());
-        this.add(bookContentPanel, BorderLayout.WEST);
+        // West Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        JPanel westPanel = new JPanel(new BorderLayout());
+        this.add(westPanel, BorderLayout.WEST);
 
-        bookContentPanel.setBackground(GlobalVariables.lightestColor);
+        westPanel.setBackground(GlobalVariables.lightestColor);
 
         JLabel headerLabel = new JLabel("Book Content");
-        bookContentPanel.add(headerLabel, BorderLayout.NORTH);
+        westPanel.add(headerLabel, BorderLayout.NORTH);
 
         headerLabel.setHorizontalAlignment(SwingConstants.LEFT);
         headerLabel.setFont(new Font("Monospaced", Font.PLAIN, 32));
         headerLabel.setForeground(GlobalVariables.darkestColor);
 
-        JPanel gridPanel = new JPanel(new GridLayout(0, 1));
-        bookContentPanel.add(gridPanel, BorderLayout.CENTER);
+        JPanel inputFieldsPanel = new JPanel();
+        westPanel.add(inputFieldsPanel, BorderLayout.CENTER);
 
-        gridPanel.setBackground(GlobalVariables.lightestColor);
+        inputFieldsPanel.setBackground(GlobalVariables.lightestColor);
+
+        JPanel boxLayoutPanel = new JPanel();
+        inputFieldsPanel.add(boxLayoutPanel, BorderLayout.CENTER);
+
+        boxLayoutPanel.setLayout(new BoxLayout(boxLayoutPanel, BoxLayout.Y_AXIS));
+        boxLayoutPanel.setBackground(GlobalVariables.lightestColor);
 
         // Title Input
         JLabel titleLabel = new JLabel("Title");
-        gridPanel.add(titleLabel);
+        boxLayoutPanel.add(titleLabel);
 
         JTextField titleTextField = new JTextField();
-        gridPanel.add(titleTextField);
+        boxLayoutPanel.add(titleTextField);
 
         changeLabelStyle(titleLabel); // change the style of label
         changeTextFieldStyle(titleTextField); // changes text field style(lol)
 
         // Author Input
         JLabel authorLabel = new JLabel("Author");
-        gridPanel.add(authorLabel);
+        boxLayoutPanel.add(authorLabel);
 
         JTextField authorTextField = new JTextField();
-        gridPanel.add(authorTextField);
+        boxLayoutPanel.add(authorTextField);
 
         changeLabelStyle(authorLabel);
         changeTextFieldStyle(authorTextField);
 
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
-        gridPanel.add(publicationDateLabel);
+        boxLayoutPanel.add(publicationDateLabel);
 
         JTextField publicationDateTextField = new JTextField();
-        gridPanel.add(publicationDateTextField);
+        boxLayoutPanel.add(publicationDateTextField);
 
         changeLabelStyle(publicationDateLabel);
         changeTextFieldStyle(publicationDateTextField);
+
+        // =======================================
 
         // Center Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -71,38 +80,37 @@ public class AddBooksPage extends JPanel {
 
         centerPanel.setBackground(GlobalVariables.lightestColor);
 
+        JPanel inputAreaPanel = new JPanel();
+        centerPanel.add(inputAreaPanel, BorderLayout.WEST);
+
+        inputAreaPanel.setBackground(GlobalVariables.lightestColor);
+
+        JPanel inputDescriptionPanel = new JPanel();
+        inputAreaPanel.add(inputDescriptionPanel);
+
+        inputDescriptionPanel.setLayout(new BoxLayout(inputDescriptionPanel, BoxLayout.Y_AXIS));
+        inputDescriptionPanel.setBackground(GlobalVariables.lightestColor);
+        inputDescriptionPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
+
         // Description Input
         JLabel descriptionLabel = new JLabel("Description (Optional)");
-        centerPanel.add(descriptionLabel, BorderLayout.NORTH);
-
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 10, 100));
+        inputDescriptionPanel.add(descriptionLabel);
 
         JTextArea descriptionTextArea = new JTextArea();
-        centerPanel.add(descriptionTextArea, BorderLayout.CENTER);
+        inputDescriptionPanel.add(descriptionTextArea);
 
         descriptionTextArea.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
+        descriptionTextArea.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 3));
         descriptionTextArea.setForeground(GlobalVariables.darkestColor);
 
         changeLabelStyle(descriptionLabel); // change the style of label
 
-        // ==========================================================
-
-        // South Panel consists of buttons >>>>>>>>>>>>>>>>>>>>>>>>>
-        JPanel southPanel = new JPanel(new BorderLayout());
-        bookContentPanel.add(southPanel, BorderLayout.SOUTH);
-
-        southPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 20));
-
+        // Submit Button
         JButton submitButton = new JButton("Submit");
-        southPanel.add(submitButton, BorderLayout.EAST);
+        inputDescriptionPanel.add(submitButton);
 
         changeButtonStyle(submitButton); // change the style of button
-
-        southPanel.setBackground(GlobalVariables.lightestColor);
-        // end of South Panel =======================================
-
-        JPanel eastPanel = new JPanel(new BorderLayout());
-        this.add(eastPanel, BorderLayout.EAST);
+        // ==========================================================
 
         return this;
     }
@@ -111,10 +119,12 @@ public class AddBooksPage extends JPanel {
     private void changeLabelStyle(JLabel label) {
         label.setForeground(GlobalVariables.mediumColor);
         label.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
+        label.setBorder(BorderFactory.createEmptyBorder(20, 5, 10, 5));
     }
 
     // change the style of text fields
     private void changeTextFieldStyle(JTextField textField) {
+        textField.setHorizontalAlignment(SwingConstants.CENTER);
         textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
         textField.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
         textField.setForeground(GlobalVariables.darkestColor);
