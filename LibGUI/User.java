@@ -6,26 +6,26 @@ import java.io.IOException;
 
 public class User {
 
-    BufferedReader reader = null;
-
-    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password, key;
-    int age;
+    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
+    int age, key;
     // Date of Birth
 
-    public User(String firstName, String lastName, String middleName, String address, String gender, String phoneNumber,
-            int age, String identifier, String password) {
+    public User(String firstName, String lastName, String middleName, int age, String address, String gender,
+            String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
+        this.age = age;
         this.address = address;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.identifier = identifier;
         this.password = password;
+        this.key = key;
     }
 
     public User() {
-        this(null, null, null, null, null, null, 0, null, null);
+        this(null, null, null, 0, null, null, null, null, null, 0);
     }
 
     // setters
@@ -53,19 +53,19 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setAge(int age) { 
+    public void setAge(int age) {
         this.age = age;
     }
 
-    public void setIdentifier(String identifier){
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
-    public void setPassword(String  password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setKey(String key){
+    public void setKey(int key) {
         this.key = key;
     }
 
@@ -106,44 +106,11 @@ public class User {
         return identifier;
     }
 
-    public String getPassw ord() {
+    public String getPassword() {
         return password;
     }
 
-    pu blic String getKey(){
+    public int getKey() {
         return key;
-    }
-     
-    //Search
-
-    @Override
-    public String toString(){
-        return getKey();
-    }
-
-        public void getAccounts(){
-        try {
-            reader = new BufferedReader(new FileReader("UserAccounts.txt"));
-            String line;
-            while ((line = reader.readLine()) != null){
-                System.out.println(line);
-            }
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally{
-            if(reader != null){
-                try{
-                    reader.close();
-                } catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-    public static void main(String[]args){
-        User user = new User();
-        user.getAccounts();
     }
 }
