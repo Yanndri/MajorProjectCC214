@@ -15,6 +15,7 @@ public class MainAdminPage {
 
     // Panels instantiated from other classes >>>>>>>>>>>>>>>>>>>>
     AddBooksPage addBooksPage = new AddBooksPage();
+    EditBooksPage editBooksPage = new EditBooksPage();
     TimeFrame clock = new TimeFrame();
     // Panels and Frames ==============================
 
@@ -42,12 +43,23 @@ public class MainAdminPage {
                 40, 0, 0, 0, squareImage)); // and the MatteBorder parallels the image infinitely
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(GlobalVariables.lightestColor);
+        // ================================================
 
-        // childrens
+        // South Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        JPanel southPanel = new JPanel(new BorderLayout());
+        mainPanel.add(southPanel, BorderLayout.SOUTH);
+
+        JPanel clockPanelLayout = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // used so hte clock is right aligned
+        southPanel.add(clockPanelLayout, BorderLayout.NORTH); // puts the clock panel on top of options
+
+        clockPanelLayout.setBackground(GlobalVariables.lightestColor);
+
+        clockPanelLayout.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Cock?(Clock)
+        southPanel.add(optionsPanel(), BorderLayout.SOUTH); // put the options panel underneath Clock
+
+        // adds the current panel to the main panel at the center border layout
         currentPanel = addBooksPage.getAddBooksPage(); // get the Home Page Panel
         setActivePage(currentPanel);// set addBooksPage as the active panel(puts the panel at center border layout)
-        mainPanel.add(optionsPanel(), BorderLayout.SOUTH); // put the options panel down
-        mainPanel.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Cock?
         // =========================================================
 
         frame.setVisible(true);// ensure all components are initialized before making the frame visible
@@ -59,66 +71,63 @@ public class MainAdminPage {
         optionsPanel.setPreferredSize(new Dimension(GlobalVariables.width, GlobalVariables.height / 3));
         // using setSize() doesnt work on Grid Layouts
         optionsPanel.setBackground(GlobalVariables.lightestColor);
-        optionsPanel.setBorder(new EmptyBorder(20, 0, 0, 20));
+        optionsPanel.setBorder(new EmptyBorder(0, 0, 0, 20));
 
         // Create the main buttons
-        JButton homePageButton = new JButton("Home Page");
-        JButton searchBooksButton = new JButton("Add Books");
+        JButton addBooksButton = new JButton("Add Books");
+        JButton editBooksButton = new JButton("Edit Books");
         JButton borrowedBooksButton = new JButton("Borrowed Books");
         // instantiate the buttons as children of optionsPanel
-        optionsPanel.add(homePageButton);
-        optionsPanel.add(searchBooksButton);
+        optionsPanel.add(addBooksButton);
+        optionsPanel.add(editBooksButton);
         // optionsPanel.add(borrowedBooksButton);
 
         // change the style of buttons
-        setOptionsButtonStyle(homePageButton);
-        setOptionsButtonStyle(searchBooksButton);
+        setOptionsButtonStyle(addBooksButton);
+        setOptionsButtonStyle(editBooksButton);
         setOptionsButtonStyle(borrowedBooksButton);
 
         // since homePage is the first page to open once logged in
-        homePageButton.setBackground(GlobalVariables.darkestColor); // set button background to darkest
-        homePageButton.setForeground(GlobalVariables.lightestColor); // set button text to lightest for visual stuff
+        addBooksButton.setBackground(GlobalVariables.darkestColor); // set button background to darkest
+        addBooksButton.setForeground(GlobalVariables.lightestColor); // set button text to lightest for visual stuff
 
         // What to do when the buttons get clicked >>>>>>>>
-        SingleActionListener(homePageButton, new ActionListener() { // listen for gui events on homePageButton
+        SingleActionListener(addBooksButton, new ActionListener() { // listen for gui events on addBooksButton
 
             @Override
             public void actionPerformed(ActionEvent e) { // when home page is clicked:
-                homePageButton.setBackground(GlobalVariables.darkestColor); // set the background to darkest color
-                homePageButton.setForeground(GlobalVariables.lightestColor); // set the text color to lightest color
+                addBooksButton.setBackground(GlobalVariables.darkestColor); // set the background to darkest color
+                addBooksButton.setForeground(GlobalVariables.lightestColor); // set the text color to lightest color
 
                 // do the opposite for other buttons
-                searchBooksButton.setForeground(GlobalVariables.darkestColor);
+                editBooksButton.setForeground(GlobalVariables.darkestColor);
                 borrowedBooksButton.setForeground(GlobalVariables.darkestColor);
-                searchBooksButton.setBackground(GlobalVariables.lightestColor);
+                editBooksButton.setBackground(GlobalVariables.lightestColor);
                 borrowedBooksButton.setBackground(GlobalVariables.lightestColor);
 
-                // mainPanel.remove(currentPanel); // remove the current panel
-                // currentPanel = homePage.getHomePagePanel(); // get a new current panel(in
-                // this case home page)
-                // setActivePage(currentPanel); // pass it as the new active panel (puts the
-                // panel at center)
+                mainPanel.remove(currentPanel); // remove the current panel
+                currentPanel = addBooksPage.getAddBooksPage(); // get a new current panel(in this case add books page)
+                setActivePage(currentPanel); // pass it as the new active panel (puts the panel at center border layout)
                 frame.revalidate(); // inform the layout manager that something has changed in the frame
                 frame.repaint(); // repaints the frame, causing it to redraw itself.
             }
         });
 
-        SingleActionListener(searchBooksButton, new ActionListener() { // listen for gui events on searchBooksButton
+        SingleActionListener(editBooksButton, new ActionListener() { // listen for gui events on editBooksButton
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchBooksButton.setBackground(GlobalVariables.darkestColor);
-                searchBooksButton.setForeground(GlobalVariables.lightestColor);
+                editBooksButton.setBackground(GlobalVariables.darkestColor);
+                editBooksButton.setForeground(GlobalVariables.lightestColor);
 
-                homePageButton.setForeground(GlobalVariables.darkestColor);
+                addBooksButton.setForeground(GlobalVariables.darkestColor);
                 borrowedBooksButton.setForeground(GlobalVariables.darkestColor);
-                homePageButton.setBackground(GlobalVariables.lightestColor);
+                addBooksButton.setBackground(GlobalVariables.lightestColor);
                 borrowedBooksButton.setBackground(GlobalVariables.lightestColor);
 
-                // mainPanel.remove(currentPanel); // remove the current panel
-                // currentPanel = searchBooksPage.getSearchBooksPage();
-                // setActivePage(currentPanel); // pass it as the new active panel(puts the
-                // panel at center)
+                mainPanel.remove(currentPanel); // remove the current panel
+                currentPanel = editBooksPage.getEditBooksPage(); // get a new current panel(in this case add books page)
+                setActivePage(currentPanel); // pass it as the new active panel (puts the panel at center border layout)
                 frame.revalidate(); // inform the layout manager that something has changed in the frame
                 frame.repaint(); // repaints the frame, causing it to redraw itself.
             }
@@ -131,10 +140,10 @@ public class MainAdminPage {
                 borrowedBooksButton.setBackground(GlobalVariables.darkestColor);
                 borrowedBooksButton.setForeground(GlobalVariables.lightestColor);
 
-                homePageButton.setForeground(GlobalVariables.darkestColor);
-                searchBooksButton.setForeground(GlobalVariables.darkestColor);
-                homePageButton.setBackground(GlobalVariables.lightestColor);
-                searchBooksButton.setBackground(GlobalVariables.lightestColor);
+                addBooksButton.setForeground(GlobalVariables.darkestColor);
+                editBooksButton.setForeground(GlobalVariables.darkestColor);
+                addBooksButton.setBackground(GlobalVariables.lightestColor);
+                editBooksButton.setBackground(GlobalVariables.lightestColor);
 
                 // mainPanel.remove(currentPanel); // remove the current panel
                 // currentPanel = borrowedBooksPage.getBorrowedBooksPage();
