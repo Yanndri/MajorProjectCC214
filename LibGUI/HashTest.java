@@ -1,5 +1,8 @@
 package LibGUI;
 
+import DataStructures.Node;
+import Objects.User;
+
 public class HashTest {
 	Node[] items;
 
@@ -30,22 +33,22 @@ public class HashTest {
 		}
 	}
 
-    public User getUser(int key){
-        int i = hash(key);
+	public User getUser(int key) {
+		int i = hash(key);
 		Node currNode = items[i];
-        while (currNode != null) {
-            User user = (User) currNode.getItem();
+		while (currNode != null) {
+			User user = (User) currNode.getItem();
 			if (user.getKey() == key) {
-                return user;
+				return user;
 			}
 			currNode = currNode.getLink();
 		}
-        return null;
-    }
+		return null;
+	}
 
 	public boolean search(User user) {
 		boolean found = false;
-        int i = hash(user.getKey());
+		int i = hash(user.getKey());
 		Node currNode = items[i];
 
 		while (currNode != null) {
@@ -73,8 +76,8 @@ public class HashTest {
 		}
 	}
 
-	public void delete (User user) {
-        int i = hash(user.getKey());
+	public void delete(User user) {
+		int i = hash(user.getKey());
 		Node currNode = items[i];
 		if (currNode != null && currNode.getItem() == user) {
 			currNode = currNode.getLink();
@@ -89,7 +92,7 @@ public class HashTest {
 			System.out.println("Item not found");
 	}
 
-    public static void main(String[] args) { //main
+	public static void main(String[] args) { // main
 		// HashTest chain = new HashTest(10);
 		// chain.insert(10);
 		// chain.insert(8);
