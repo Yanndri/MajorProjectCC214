@@ -9,14 +9,12 @@ import java.io.IOException;
 public class Login {
 
     BufferedReader reader = null;
-    HashTable accounts = new HashTable();
+    HashTest accounts = new HashTest();
 
     public boolean storeAccount(Object newAccount) {
-
         User account = (User) newAccount;
-        account.setKey(String.valueOf(encrypt(account.getIdentifier())));
-        accounts.insert(account, Integer.parseInt(account.getKey()));
-
+        account.setKey(encrypt(account.getIdentifier()));
+        accounts.insert(account);
         return true;
     }
 
@@ -30,43 +28,35 @@ public class Login {
         return key;
     }
 
-    public boolean checkAccountCredentials(String identifier, String password) {
+    // public boolean checkAccountCredentials(User user, String password) {
+    // if (user.getIdentifier() == null || password == null)
+    // return false;
+    // int key = encrypt(user.getIdentifier());
+    // User existingAccount = (User) accounts.getAccount(user);
+    // if (existingAccount == null)
+    // return false;
+    // return user.getIdentifier().equals(existingAccount.getIdentifier()) &&
+    // password.equals(existingAccount.getPassword());
 
-        if (identifier == null || password == null)
+    // }
 
-            return false;
-
-        int key = encrypt(identifier);
-
-        User existingAccount = (User) accounts.getAccount(key);
-
-        if (existingAccount == null)
-
-            return false;
-
-        return (identifier == existingAccount.getIdentifier()) && (password == existingAccount.getPassword());
-
-    }
-
-    public boolean isIdentifierAvailable(String identifier) {
-
-        int key = encrypt(identifier);
-
-        User existingAccount = (User) accounts.getAccount(key);
-
-        return existingAccount.getIdentifier() == identifier;
-    }
+    // public boolean isIdentifierAvailable(String identifier) {
+    // int key = encrypt(identifier);
+    // User existingAccount = (User) accounts.getAccount(key);
+    // return existingAccount.getIdentifier().equals(identifier);
+    // }
 
     public void getAccounts() {
         try {
-            reader = new BufferedReader(new FileReader("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+            reader = new BufferedReader(
+                    new FileReader("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split("//");
                 System.out.println(line);
                 User user = new User(userDetails[0], userDetails[1], userDetails[2], Integer.parseInt(userDetails[3]),
                         userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
-                        userDetails[9]);
+                        0);
                 storeAccount(user);
             }
         } catch (IOException e) {
@@ -82,18 +72,49 @@ public class Login {
         }
     }
 
-    public void updateAccounts(HashTable accounts){
+    public void updateFile() {
+        BufferedWriter writer = null;
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("UserAccounts.txt"));
-            accounts.display();
-
-        } catch (Exception e) {
-        }   
-        
+            writer = new BufferedWriter( //CHANGE IT TO fiLE PATH
+                    new FileWriter("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+            for (int i = 0; i < accounts.items.length; i++) {
+                if (accounts.items[i] != null) {
+                    Node currNode = accounts.items[i];
+                    while (currNode != null) {
+                        User user = (User) currNode.getItem();
+                        writer.write(user.getFirstName() + "//" + user.getLastName() + "//" + user.getMiddleName()
+                                + "//" + user.getAge() + "//" + user.getAddress() + "//" + user.getGender() + "//"
+                                + user.getPassword() + "//" + user.getIdentifier() + "//" + user.getPassword() + "//"
+                                + user.getKey());
+                        System.out.println("User " + user.getFirstName() + " successfully added.");
+                        currNode = currNode.getLink();
+                        writer.newLine();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
         Login login = new Login();
         login.getAccounts();
+
+        login.storeAccount(new User("Asheerah", "Stop", "Bautro", 75, "Kangkong, Cordova", "Bayot", "09123456789",
+                "asheerahbokiboki", "jedgo123", login.encrypt("asheerahbokiboki")));
+        login.storeAccount(new User("Test", "TEST1", "Test2", 69, "TestADD", "attack Helicopter", "09123213",
+                "TESTUSER", "TESTPASS", login.encrypt("TESTUSER")));
+
+        login.updateFile();
+        System.out.println("YEAAAAAAAAAAAAAAAYYYYYYY!!!!1");
     }
 }

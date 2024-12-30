@@ -2,12 +2,12 @@ package LibGUI;
 
 public class User {
 
-    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password, key;
-    int age;
+    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
+    int age, key;
     // Date of Birth
 
     public User(String firstName, String lastName, String middleName, int age, String address, String gender,
-        String phoneNumber, String identifier, String password, String key) {
+        String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -21,7 +21,7 @@ public class User {
     }
 
     public User() {
-        this(null, null, null, 0, null, null, null, null, null, null);
+        this(null, null, null, 0, null, null, null, null, null, 0);
     }
 
     // setters
@@ -61,7 +61,7 @@ public class User {
         this.password = password;
     }
 
-    public void setKey(String key) {
+    public void setKey(int key) {
         this.key = key;
     }
 
@@ -106,7 +106,7 @@ public class User {
         return password;
     }
 
-    public String getKey() {
+    public int getKey() {
         return key;
     }
 }
