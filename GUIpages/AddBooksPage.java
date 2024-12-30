@@ -99,7 +99,7 @@ public class AddBooksPage extends JPanel {
         JTextArea descriptionTextArea = new JTextArea();
         inputDescriptionPanel.add(descriptionTextArea);
 
-        descriptionTextArea.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));
+        descriptionTextArea.setBorder(BorderFactory.createEmptyBorder(100, 5, 10, 5));
         descriptionTextArea.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 3));
         descriptionTextArea.setForeground(GlobalVariables.darkestColor);
 
@@ -110,6 +110,7 @@ public class AddBooksPage extends JPanel {
         inputDescriptionPanel.add(submitButton);
 
         changeButtonStyle(submitButton); // change the style of button
+
         // ==========================================================
 
         return this;
