@@ -27,6 +27,7 @@ public class signupPanel {
     JPanel parent, prevPanel;
     JPanel dataPrivacyPanel;
     JPanel signUpPage;
+    Login accountChecks = new Login();
 
     public signupPanel(JPanel parent, JPanel prevPanel) {
         this.parent = parent;
@@ -419,14 +420,15 @@ public class signupPanel {
     }
 
     public boolean isFieldEmpty(JTextField field) {
-
         if (field.getText().isEmpty())
             return true;
         return false;
     }
 
     public boolean isUserExisting(String username){
-        return true;
+        if(loginEssentials)
+            return true;
+        return false;
     }
 
     public void privacySwitchToPreviousPanel() {
