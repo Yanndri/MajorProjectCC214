@@ -18,7 +18,7 @@ public class Login {
 
         User account = (User) newAccount;
 
-        account.setKey(String.valueOf(encrypt(account.getIdentifier())));
+        account.setKey(encrypt(account.getIdentifier()));
 
         accounts.insert(account);
 
@@ -37,7 +37,7 @@ public class Login {
 
     public boolean checkAccountCredentials(String identifier, String password) {
 
-        if(identifier == null || password == null)
+        if (identifier == null || password == null)
 
             return false;
 
@@ -45,7 +45,7 @@ public class Login {
 
         User existingAccount = (User) accounts.getAccount(key);
 
-        if(existingAccount == null)
+        if (existingAccount == null)
 
             return false;
 
@@ -62,7 +62,7 @@ public class Login {
         return existingAccount.getIdentifier() == identifier;
     }
 
-            public void getAccounts() {
+    public void getAccounts() {
         try {
             reader = new BufferedReader(new FileReader("UserAccounts.txt"));
             String line;
@@ -85,6 +85,16 @@ public class Login {
                 }
             }
         }
+    }
+
+    public boolean createAccount(String firstName, String lastName, String middleName, String address, String gender,
+            String phoneNumber, int age,
+            String identifier, String password, String borrowerIdNumber) {
+        Borrower newAccount = new Borrower(firstName, lastName, middleName, address, gender,
+        phoneNumber, age,
+         identifier, password, borrowerIdNumber);
+                accounts.storeAccount(newAccount);
+         return true;
     }
 
     public static void main(String[] args) {
