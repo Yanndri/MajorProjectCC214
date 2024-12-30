@@ -1,3 +1,7 @@
+package Objects;
+
+import DataStructures.MyLinkedList;
+
 public class Borrower extends User {
     String borrowerIdNumber;
     MyLinkedList borrowedBooks, requestedBooks;
@@ -10,25 +14,25 @@ public class Borrower extends User {
         this.borrowerIdNumber = borrowerIdNumber;
     }
 
-    public Borrower(){
+    public Borrower() {
         this(null, null, null, null, null, null, 0, null, null, null);
     }
 
-    //setters
-    public void setBorrowerIdNumber(String borrowerIdNumber){
+    // setters
+    public void setBorrowerIdNumber(String borrowerIdNumber) {
         this.borrowerIdNumber = borrowerIdNumber;
     }
 
-    //getters
-    public String getBorrowerIdNumber(){
+    // getters
+    public String getBorrowerIdNumber() {
         return borrowerIdNumber;
     }
 
-    //Borrow/Request Books
+    // Borrow/Request Books
 
-    //Return Books
+    // Return Books
 
-    //Cancel Request
+    // Cancel Request
 
-    //toString
+    // toString
 }

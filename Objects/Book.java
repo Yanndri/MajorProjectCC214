@@ -1,3 +1,8 @@
+package Objects;
+
+import DataStructures.MyLinkedList;
+import DataStructures.QueueLinkedList;
+
 public class Book {
     private String title, description, publicationDate;
     private int totalCopies, borrowedCopies;

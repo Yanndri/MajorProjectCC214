@@ -1,8 +1,9 @@
-// Coretico workspace only
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import DataStructures.HashTable;
+import Objects.User;
 
 public class Login {
 
@@ -31,7 +32,7 @@ public class Login {
 
     public boolean checkAccountCredentials(String identifier, String password) {
 
-        if(identifier == null || password == null)
+        if (identifier == null || password == null)
 
             return false;
 
@@ -39,7 +40,7 @@ public class Login {
 
         User existingAccount = (User) accounts.getAccount(key);
 
-        if(existingAccount == null)
+        if (existingAccount == null)
 
             return false;
 

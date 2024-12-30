@@ -1,3 +1,5 @@
+package Objects;
+
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password, key;
@@ -49,15 +51,15 @@ public class User {
         this.age = age;
     }
 
-    public void setIdentifier(String identifier){
+    public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setKey(String key){
+    public void setKey(String key) {
         this.key = key;
     }
 
@@ -102,14 +104,14 @@ public class User {
         return password;
     }
 
-    public String getKey(){
+    public String getKey() {
         return key;
     }
-    
-    //Search
+
+    // Search
 
     @Override
-    public String toString(){
+    public String toString() {
         return getKey();
     }
 }

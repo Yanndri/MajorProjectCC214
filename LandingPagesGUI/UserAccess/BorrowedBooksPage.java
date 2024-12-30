@@ -1,7 +1,9 @@
-package GUIpages;
+package LandingPagesGUI.UserAccess;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import LandingPagesGUI.GlobalVariables;
 
 import java.awt.*;
 
