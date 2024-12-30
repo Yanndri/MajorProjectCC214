@@ -1,17 +1,13 @@
 package LibGUI;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 public class User {
 
-    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
-    int age, key;
+    String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password, key;
+    int age;
     // Date of Birth
 
     public User(String firstName, String lastName, String middleName, int age, String address, String gender,
-            String phoneNumber, String identifier, String password, int key) {
+        String phoneNumber, String identifier, String password, String key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -25,7 +21,7 @@ public class User {
     }
 
     public User() {
-        this(null, null, null, 0, null, null, null, null, null, 0);
+        this(null, null, null, 0, null, null, null, null, null, null);
     }
 
     // setters
@@ -65,7 +61,7 @@ public class User {
         this.password = password;
     }
 
-    public void setKey(int key) {
+    public void setKey(String key) {
         this.key = key;
     }
 
@@ -110,7 +106,7 @@ public class User {
         return password;
     }
 
-    public int getKey() {
+    public String getKey() {
         return key;
     }
 }

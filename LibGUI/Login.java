@@ -1,26 +1,21 @@
 package LibGUI;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-
-import javax.swing.*;
 
 public class Login {
 
     BufferedReader reader = null;
-
     HashTable accounts = new HashTable();
 
     public boolean storeAccount(Object newAccount) {
 
         User account = (User) newAccount;
-
         account.setKey(String.valueOf(encrypt(account.getIdentifier())));
-
-        accounts.insert(account);
+        accounts.insert(account, Integer.parseInt(account.getKey()));
 
         return true;
     }
@@ -37,7 +32,7 @@ public class Login {
 
     public boolean checkAccountCredentials(String identifier, String password) {
 
-        if(identifier == null || password == null)
+        if (identifier == null || password == null)
 
             return false;
 
@@ -45,7 +40,7 @@ public class Login {
 
         User existingAccount = (User) accounts.getAccount(key);
 
-        if(existingAccount == null)
+        if (existingAccount == null)
 
             return false;
 
@@ -62,18 +57,18 @@ public class Login {
         return existingAccount.getIdentifier() == identifier;
     }
 
-            public void getAccounts() {
+    public void getAccounts() {
         try {
-            reader = new BufferedReader(new FileReader("UserAccounts.txt"));
+            reader = new BufferedReader(new FileReader("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split("//");
                 System.out.println(line);
                 User user = new User(userDetails[0], userDetails[1], userDetails[2], Integer.parseInt(userDetails[3]),
                         userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
-                        Integer.parseInt(userDetails[9]));
+                        userDetails[9]);
+                storeAccount(user);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -85,6 +80,16 @@ public class Login {
                 }
             }
         }
+    }
+
+    public void updateAccounts(HashTable accounts){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("UserAccounts.txt"));
+            accounts.display();
+
+        } catch (Exception e) {
+        }   
+        
     }
 
     public static void main(String[] args) {
