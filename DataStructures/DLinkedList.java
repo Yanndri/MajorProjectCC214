@@ -2,7 +2,8 @@ package DataStructures;
 // Doubly Linked List
 
 public class DLinkedList<B> {
-	DNode<B> head, tail;
+	public DNode<B> head;
+    DNode<B> tail;
 	int count = 0;
 
 	// add
