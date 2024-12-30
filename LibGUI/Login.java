@@ -2,9 +2,15 @@ package LibGUI;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import javax.swing.*;
 
 public class Login {
+
+    BufferedReader reader = null;
 
     HashTable accounts = new HashTable();
 
@@ -56,7 +62,33 @@ public class Login {
         return existingAccount.getIdentifier() == identifier;
     }
 
-    public static void main(String[] args) {
+            public void getAccounts() {
+        try {
+            reader = new BufferedReader(new FileReader("UserAccounts.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split("//");
+                System.out.println(line);
+                User user = new User(userDetails[0], userDetails[1], userDetails[2], Integer.parseInt(userDetails[3]),
+                        userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
+                        Integer.parseInt(userDetails[9]));
+            }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Login login = new Login();
+        login.getAccounts();
     }
 }

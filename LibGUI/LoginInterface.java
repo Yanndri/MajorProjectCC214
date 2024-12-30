@@ -35,12 +35,12 @@ public class LoginInterface extends JFrame {
         this.setLocationRelativeTo(null); // centers the frame
 
         // background label
-        bgLabel = new JLabel(new ImageIcon("libraryBg.jpg"));
+        bgLabel = new JLabel(new ImageIcon("LibGUI\\images\\libraryBg.jpg"));
         bgLabel.setLayout(new BorderLayout());
 
         // logoLabel attributes
         logoLabel = new JLabel(new ImageIcon(
-                new ImageIcon("ctuLogo.png")
+                new ImageIcon("LibGUI\\images\\ctuLogo.png")
                         .getImage()
                         .getScaledInstance(200, 200, Image.SCALE_DEFAULT))); // image resizing
 
@@ -97,7 +97,7 @@ public class LoginInterface extends JFrame {
 
         // Admin Button
         adminButton = new JButton(new ImageIcon(
-                new ImageIcon("icon-admin-8.jpg")
+                new ImageIcon("LibGUI\\images\\icon-admin-8.jpg")
                         .getImage()
                         .getScaledInstance(70, 70, Image.SCALE_DEFAULT)));
         adminButton.setPreferredSize(new Dimension(110, 100));
@@ -121,7 +121,7 @@ public class LoginInterface extends JFrame {
 
         // User Button
         userButton = new JButton(new ImageIcon(
-                new ImageIcon("icon-admin-8.jpg")
+                new ImageIcon("LibGUI\\images\\icon-admin-8.jpg")
                         .getImage()
                         .getScaledInstance(70, 70, Image.SCALE_DEFAULT)));
         userButton.setPreferredSize(new Dimension(110, 100));
@@ -195,21 +195,20 @@ public class LoginInterface extends JFrame {
     }
 
     private void switchToSigninPanel(String role) {
-        castPanel.remove(loginPanel);       
-        signin = new signinPanel(castPanel, loginPanel);       
+        castPanel.remove(loginPanel);
+        signin = new signinPanel(castPanel, loginPanel);
         castPanel.add(signin.getLoginWindowPanel(role));
         castPanel.revalidate();
         castPanel.repaint();
     }
 
-    private void switchToSignupPanel(){
+    private void switchToSignupPanel() {
         castPanel.remove(loginPanel);
         signup = new signupPanel(castPanel, loginPanel);
         castPanel.add(signup.dataPrivacyPage());
         castPanel.revalidate();
         castPanel.repaint();
     }
-    
 
     public static void main(String[] args) {
         new LoginInterface();
