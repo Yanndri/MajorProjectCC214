@@ -1,3 +1,5 @@
+package DataStructures;
+
 public class Node {
     private Object item;
     private Node link;

@@ -1,4 +1,6 @@
+package DataStructures;
 // Doubly Linked List
+
 public class DLinkedList<B> {
 	DNode<B> head, tail;
 	int count = 0;
@@ -48,7 +50,7 @@ public class DLinkedList<B> {
 				}
 				DNode<B> node = new DNode<>(item, curr.getPrev(), curr);
 				// curr node is the Node in the pos (its links to the new node)
-				curr.getPrev().setNext(node); 
+				curr.getPrev().setNext(node);
 				// the previous node of the current node is setting it's next to the new node
 				curr.setPrev(node); // the current node will be shifted to the right
 				count++;

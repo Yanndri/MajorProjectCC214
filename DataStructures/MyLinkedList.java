@@ -1,3 +1,5 @@
+package DataStructures;
+
 public class MyLinkedList {
 
     public Node head, tail;
@@ -167,18 +169,7 @@ public class MyLinkedList {
         return 0;
     }
 
-    public Object getItemAt(int pos){ //UPDATE 12/18/24 
-        int c = 1;
-        Node tempNode = head;
-        while(c < pos){
-            tempNode = tempNode.getLink();
-            c++;
-        }
-
-        return tempNode.getItem();
-    }
-
-    public Object getFirstElement(){
+    public Object getFirstElement() {
         return head.getItem();
     }
 
@@ -220,98 +211,6 @@ public class MyLinkedList {
         System.out.println(list);
         System.out.println("Get: " + list.getItemAt(2));
 
-        // System.out.println("Is the Nexted list empty? " + list.isEmpty());
-        // System.out.println("List contains: " + list);
-        // // System.out.println("count: " + list.count);
-
-        // System.out.println("\nAdd front: 4");
-        // list.addFront(4);
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nAdd last: 5");
-        // list.addLast(5);
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nInsert item 3 at position 2: ");
-        // list.insertItemAt(2, 3);
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nAdd front: 4");
-        // list.addFront(4);
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nInsert item 1 at position 1: ");
-        // list.insertItemAt(1, 1);
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // // System.out.println("\nInsert item 6 at position 6: ");
-        // // list.insertItemAt(6, 6);
-        // // System.out.println("List contains: " + list);
-        // // System.out.println("count: " + list.count);
-        // // System.out.println("head: " + list.head.getItem());
-        // // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nGet the position of item 5: " + list.getPosition(5));
-        // System.out.println("List contains: " + list);
-        // System.out.println("\nIs item 2 found? : " + list.isFound(2));
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nDelete front.");
-        // list.deleteFront();
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nDelete last");
-        // list.deleteLast();
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nDelete item at position 3");
-        // list.deleteItemAt(3);
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nIs the linked list empty? " + list.isEmpty());
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nGet the position of item 1: " + list.getPosition(1));
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
-
-        // System.out.println("\nIs item 5 found? : " + list.isFound(5));
-        // System.out.println("List contains: " + list);
-        // System.out.println("count: " + list.count);
-        // System.out.println("head: " + list.head.getItem());
-        // System.out.println("tail: " + list.tail.getItem());
     }
 
 }
