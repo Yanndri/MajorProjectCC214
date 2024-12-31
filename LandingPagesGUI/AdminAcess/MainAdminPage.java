@@ -26,7 +26,7 @@ public class MainAdminPage extends LayoutManager {
     TimeFrame clock = new TimeFrame();
     // Panels and Frames ==============================
 
-    MainAdminPage() {
+    public MainAdminPage() {
         initialize();
     }
 

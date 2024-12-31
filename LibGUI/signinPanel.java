@@ -2,6 +2,7 @@ package LibGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -10,14 +11,19 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import LandingPagesGUI.AdminAcess.MainAdminPage;
+import LandingPagesGUI.UserAccess.MainUserPage;
 
 public class signinPanel extends JPanel {
 
     JPanel fieldJPanel, buttonJPanel, prevPanel, parent;
-    JLabel userJLabel, passJLabel, bookIcon;
+    JLabel userJLabel, passJLabel, bookIcon, messageLabel;
     JButton backButton, loginButton;
     JTextField userJField, passJField;
 
@@ -70,6 +76,12 @@ public class signinPanel extends JPanel {
         passJField = new JTextField();
         passJField.setAlignmentX(LEFT_ALIGNMENT);
 
+        messageLabel = new JLabel();
+        messageLabel.setPreferredSize(new Dimension(200, 15));
+        messageLabel.setFont(new Font(null, Font.ITALIC, 10));
+        messageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        messageLabel.setForeground(Color.RED);
+
         // button
         backButton = new JButton("Back");
         backButton.setAlignmentY(TOP_ALIGNMENT);
@@ -79,6 +91,7 @@ public class signinPanel extends JPanel {
         loginButton = new JButton("Login");
         loginButton.setAlignmentY(TOP_ALIGNMENT);
         loginButton.setFocusable(false);
+        loginButton.addActionListener(e -> logIn(userJField.getText(), passJField.getText(), role));
 
         // add component
         this.add(fieldJPanel, BorderLayout.CENTER);
@@ -92,6 +105,8 @@ public class signinPanel extends JPanel {
         fieldJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         fieldJPanel.add(passJLabel);
         fieldJPanel.add(passJField);
+        fieldJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        fieldJPanel.add(messageLabel);
 
         // add components to the buttonPanel
         buttonJPanel.add(Box.createHorizontalGlue());
@@ -108,5 +123,41 @@ public class signinPanel extends JPanel {
         parent.add(prevPanel);
         parent.revalidate();
         parent.repaint();
+    }
+
+    public boolean logIn(String username, String password, String role) {
+        Login accounts = new Login();
+        System.out.println("Role: " + role);
+        if (username.isEmpty() || password.isEmpty()) {
+            messageLabel.setText("Incorrect username or password.");
+            return false;
+        } else {
+            if (role.equals("User")) {
+                if (accounts.checkAccountCredentials(username, password)) {
+                    MainUserPage loginuser = new MainUserPage();
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(signinPanel.this);
+                    if (frame != null) {
+                        frame.dispose();
+                    }
+                    return true;
+                } else {
+                    messageLabel.setText("Incorrect username or password.");
+                    return false;
+                }
+            } else if (role.equals("Admin")) {// change for admin
+                if (accounts.checkAccountCredentials(username, password)) {
+                    MainAdminPage adminpage = new MainAdminPage();
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(signinPanel.this);
+                    if (frame != null) {
+                        frame.dispose();
+                    }
+                    return true;
+                } else {
+                    messageLabel.setText("Incorrect username or password.");
+                    return false;
+                }
+            }
+            return false;
+        }
     }
 }
