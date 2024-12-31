@@ -3,6 +3,7 @@ package LandingPagesGUI.GUIUserAccess;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import LibraryTest;
 import LandingPagesGUI.GlobalVariables;
 import LandingPagesGUI.LayoutManager;
 
@@ -63,9 +64,16 @@ public class SearchBooksPage extends JPanel {
         JPanel searchBar = new JPanel(new FlowLayout());
 
         searchBar.setBackground(GlobalVariables.lightestColor);
+        //searchBar.setBackground(Color.red); //change this later
 
-        JLabel searchLabel = new JLabel("Search Title:");
+
+        JLabel searchLabel = new JLabel("Search by: ");
         searchBar.add(searchLabel); // Just a label for the textfield
+
+        String[] searchOptions = {"Title", "Author"};
+        JComboBox searchComboBox = new JComboBox(searchOptions); // combo box for choosing search
+
+        searchBar.add(searchComboBox);
 
         searchLabel.setForeground(GlobalVariables.mediumColor);
         searchLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -76,6 +84,7 @@ public class SearchBooksPage extends JPanel {
         searchTextField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
         searchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         searchTextField.setForeground(GlobalVariables.darkestColor);
+
 
         searchTextField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
             @Override
@@ -124,6 +133,8 @@ public class SearchBooksPage extends JPanel {
 
     // Add the components of the scroll bar
     private void availableBooks(JPanel scrollBarPanel) {
+        LibraryTest bookshelf = new LibraryTest();
+
         for (int i = 1; i <= 30; i++) {
             JButton button = new JButton(i + " Things I Hate About You");
             scrollBarPanel.add(button); // add this component to the scroll bar
