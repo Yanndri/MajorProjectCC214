@@ -25,7 +25,7 @@ public class CustomLayoutManager {
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         return frame;
     }
@@ -116,7 +116,6 @@ public class CustomLayoutManager {
         searchLabel.setForeground(GlobalVariables.mediumColor);
         searchLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
-        textField = new JTextField();
         searchBar.add(textField); // Where the user will write the text to search
 
         textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
@@ -153,7 +152,7 @@ public class CustomLayoutManager {
             @Override
             public void focusLost(FocusEvent e) { // When the textfield lost focus
                 // get rid of border
-                textField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                textField.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 5));
             }
         });
     }

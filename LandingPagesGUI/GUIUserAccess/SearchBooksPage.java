@@ -137,8 +137,8 @@ public class SearchBooksPage extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("Book Panel displayed");
 
-                    searchedText = button.getText();
-                    searchTextField.setText(searchedText);
+                    searchedText = button.getText(); // get the text of the button
+                    searchTextField.setText(searchedText); // set the text field of the search bar the clicked button
 
                     displayPanel(instantiateBookPanel()); // Change the display Panel to Book Panel
                     revalidate(); // inform the layout manager that something has changed in the displayPanel

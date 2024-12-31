@@ -12,7 +12,7 @@ import java.awt.event.FocusEvent;
 // Admin Page to edit books
 public class EditBooksPage extends JPanel {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access component styles
-    JTextField searchTextField; // the search text field when searching for a book
+    JTextField searchTextField = new JTextField(); // the search text field when searching for a book
     // title, description, publicationDate, authors
     // private int totalCopies, borrowedCopies;
     // private MyLinkedList borrowers;
@@ -125,11 +125,13 @@ public class EditBooksPage extends JPanel {
         return this;
     }
 
+    // The search bar for searching books
     private void searchBar() {
         searchTextField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
             @Override
             public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
                 // change border color
+                System.out.println("sadsa");
                 searchTextField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
             }
 

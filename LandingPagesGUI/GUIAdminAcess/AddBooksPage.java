@@ -22,7 +22,7 @@ public class AddBooksPage extends JPanel {
         this.setBackground(GlobalVariables.lightestColor);
 
         // North Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 24, 0));
         this.add(northPanel, BorderLayout.NORTH);
 
         northPanel.setBackground(GlobalVariables.lightestColor);
