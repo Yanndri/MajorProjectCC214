@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import LandingPagesGUI.GlobalVariables;
-import LandingPagesGUI.LayoutManager;
+import LandingPagesGUI.CustomLayoutManager;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +13,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class SearchBooksPage extends JPanel {
-    LayoutManager layoutManager = new LayoutManager(); // used here to access the button style methods
+    CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
     JTextField searchTextField; // the search Text Field
     String searchedText; // the title of the book in book panel
 
@@ -43,7 +43,7 @@ public class SearchBooksPage extends JPanel {
         projectTitle.setFont(new Font("Monospaced", Font.PLAIN, 32));
         projectTitle.setForeground(GlobalVariables.mediumColor);
 
-        // Add the search text field
+        // Add the search text field(Search Bar)
         northPanel.add(instantiateTextField(), BorderLayout.CENTER);
         // ========================================================================
 
@@ -101,6 +101,7 @@ public class SearchBooksPage extends JPanel {
     // Scroll Bar to display Books
     private JPanel instantiateScrollBar() {
         JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.setBackground(GlobalVariables.lightestColor);
 
         JPanel scrollBarPanel = new JPanel();
         scrollBarPanel.setLayout(new GridLayout(0, 1, 0, 0)); // Single-column layout
@@ -139,7 +140,7 @@ public class SearchBooksPage extends JPanel {
                     searchedText = button.getText();
                     searchTextField.setText(searchedText);
 
-                    displayPanel(instantiateBookPanel());
+                    displayPanel(instantiateBookPanel()); // Change the display Panel to Book Panel
                     revalidate(); // inform the layout manager that something has changed in the displayPanel
                     repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
                 }
