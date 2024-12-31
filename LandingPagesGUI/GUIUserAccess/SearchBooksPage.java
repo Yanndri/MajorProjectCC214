@@ -1,16 +1,18 @@
 package LandingPagesGUI.GUIUserAccess;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
-import LandingPagesGUI.GlobalVariables;
+import DataStructures.DLinkedList;
+import DataStructures.DNode;
+import DataStructures.LibraryTest;
 import LandingPagesGUI.CustomLayoutManager;
-
+import LandingPagesGUI.GlobalVariables;
+import Objects.Book; // NOTE
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class SearchBooksPage extends JPanel {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
@@ -18,8 +20,8 @@ public class SearchBooksPage extends JPanel {
     String searchedText; // the title of the book in book panel
 
     // Panels >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    JPanel scrollBar = instantiateScrollBar();
-    JPanel bookPanel = instantiateBookPanel();
+    // JPanel scrollBar = instantiateScrollBar();
+    // JPanel bookPanel = instantiateBookPanel(null);
     JPanel displaySearch = new JPanel(); // display scroll bar if searching, or
     // display the bookPanel once done searching for the book
 
@@ -63,9 +65,15 @@ public class SearchBooksPage extends JPanel {
         JPanel searchBar = new JPanel(new FlowLayout());
 
         searchBar.setBackground(GlobalVariables.lightestColor);
+        // searchBar.setBackground(Color.red); //change this later
 
-        JLabel searchLabel = new JLabel("Search Title:");
+        JLabel searchLabel = new JLabel("Search by: ");
         searchBar.add(searchLabel); // Just a label for the textfield
+
+        String[] searchOptions = { "Title", "Author" };
+        JComboBox searchComboBox = new JComboBox(searchOptions); // combo box for choosing search
+
+        searchBar.add(searchComboBox);
 
         searchLabel.setForeground(GlobalVariables.mediumColor);
         searchLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -77,13 +85,68 @@ public class SearchBooksPage extends JPanel {
         searchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         searchTextField.setForeground(GlobalVariables.darkestColor);
 
+        JButton searchIconButton = new JButton(new ImageIcon(GlobalVariables.searchIcon.getImage()
+                .getScaledInstance(35, 35, Image.SCALE_DEFAULT))); // resizes image
+        searchIconButton.setPreferredSize(new Dimension(35, 35));
+        searchIconButton.setMaximumSize(new Dimension(35, 35));
+        layoutManager.buttonStyleIconDependent(searchIconButton);
+
+        searchBar.add(searchIconButton); // SEARCH BUTTON
+
+        searchIconButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                if (!searchTextField.getText().equals("")) {
+                    System.out.println("Search button clicked");
+        
+                    SwingWorker<JPanel, Void> worker = new SwingWorker<JPanel, Void>() {
+                        @Override
+                        protected JPanel doInBackground() throws Exception {
+                            System.out.println("Starting background task");
+                            JPanel panel = instantiateScrollBar(searchTextField.getText(), searchComboBox.getSelectedItem().toString());
+                            System.out.println("Background task completed");
+                            return panel;
+                        }
+        
+                        @Override
+                        protected void done() {
+                            try {
+                                System.out.println("Done method called");
+                                JPanel newPanel = get();
+                                SwingUtilities.invokeLater(new Runnable() {
+                                    public void run() {
+                                        System.out.println("Updating UI");
+                                        displaySearch.removeAll();
+                                        displaySearch.revalidate();
+                                        displaySearch.repaint();
+                                        displaySearch = newPanel;
+                                        add(displaySearch, BorderLayout.CENTER);
+                                        revalidate();
+                                        repaint();
+                                        System.out.println("Search completed");
+                                    }
+                                });
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+        
+                    worker.execute();
+                }
+            }
+        });
+        
+        
+        
+
+        if(searchTextField.getText().equals("")){
         searchTextField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
             @Override
             public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
                 // change border color
                 searchTextField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
 
-                displayPanel(instantiateScrollBar());
+                displayPanel(instantiateScrollBar("", ""));
                 revalidate();// inform the layout manager that something has changed in the displayPanel
                 repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
             }
@@ -94,12 +157,13 @@ public class SearchBooksPage extends JPanel {
                 searchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             }
         });
+    }
 
         return searchBar;
     }
 
     // Scroll Bar to display Books
-    private JPanel instantiateScrollBar() {
+    private JPanel instantiateScrollBar(String keyword, String searchOption) {
         JPanel searchPanel = new JPanel(new BorderLayout());
         searchPanel.setBackground(GlobalVariables.lightestColor);
 
@@ -107,7 +171,10 @@ public class SearchBooksPage extends JPanel {
         scrollBarPanel.setLayout(new GridLayout(0, 1, 0, 0)); // Single-column layout
         scrollBarPanel.setBackground(GlobalVariables.lighterColor);
 
-        availableBooks(scrollBarPanel);
+        if (keyword.equals("") && searchOption.equals(""))
+            availableBooks(scrollBarPanel);
+        else
+            availableBooks(scrollBarPanel, keyword, searchOption);
 
         JScrollPane scrollPane = new JScrollPane(scrollBarPanel); // JScrollPane adds a scroll bar to a container
         scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Change how fast mouse wheel scrolls
@@ -123,10 +190,16 @@ public class SearchBooksPage extends JPanel {
         return searchPanel;
     }
 
-    // Add the components of the scroll bar
+    // Add the components of the scroll bar -- SEARCH RESULTS
     private void availableBooks(JPanel scrollBarPanel) {
-        for (int i = 1; i <= 30; i++) {
-            JButton button = new JButton(i + " Things I Hate About You");
+        LibraryTest bookFetcher = new LibraryTest();
+        bookFetcher.getBooks();
+        DNode currNode = bookFetcher.bookshelf.head;
+        int i = 1;
+
+        while (currNode != null) {
+            Book currBook = (Book) currNode.getItem();
+            JButton button = new JButton((i++) + ". " + currBook.getTitle());
             scrollBarPanel.add(button); // add this component to the scroll bar
 
             layoutManager.buttonStyleSearchSuggestions(button);
@@ -140,16 +213,58 @@ public class SearchBooksPage extends JPanel {
                     searchedText = button.getText(); // get the text of the button
                     searchTextField.setText(searchedText); // set the text field of the search bar the clicked button
 
-                    displayPanel(instantiateBookPanel()); // Change the display Panel to Book Panel
+                    displayPanel(instantiateBookPanel(currBook)); // Change the display Panel to Book Panel
+                    revalidate(); // inform the layout manager that something has changed in the displayPanel
+                    repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
+                }
+            });
+            currNode = currNode.getNext();
+        }
+    }
+
+    // ==================== OVERLOAD METHOD ===================================
+    // Add the components of the scroll bar -- SEARCH RESULTS
+    private void availableBooks(JPanel scrollBarPanel, String keyword, String searchOption) {
+        LibraryTest bookFetcher = new LibraryTest();
+        bookFetcher.getBooks();
+        int i = 1;
+        DLinkedList List = null;
+        DNode currNode = null;
+
+        if (searchOption.equals("Title"))
+            List = bookFetcher.searchTitle(keyword);
+        else
+            List = bookFetcher.searchAuthor(keyword);
+
+        currNode = List.head;
+
+        while (currNode != null) {
+            Book currBook = (Book) currNode.getItem();
+            JButton button = new JButton((i++) + ". " + currBook.getTitle());
+            scrollBarPanel.add(button); // add this component to the scroll bar
+
+            layoutManager.buttonStyleSearchSuggestions(button);
+            button.setSize(new Dimension(GlobalVariables.width / 2, 20));
+
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Book Panel displayed");
+
+                    searchedText = button.getText();
+                    searchTextField.setText(searchedText);
+
+                    displayPanel(instantiateBookPanel(currBook)); // Change the display Panel to Book Panel
                     revalidate(); // inform the layout manager that something has changed in the displayPanel
                     repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
                 }
             });
         }
+        currNode = currNode.getNext();
     }
 
     // displays the book that was searched
-    private JPanel instantiateBookPanel() {
+    private JPanel instantiateBookPanel(Book book) {
         JPanel bookPanel = new JPanel(new BorderLayout());
 
         bookPanel.setBackground(GlobalVariables.lightestColor);
@@ -176,7 +291,7 @@ public class SearchBooksPage extends JPanel {
 
         JLabel author = new JLabel(
                 "<html><body style='width: " + 420
-                        + "px; text-align: center'>by B.J. Maravillas</body></html>");
+                        + "px; text-align: center'>by " + book.getAuthors() + "</body></html>");
         southPanel.add(author, BorderLayout.CENTER);
 
         author.setHorizontalAlignment(SwingConstants.CENTER);
@@ -186,7 +301,7 @@ public class SearchBooksPage extends JPanel {
         // Description
         JLabel description = new JLabel(
                 "<html><body style='width: " + 420
-                        + "px; text-align: justify'>Love Romance and mfking Chris Rock holy sht that's kinda crazy, you should totally watch it holy sht it's chris rock in the flesh omg</body></html>");
+                        + "px; text-align: justify'>" + book.getDescription() + "</body></html>");
         southPanel.add(description, BorderLayout.SOUTH);
 
         description.setHorizontalAlignment(SwingConstants.CENTER);
@@ -222,4 +337,5 @@ class CustomScrollBarUI extends javax.swing.plaf.basic.BasicScrollBarUI {
         button.setPreferredSize(new Dimension(0, 0)); // Make the button size 0
         return button; // Hide increase button
     }
+
 }

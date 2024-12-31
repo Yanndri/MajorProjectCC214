@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class LibraryTest {
-    DLinkedList<Book> bookshelf = new DLinkedList<>();
+    public DLinkedList<Book> bookshelf = new DLinkedList<>();
 
     // Adding Method/s
     public void addBook(MyLinkedList authors, String title, String description, String publicationDate,
@@ -23,9 +23,9 @@ public class LibraryTest {
     // Deleting Method/s
 
     // Searching Methods
-    public String searchTitle(DLinkedList<Book> list, String title) {
+    public DLinkedList<Book> searchTitle(String title) { // returns a lists of books that contains the keyword
         DLinkedList<Book> results = new DLinkedList<>();
-        DNode<Book> temp = list.head; // Use DNode<Book> for type safety
+        DNode<Book> temp = bookshelf.head; // Use DNode<Book> for type safety
 
         while (temp != null) {
             Book currBook = temp.getItem(); // Item is now a Book, no need for casting
@@ -34,12 +34,12 @@ public class LibraryTest {
             }
             temp = temp.getNext();
         }
-        return results.toString();
+        return results;
     }
 
-    public String searchAuthor(DLinkedList<Book> list, String author) {
+    public DLinkedList<Book> searchAuthor(String author) { // returns a lists of books that contains the keyword
         DLinkedList<Book> results = new DLinkedList<>();
-        DNode<Book> temp = list.head;
+        DNode<Book> temp = bookshelf.head;
 
         while (temp != null) {
             Book currBook = temp.getItem(); // Item is now a Book, no need for casting
@@ -48,7 +48,7 @@ public class LibraryTest {
             }
             temp = temp.getNext();
         }
-        return results.toString();
+        return results;
     }
 
     public void getBooks() {
@@ -144,7 +144,8 @@ public class LibraryTest {
 
         lib.addBook(book1);
         lib.addBook(book2);
-        lib.updateFile();
+        //lib.updateFile();
+        System.out.println(lib.bookshelf);
 
     }
 
