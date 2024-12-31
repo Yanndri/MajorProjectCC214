@@ -3,14 +3,19 @@ package LandingPagesGUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import LibGUI.LoginInterface;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class HomePage extends JPanel {
+    private LoginInterface loginInterface;
 
     // returns the panel for the home page
     public JPanel getHomePagePanel() {
         this.setLayout(new BorderLayout());
-        this.setBorder(new EmptyBorder(20, 20, 0, 20));
+        this.setBorder(new EmptyBorder(0, 20, 0, 20));
         this.setBackground(GlobalVariables.lightestColor);
 
         JLabel projectTitle = new JLabel("<html>Library <br>Management <br>System<html>");

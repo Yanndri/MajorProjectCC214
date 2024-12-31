@@ -1,4 +1,4 @@
-package LandingPagesGUI.UserAccess;
+package LandingPagesGUI.GUIUserAccess;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
