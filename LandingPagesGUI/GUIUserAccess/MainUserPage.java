@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import LandingPagesGUI.GlobalVariables;
 import LandingPagesGUI.HomePage;
-import LandingPagesGUI.LayoutManager;
+import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.TimeFrame;
 
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // Here you can find the taskbar, and the mainPanel that displays the pages
-public class MainUserPage extends LayoutManager {
+public class MainUserPage extends CustomLayoutManager {
     JFrame frame = createCanvas();
     JPanel mainPanel = createMainPanel(); // used as a replacement for frame
     JPanel currentPanel = new JPanel(); // the current panel page is checked here
