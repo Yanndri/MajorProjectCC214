@@ -17,6 +17,10 @@ public class LibraryTest {
         bookshelf.addLast(new Book(authors, title, description, publicationDate, noOfCopies));
     }
 
+    public void addBook(Book book) {
+        bookshelf.addLast(book);
+    }
+
     // Deleting Method/s
 
     // Searching Methods
@@ -60,17 +64,17 @@ public class LibraryTest {
                 if (separator.length == 2) {
                     String authorsPart = separator[0].trim(); // authors part
                     String bookPart = separator[1].trim(); // book detail
-
+    
                     String[] authorsArray = authorsPart.split("-->");
                     String[] bookDetails = bookPart.split("//");
-
+    
                     MyLinkedList authors = new MyLinkedList();
                     for (String author : authorsArray) {
                         authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
-
-                        addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
-                                Integer.parseInt(bookDetails[3])); 
                     }
+    
+                    addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
+                            Integer.parseInt(bookDetails[3]));
                 }
             }
         } catch (IOException e) {
@@ -85,29 +89,30 @@ public class LibraryTest {
             }
         }
     }
+    
 
     public void updateFile() {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(
                     "C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LandingPagesGUI\\AdminAcess\\Books.txt"));
-            
+
             DNode<Book> currNode = bookshelf.head;
             while (currNode != null) {
-                Book currBook = currNode.getItem(); 
+                Book currBook = currNode.getItem();
                 String authors = currBook.getAuthors().trim();
-    
+
                 String bookDetails = String.format("%s : %s//%s//%s//%d", // there was a more convenient way to do it?
                         authors,
                         currBook.getTitle(),
                         currBook.getDescription(),
                         currBook.getPublicationDate(),
                         currBook.getTotalCopies());
-    
-                writer.write(bookDetails);
-                writer.newLine(); 
 
-                currNode = currNode.getNext(); 
+                writer.write(bookDetails);
+                writer.newLine();
+
+                currNode = currNode.getNext();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,36 +126,27 @@ public class LibraryTest {
             }
         }
     }
-    
 
     public static void main(String[] args) {
-        // MyLinkedList author1 = new MyLinkedList();
-        // author1.addLast("Peter");
-        // author1.addLast("JK Rowling");
-        // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
+        MyLinkedList author1 = new MyLinkedList();
+        author1.addLast("Peter");
+        author1.addLast("JK Rowling");
+        Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
 
-        // MyLinkedList author2 = new MyLinkedList();
-        // author2.addLast("Pete");
-        // author2.addLast("John Rowling");
-        // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
-
-        // DLinkedList<Book> dlist = new DLinkedList<>();
-
-        // dlist.addLast(book2);
-        // dlist.addLast(book1);
+        MyLinkedList author2 = new MyLinkedList();
+        author2.addLast("Pete");
+        author2.addLast("John Rowling");
+        Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
 
         LibraryTest lib = new LibraryTest();
         lib.getBooks();
-        Book currBook = (Book) lib.bookshelf.head.getItem(); //take note of this my guy
-        System.out.println(currBook.getAuthors());
-        //System.out.println(lib.bookshelf);
+        // Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
+        // System.out.println(currBook.getAuthors());
 
+        lib.addBook(book1);
+        lib.addBook(book2);
+        lib.updateFile();
 
-        // System.out.println(lib.searchAuthor(dlist, "Pe"));
-
-        // DLinkedList<User> lib2 = new DLinkedList<>();
-        // User blnk = new User();
-        // lib2.addFront(blnk);
     }
 
 }
