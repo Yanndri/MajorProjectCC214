@@ -1,25 +1,17 @@
-package LibGUI;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
+package Objects;
 
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
-    int key;
-    LocalDate dob;
+    int age, key;
+    // Date of Birth
 
-    public User(String firstName, String lastName, String middleName, String month, int day, int year, String address,
-            String gender,
-            String phoneNumber, String identifier, String password, int key) {
+    public User(String firstName, String lastName, String middleName, int age, String address, String gender,
+        String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
-        setDOB(day, month, year);
+        this.age = age;
         this.address = address;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
@@ -29,7 +21,7 @@ public class User {
     }
 
     public User() {
-        this(null, null, null, null, 0, 0, null, null, null, null, null, 0);
+        this(null, null, null, 0, null, null, null, null, null, 0);
     }
 
     // setters
@@ -45,14 +37,6 @@ public class User {
         this.middleName = middleName;
     }
 
-    public void setDOB(int day, String monthString, int year){
-        
-        Month monthInt = Month.valueOf(monthString.toUpperCase()); // Convert to uppercase to match enum constants
-
-        dob = LocalDate.of(year, monthInt, day);
-
-    }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -63,6 +47,10 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public void setIdentifier(String identifier) {
@@ -107,11 +95,6 @@ public class User {
     }
 
     public int getAge() {
-        
-        LocalDate today = LocalDate.now(); 
-
-        int age = Period.between(dob, today).getYears();
-
         return age;
     }
 

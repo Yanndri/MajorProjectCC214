@@ -1,4 +1,6 @@
-public class DNode<B>{
+package DataStructures;
+
+public class DNode<B> {
     protected B item;
     protected DNode<B> next, prev;
 
@@ -12,7 +14,7 @@ public class DNode<B>{
         this(item, null, null);
     }
 
-    //getters
+    // getters
     public B getItem() {
         return item;
     }
@@ -21,11 +23,11 @@ public class DNode<B>{
         return next;
     }
 
-    public DNode<B> getPrev(){
+    public DNode<B> getPrev() {
         return prev;
     }
-    
-    //setters
+
+    // setters
     public void setItem(B item) {
         this.item = item;
     }
@@ -34,7 +36,7 @@ public class DNode<B>{
         this.next = next;
     }
 
-    public void setPrev(DNode<B> prev){
+    public void setPrev(DNode<B> prev) {
         this.prev = prev;
     }
 }

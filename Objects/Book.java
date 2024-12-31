@@ -1,3 +1,8 @@
+package Objects;
+
+import DataStructures.MyLinkedList;
+import DataStructures.QueueLinkedList;
+
 public class Book {
     private String title, description, publicationDate;
     private int totalCopies, borrowedCopies;
@@ -36,7 +41,7 @@ public class Book {
 
     public String addAuthor(String author) {
         if (authors == null) {
-            authors = new MyLinkedList();  //ensure authors list is initialized
+            authors = new MyLinkedList(); // ensure authors list is initialized
         }
         authors.addFront(author);
         return authors.getFirstElement().toString();
@@ -83,9 +88,9 @@ public class Book {
     }
 
     // queue
-    public void bookRequest(Borrower borrower){
+    public void bookRequest(Borrower borrower) {
         if (!isAvailable())
-            requesters.enqueue(borrower);    
+            requesters.enqueue(borrower);
     }
 
     public void addBorrower(Borrower borrower) {
@@ -98,16 +103,15 @@ public class Book {
     }
 
     public String bookReturned(Borrower borrower) {
-        if(borrowedCopies <= totalCopies && borrowers!=null){
-        if(!borrowers.isFound(borrower)){
-            return "Borrower Not Found.";
+        if (borrowedCopies <= totalCopies && borrowers != null) {
+            if (!borrowers.isFound(borrower)) {
+                return "Borrower Not Found.";
+            } else {
+                borrowers.deleteItemAt(borrowers.getPosition(borrower));
+                borrowedCopies--;
+                return borrower + " Returned Book.";
+            }
         }
-        else{
-            borrowers.deleteItemAt(borrowers.getPosition(borrower));
-            borrowedCopies--;
-            return borrower + " Returned Book.";
-        }
-    }
         return "No Borrowed Book/s.";
     }
 

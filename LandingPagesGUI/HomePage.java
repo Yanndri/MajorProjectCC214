@@ -1,4 +1,4 @@
-package GUIpages;
+package LandingPagesGUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,10 +20,9 @@ public class HomePage extends JPanel {
         projectTitle.setForeground(GlobalVariables.mediumColor);
 
         // Book Icon >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        ImageIcon bookImage = new ImageIcon("GUIpages\\Images\\book.png"); // image of a book
         // to change the size of an image just do this 3 lines:
-        Image getImage = bookImage.getImage(); // load an image using a relative path
-        Image resizedBookImage = getImage.getScaledInstance(GlobalVariables.width / 3, GlobalVariables.width / 3,
+        Image getImage = GlobalVariables.bookImage.getImage(); // load an image using a relative path
+        Image resizedBookImage = getImage.getScaledInstance(GlobalVariables.width / 4, GlobalVariables.width / 4,
                 Image.SCALE_SMOOTH); // change the image size
         ImageIcon resizedBookIcon = new ImageIcon(resizedBookImage); // this is now the resized image
 

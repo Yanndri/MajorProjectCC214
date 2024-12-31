@@ -1,4 +1,4 @@
-package GUIpages;
+package LandingPagesGUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
