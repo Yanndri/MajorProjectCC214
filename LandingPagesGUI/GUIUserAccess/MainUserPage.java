@@ -1,8 +1,6 @@
-package LandingPagesGUI.UserAccess;
+package LandingPagesGUI.GUIUserAccess;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 
 import LandingPagesGUI.GlobalVariables;
 import LandingPagesGUI.HomePage;
@@ -16,7 +14,7 @@ import java.awt.event.ActionListener;
 // Here you can find the taskbar, and the mainPanel that displays the pages
 public class MainUserPage extends LayoutManager {
     JFrame frame = createCanvas();
-    JPanel mainPanel = createMainPanel();
+    JPanel mainPanel = createMainPanel(); // used as a replacement for frame
     JPanel currentPanel = new JPanel(); // the current panel page is checked here
     // This way you can edit the currentPanel(remove, setVisible(), etc.)
 
@@ -25,7 +23,14 @@ public class MainUserPage extends LayoutManager {
     SearchBooksPage searchBooksPage = new SearchBooksPage();
     BorrowedBooksPage borrowedBooksPage = new BorrowedBooksPage();
     TimeFrame clock = new TimeFrame();
-    // Panels and Frames ==============================
+    // ==============================
+
+    // instantiated Panels >>>>>>>>>>>>>>>>>>>>>>
+    JPanel homePagePanel = homePage.getHomePagePanel();
+    JPanel searchBooksPagePanel = searchBooksPage.getSearchBooksPage();
+    JPanel borrowedBooksPagePanel = borrowedBooksPage.getBorrowedBooksPage();
+    JPanel clockPanel = clock.getTimeFramePanel();
+    // =================================
 
     public MainUserPage() {
         initialize();
@@ -38,16 +43,18 @@ public class MainUserPage extends LayoutManager {
         JPanel southPanel = new JPanel(new BorderLayout());
         mainPanel.add(southPanel, BorderLayout.SOUTH);
 
+        // Add a Clock
         JPanel clockPanelLayout = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // used so hte clock is right aligned
         southPanel.add(clockPanelLayout, BorderLayout.NORTH); // puts the clock panel on top of options
 
         clockPanelLayout.setBackground(GlobalVariables.lightestColor);
+        clockPanelLayout.add(clockPanel, BorderLayout.NORTH); // Cock?(Clock)
 
-        clockPanelLayout.add(clock.getTimeFramePanel(), BorderLayout.NORTH); // Cock?(Clock)
+        // Add a Taskbar
         southPanel.add(taskBar(), BorderLayout.SOUTH); // put the taskbar underneath Clock
 
-        // childrens
-        setActivePage(homePage.getHomePagePanel());// set homePage as the active panel
+        // Set a starting active page
+        setActivePage(homePagePanel);// set homePage as the active panel
         // =========================================================
 
         frame.setVisible(true);// ensure all components are initialized before making the frame visible
@@ -78,18 +85,19 @@ public class MainUserPage extends LayoutManager {
         homePageButton.setForeground(GlobalVariables.lightestColor); // set button text to lightest for visual stuff
 
         // What to do when the buttons get clicked >>>>>>>>
+        // use SingleActionListener from Layout Manager(check there why)
         SingleActionListener(homePageButton, new ActionListener() { // listen for gui events on homePageButton
 
             @Override
             public void actionPerformed(ActionEvent e) { // when home page is clicked:
-                if (currentPanel != homePage.getHomePagePanel()) {
+                if (currentPanel != homePagePanel) {// exit if the button is on already
                     buttonToggledOn(homePageButton);
 
                     buttonToggledOff(searchBooksButton);
                     buttonToggledOff(borrowedBooksButton);
 
                     mainPanel.remove(currentPanel); // remove the current panel
-                    setActivePage(homePage.getHomePagePanel());
+                    setActivePage(homePagePanel); // change the page
                     mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
                     mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
                 }
@@ -100,17 +108,17 @@ public class MainUserPage extends LayoutManager {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentPanel != searchBooksPage.getSearchBooksPage()) {
-                    System.out.println("huhuh");
+                if (currentPanel != searchBooksPagePanel) {// exit if the button is on already
                     buttonToggledOn(searchBooksButton);
 
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(borrowedBooksButton);
 
                     mainPanel.remove(currentPanel); // remove the current panel
-                    setActivePage(searchBooksPage.getSearchBooksPage());
+                    setActivePage(searchBooksPagePanel);
                     mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
                     mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
+
                 }
             }
         });
@@ -119,16 +127,17 @@ public class MainUserPage extends LayoutManager {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentPanel != borrowedBooksPage.getBorrowedBooksPage()) {
+                if (currentPanel != borrowedBooksPagePanel) {// exit if the button is on already
                     buttonToggledOn(borrowedBooksButton);
 
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(searchBooksButton);
 
                     mainPanel.remove(currentPanel); // remove the current panel
-                    setActivePage(borrowedBooksPage.getBorrowedBooksPage());
+                    setActivePage(borrowedBooksPagePanel);
                     mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
                     mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
+
                 }
             }
         });
@@ -139,32 +148,8 @@ public class MainUserPage extends LayoutManager {
 
     // change what panel should be displayed(based on what page)
     private void setActivePage(JPanel panel) {
-        currentPanel.removeAll(); // required to delete all components,
-        // since at times components may get duplicated
-        currentPanel = panel; // before instantiating another component
+        currentPanel = panel; // replace the current panel
         mainPanel.add(currentPanel, BorderLayout.CENTER); // the panel that will be displayed on the page
-    }
-
-    // END OF GRAPHIC STUFF ===============================================
-
-    // SingleActionListener() Erases multiple Action Listeners(idk, this was on my
-    // last project, some cases
-    // pressing a button runs two times)
-    /*
-     * Works like this:
-     * SingleActionListener(buttonLabelHere, new ActionListener() {
-     * 
-     * @Override
-     * public void actionPerformed(ActionEvent e) {
-     * //code here when the button is pressed
-     * } });
-     */
-    private void SingleActionListener(JButton button, ActionListener listener) {
-        ActionListener[] listeners = button.getActionListeners();
-        for (ActionListener i : listeners) {
-            button.removeActionListener(i);
-        }
-        button.addActionListener(listener);
     }
 
     public static void main(String[] args) {

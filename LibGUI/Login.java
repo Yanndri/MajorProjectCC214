@@ -51,7 +51,7 @@ public class Login {
     public void getAccounts() {
         try {
             reader = new BufferedReader(
-                    new FileReader("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+                    new FileReader("LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split("//");
@@ -78,7 +78,7 @@ public class Login {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter( // CHANGE IT TO fiLE PATH
-                    new FileWriter("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+                    new FileWriter("LibGUI\\UserAccounts.txt"));
             for (int i = 0; i < accounts.items.length; i++) {
                 if (accounts.items[i] != null) {
                     Node currNode = accounts.items[i];

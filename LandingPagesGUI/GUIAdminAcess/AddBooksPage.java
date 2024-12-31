@@ -1,4 +1,4 @@
-package LandingPagesGUI.AdminAcess;
+package LandingPagesGUI.GUIAdminAcess;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,13 +12,13 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.print.Book;
 
-public class EditBooksPage extends JPanel {
+public class AddBooksPage extends JPanel {
     // title, description, publicationDate, authors
     // private int totalCopies, borrowedCopies;
     // private MyLinkedList borrowers;
     // private QueueLinkedList requesters;
 
-    public JPanel getEditBooksPage() {
+    public JPanel getAddBooksPagePanel() {
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(0, 20, 0, 20));
         this.setBackground(GlobalVariables.lightestColor);
@@ -29,31 +29,12 @@ public class EditBooksPage extends JPanel {
 
         northPanel.setBackground(GlobalVariables.lightestColor);
 
-        JLabel headerLabel = new JLabel("Edit Book");
+        JLabel headerLabel = new JLabel("Add Book");
         northPanel.add(headerLabel, BorderLayout.CENTER);
 
         headerLabel.setHorizontalAlignment(SwingConstants.LEFT);
         headerLabel.setFont(new Font("Monospaced", Font.PLAIN, 32));
         headerLabel.setForeground(GlobalVariables.darkestColor);
-
-        // search bar(Search Books to Edit)
-        JPanel searchBar = new JPanel(new FlowLayout(FlowLayout.LEFT)); // to align the search field and label
-                                                                        // horizontally
-        northPanel.add(searchBar, BorderLayout.SOUTH);
-
-        searchBar.setBackground(GlobalVariables.lightestColor);
-        searchBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 200));
-
-        JLabel searchLabel = new JLabel("Search Title:");
-        searchBar.add(searchLabel); // Just a label for the textfield
-
-        searchLabel.setForeground(GlobalVariables.mediumColor);
-        searchLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
-
-        JTextField searchTextField = new JTextField();
-        searchBar.add(searchTextField); // Where the user will write the text to search
-
-        changeSearchStyle(searchTextField);
         // =============================================
 
         // West Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -62,13 +43,13 @@ public class EditBooksPage extends JPanel {
 
         westPanel.setBackground(GlobalVariables.lightestColor);
 
-        JPanel inputFieldsPanel = new JPanel(); // covers the center part of the west border
+        JPanel inputFieldsPanel = new JPanel(); // this covers the whole West Border(since it's center)
         westPanel.add(inputFieldsPanel, BorderLayout.CENTER);
 
         inputFieldsPanel.setBackground(GlobalVariables.lightestColor);
 
         JPanel boxLayoutPanel = new JPanel(); // make another panel that doesnt cover the whole west border
-        inputFieldsPanel.add(boxLayoutPanel); // so the components doesnt fill the whole panel when using box layout
+        inputFieldsPanel.add(boxLayoutPanel); // so the components doesnt fill the whole panel
 
         boxLayoutPanel.setLayout(new BoxLayout(boxLayoutPanel, BoxLayout.Y_AXIS)); // components are arranged vertically
         boxLayoutPanel.setBackground(GlobalVariables.lightestColor);
@@ -111,12 +92,12 @@ public class EditBooksPage extends JPanel {
 
         centerPanel.setBackground(GlobalVariables.lightestColor);
 
-        JPanel inputAreaPanel = new JPanel(); // The West side of the Center Panel
+        JPanel inputAreaPanel = new JPanel();
         centerPanel.add(inputAreaPanel, BorderLayout.WEST);
 
         inputAreaPanel.setBackground(GlobalVariables.lightestColor);
 
-        JPanel inputDescriptionPanel = new JPanel(); // put here the description input, total copies input, etc.
+        JPanel inputDescriptionPanel = new JPanel();
         inputAreaPanel.add(inputDescriptionPanel);
 
         inputDescriptionPanel.setLayout(new BoxLayout(inputDescriptionPanel, BoxLayout.Y_AXIS));
@@ -130,7 +111,7 @@ public class EditBooksPage extends JPanel {
         JTextArea descriptionTextArea = new JTextArea();
         changeTextAreaStyle(descriptionTextArea); // change the style of the text Area
 
-        JScrollPane scrollPane = new JScrollPane(descriptionTextArea); // add a scroll bar for text area
+        JScrollPane scrollPane = new JScrollPane(descriptionTextArea); // add the textArea to the scroll Pane
         inputDescriptionPanel.add(scrollPane);
 
         scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 7));
@@ -148,7 +129,7 @@ public class EditBooksPage extends JPanel {
         changeLabelStyle(totalCopiesLabel);
         changeTextFieldStyle(totalCopiesTextField);
 
-        // Submit Button (when user is done with their inputs)
+        // Submit Button
         JButton submitButton = new JButton("Submit");
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
@@ -171,7 +152,7 @@ public class EditBooksPage extends JPanel {
         label.setBorder(BorderFactory.createEmptyBorder(20, 5, 0, 5));
     }
 
-    // change the style of input text fields
+    // change the style of text fields
     private void changeTextFieldStyle(JTextField textField) {
         textField.setHorizontalAlignment(SwingConstants.CENTER);
         textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 32));
@@ -193,13 +174,13 @@ public class EditBooksPage extends JPanel {
         });
     }
 
-    // change the style of text area
     private void changeTextAreaStyle(JTextArea textArea) {
-        textArea.setLineWrap(true); // makes sure the text doesnt go out of bounds
-        textArea.setWrapStyleWord(true); // text wraps by word
-        textArea.setCaretColor(GlobalVariables.darkestColor); // change the color of the caret
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
         textArea.setForeground(GlobalVariables.darkestColor);
         textArea.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        textArea.setCaretColor(GlobalVariables.darkestColor);
 
         textArea.addFocusListener(new FocusAdapter() { // to check for any events related to focus
             @Override
@@ -216,28 +197,7 @@ public class EditBooksPage extends JPanel {
         });
     }
 
-    // change the style of the search text field
-    private void changeSearchStyle(JTextField textField) {
-        textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
-        textField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        textField.setForeground(GlobalVariables.darkestColor);
-
-        textField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
-            @Override
-            public void focusGained(FocusEvent e) { // When the textField gains focus(the caret is visible)
-                // change border color
-                textField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) { // When the textField lost focus
-                // get rid of border
-                textField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            }
-        });
-    }
-
-    // change the style of buttons(i.e Submit Button)
+    // change the style of buttons
     private void changeButtonStyle(JButton button) {
         button.setBorder(new EmptyBorder(5, 10, 5, 10)); // not margin
         button.setBackground(GlobalVariables.mediumColor); // background color
