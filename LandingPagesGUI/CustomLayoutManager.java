@@ -9,9 +9,11 @@ import LibGUI.LoginInterface;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 // Base Layout for most pages
-public class LayoutManager {
+public class CustomLayoutManager {
     JFrame frame = new JFrame(); // Main frame
 
     // Class references
@@ -89,6 +91,7 @@ public class LayoutManager {
         });
     }
 
+    // Create a taskbar(like a menu, or navbar) design only
     public JPanel createTaskBarPanel() {
         JPanel taskBar = new JPanel(new GridLayout(1, 0));
         taskBar.setPreferredSize(new Dimension(GlobalVariables.width, GlobalVariables.height / 3));
@@ -99,7 +102,131 @@ public class LayoutManager {
         return taskBar;
     }
 
-    // BUTTON STYLES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // create a search bar(it takes a textfield parameter because you need a
+    // textfield to check action events on the search bar)
+    public JPanel createSearchBar(JTextField textField) {
+        System.out.println("Search Bar added");
+        JPanel searchBar = new JPanel(new FlowLayout());
+
+        searchBar.setBackground(GlobalVariables.lightestColor);
+
+        JLabel searchLabel = new JLabel("Search Title:");
+        searchBar.add(searchLabel); // Just a label for the textfield
+
+        searchLabel.setForeground(GlobalVariables.mediumColor);
+        searchLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+
+        textField = new JTextField();
+        searchBar.add(textField); // Where the user will write the text to search
+
+        textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
+        textField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        textField.setForeground(GlobalVariables.darkestColor);
+
+        return searchBar;
+    }
+
+    // LABEL STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void labelStyleDefault(JLabel label) {
+        label.setForeground(GlobalVariables.mediumColor);
+        label.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+        label.setBorder(BorderFactory.createEmptyBorder(20, 5, 0, 5));
+    }
+    // LABEL STYLES END =================================================
+
+    // TEXTFIELD STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void textfieldStyleDefault(JTextField textField) {
+        textField.setHorizontalAlignment(SwingConstants.CENTER);
+        textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
+        textField.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        textField.setForeground(GlobalVariables.darkestColor);
+        textField.setCaretColor(GlobalVariables.darkestColor);
+        textField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
+            @Override
+            public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
+                // change border color
+                textField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) { // When the textfield lost focus
+                // get rid of border
+                textField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            }
+        });
+    }
+    // TEXTFIELD STYLES END =================================================
+
+    // TEXTAREA STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void textareaStyleDefault(JTextArea textArea) {
+        textArea.setLineWrap(true); // makes sure the text doesnt go out of bounds
+        textArea.setWrapStyleWord(true); // text wraps by word
+        textArea.setCaretColor(GlobalVariables.darkestColor); // change the color of the caret
+        textArea.setForeground(GlobalVariables.darkestColor);
+        textArea.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+
+        textArea.addFocusListener(new FocusAdapter() { // to check for any events related to focus
+            @Override
+            public void focusGained(FocusEvent e) { // When the textArea gains focus(the caret is visible)
+                // change border color
+                textArea.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) { // When the textArea lost focus
+                // get rid of border
+                textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+            }
+        });
+    }
+    // TEXTAREA STYLES END =================================================
+
+    // BUTTON STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void buttonStyleDefault(JButton button) {
+        button.setBorder(new EmptyBorder(5, 10, 5, 10)); // not margin
+        button.setBackground(GlobalVariables.mediumColor); // background color
+        button.setForeground(GlobalVariables.lightestColor); // text color
+        button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
+        button.setContentAreaFilled(false); // Disable default content area fill
+        button.setOpaque(true); // Make the button opaque to allow custom background colors
+        button.setFont(new Font("Comic Sans MS", Font.PLAIN, 16)); // set font of the button
+
+        // check for Mouse input events on the button
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            // check if the mouse is hovering over a button
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(GlobalVariables.lighterColor); // Change background when mouse hovers
+                button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
+            }
+
+            // check if the mouse was hovering over a button but exited
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(GlobalVariables.mediumColor); // Restore original background when mouse exits
+                button.setForeground(GlobalVariables.lightestColor); // Restore original text color when mouse exits
+            }
+
+            // check if mouse is holding press the button
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                button.setBackground(GlobalVariables.lightestColor); // Change color when button is pressed
+                button.setForeground(GlobalVariables.darkestColor); // Change text color when mouse hovers
+            }
+
+            // check if the mouse was is holding press the button but exited
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                button.setBackground(GlobalVariables.mediumColor); // set to default color
+                button.setForeground(GlobalVariables.lightestColor); // set to default color
+            }
+        });
+    }
+
     // When a button is toggled off (Only for buttons with toggle methods)
     public void buttonToggledOff(JButton button) {
         button.setForeground(GlobalVariables.darkestColor);
@@ -200,35 +327,44 @@ public class LayoutManager {
         });
     }
 
+    // for search prediction buttons(yknow when ur searching in the search bar)
     public void buttonStyleSearchSuggestions(JButton button) {
         button.setFont(new Font("Monospaced", Font.PLAIN, 16)); // set font of the button
-        button.setForeground(GlobalVariables.darkestColor);
         button.setHorizontalAlignment(SwingConstants.LEFT); // put the text at center horizontally
         button.setSize(new Dimension(GlobalVariables.width / 4, 20)); // change size(important)
         button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
         button.setBorder(new EmptyBorder(5, 48, 5, 5)); // margin border
+        button.setForeground(GlobalVariables.darkestColor);
         button.setBackground(GlobalVariables.lightestColor);
 
         // check if the mouse is hovering over a button that is currently not toggled
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                if (button.getBackground() != GlobalVariables.darkestColor) { // check if button is currently on
-                    button.setBackground(GlobalVariables.mediumColor); // Change background when mouse hovers
-                    button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
-                }
+                button.setBackground(GlobalVariables.darkestColor); // Change background when mouse hovers
+                button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
             }
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                if (button.getBackground() != GlobalVariables.darkestColor) {
-                    button.setBackground(GlobalVariables.lightestColor); // Restore original background when mouse exits
-                    button.setForeground(GlobalVariables.darkestColor); // Restore original text color when mouse exits
-                }
+                button.setBackground(GlobalVariables.lightestColor); // Restore original background when mouse exits
+                button.setForeground(GlobalVariables.darkestColor); // Restore original text color when mouse exits
             }
+
+            // check if mouse is holding press the button
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                button.setBackground(GlobalVariables.darkestColor); // Change color when button is pressed
+                button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
+            }
+
+            // check if the mouse was is holding press the button but exited
+            // @Override
+            // public void mouseReleased(java.awt.event.MouseEvent evt) {
+            // button.setBackground(Color.WHITE); // Reset to original color when released
+            // }
         });
     }
-
     // BUTTON STYLES END =======================================================
 
     // SingleActionListener() Erases multiple Action Listeners

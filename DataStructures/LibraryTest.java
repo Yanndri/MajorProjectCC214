@@ -1,6 +1,5 @@
-import DataStructures.DLinkedList;
-import DataStructures.DNode;
-import DataStructures.MyLinkedList;
+package DataStructures;
+
 import Objects.Book;
 import Objects.User;
 
