@@ -3,6 +3,7 @@ package LandingPagesGUI;
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 // Where variables that needs to be accessed globally
 public class GlobalVariables {
@@ -19,4 +20,8 @@ public class GlobalVariables {
     // images
     public static ImageIcon squareImage = new ImageIcon("LandingPagesGUI\\Images\\small square.png");
     public static ImageIcon bookImage = new ImageIcon("LandingPagesGUI\\Images\\book.png");
+    public static ImageIcon backArrowImage = new ImageIcon("LandingPagesGUI\\Images\\BackArrow.png");
+    public static ImageIcon defaultProfileImage = new ImageIcon("LandingPagesGUI\\Images\\DefaultProfile.png");
+    public static ImageIcon bookPlaceholderImage = new ImageIcon("LandingPagesGUI\\Images\\BookPlaceholder.png");
+
 }
