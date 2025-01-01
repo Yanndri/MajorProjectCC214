@@ -92,42 +92,40 @@ public class HashTest {
 			System.out.println("Item not found");
 	}
 
-	public static void main(String[] args) { // main
-		// HashTest chain = new HashTest(10);
-		// chain.insert(10);
-		// chain.insert(8);
-		// chain.insert(18);
-		// chain.insert(11);
-		// chain.insert(20);
-		// chain.insert(25);
-		// chain.insert(15);
-		// chain.insert(28);
-		// chain.insert(50);
-		// chain.insert(60);
-		// chain.insert(21);
+	// public static void main(String[] args) { // main
+	// HashTest chain = new HashTest(10);
+	// chain.insert(10);
+	// chain.insert(8);
+	// chain.insert(18);
+	// chain.insert(11);
+	// chain.insert(20);
+	// chain.insert(25);
+	// chain.insert(15);
+	// chain.insert(28);
+	// chain.insert(50);
+	// chain.insert(60);
+	// chain.insert(21);
 
-		// chain.display();
-		// System.out.println(chain.search(10));
-		// System.out.println(chain.search(20));
-		// System.out.println(chain.search(12));
-		// chain.delete(50); //del
-		// chain.insert(35);
+	// chain.display();
+	// System.out.println(chain.search(10));
+	// System.out.println(chain.search(20));
+	// System.out.println(chain.search(12));
+	// chain.delete(50); //del
+	// chain.insert(35);
 
-		// System.out.println("\n");
-		// chain.delete(11); //del
-		// chain.display();
+	// System.out.println("\n");
+	// chain.delete(11); //del
+	// chain.display();
 
-		// System.out.println(chain.search(10));
-		// System.out.println();
-		// chain.delete(35); //del
-		// chain.display();
-		// System.out.println(chain.search(60));
+	// System.out.println(chain.search(10));
+	// System.out.println();
+	// chain.delete(35); //del
+	// chain.display();
+	// System.out.println(chain.search(60));
 
-		// System.out.println();
-		// chain.delete(22);
-		// System.out.println(chain.search(28));
-		// System.out.println(chain.search(28));
-		// chain.display();
-	}
-
+	// System.out.println();
+	// chain.delete(22);
+	// System.out.println(chain.search(28));
+	// System.out.println(chain.search(28));
+	// chain.display();
 }

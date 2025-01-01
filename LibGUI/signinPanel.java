@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import LandingPagesGUI.AdminAcess.MainAdminPage;
-import LandingPagesGUI.UserAccess.MainUserPage;
+import LandingPagesGUI.GUIAdminAcess.MainAdminPage;
+import LandingPagesGUI.GUIUserAccess.MainUserPage;
 
 public class signinPanel extends JPanel {
 
@@ -134,7 +134,7 @@ public class signinPanel extends JPanel {
         } else {
             if (role.equals("User")) {
                 if (accounts.checkAccountCredentials(username, password)) {
-                    MainUserPage loginuser = new MainUserPage();
+                    new MainUserPage();
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(signinPanel.this);
                     if (frame != null) {
                         frame.dispose();
@@ -146,7 +146,7 @@ public class signinPanel extends JPanel {
                 }
             } else if (role.equals("Admin")) {// change for admin
                 if (accounts.checkAccountCredentials(username, password)) {
-                    MainAdminPage adminpage = new MainAdminPage();
+                    new MainAdminPage();
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(signinPanel.this);
                     if (frame != null) {
                         frame.dispose();
