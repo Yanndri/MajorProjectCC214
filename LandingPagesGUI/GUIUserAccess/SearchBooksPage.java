@@ -13,19 +13,24 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class SearchBooksPage extends JPanel {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
+
+    // Search Bar
     JTextField searchTextField; // the search Text Field
     String searchedText; // the title of the button pressed in search suggestions
-    String keyword; // the text in the text field
+    String keyword; // get the text in the Search Bar(text field)
+
+    // Search Filters >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     String[] searchFilters = { "Title", "Author" }; // The search filter options
+    JComboBox<String> searchComboBox = new JComboBox<>(searchFilters); // combo box for choosing what filter to use
     String searchFilter; // the filter that the user is using to search(either Title / Author)
 
     // Panels >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    JPanel displaySearch = new JPanel(); // display scroll bar if searching, or
-    // display the bookPanel once done searching for the book
+    JPanel displaySearch = new JPanel(); // put here the available books from search bar
 
     // returns the panel for the search Books Page
     public JPanel getSearchBooksPage() {
@@ -48,39 +53,24 @@ public class SearchBooksPage extends JPanel {
         projectTitle.setForeground(GlobalVariables.mediumColor);
 
         // Add the search text field(Search Bar)
-        northPanel.add(instantiateTextField(), BorderLayout.CENTER);
+        northPanel.add(SearchBar(), BorderLayout.CENTER);
         // ========================================================================
 
         return this;
     }
 
-    // switch what panel is displayed on the bottom of search bar
-    private void displayPanel(JPanel panel) {
-        displaySearch.removeAll();
-        this.remove(displaySearch);
-        displaySearch = panel;
-        this.add(displaySearch, BorderLayout.CENTER);
-    }
-
-    // textfield for the search bar
-    private JPanel instantiateTextField() {
+    // Add the Search Bar
+    private JPanel SearchBar() {
         JPanel searchBar = new JPanel(new FlowLayout());
 
         searchBar.setBackground(GlobalVariables.lightestColor);
-        // searchBar.setBackground(Color.red); //change this later
 
         // Search Filter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JLabel searchLabel = new JLabel("Search by: ");
         searchBar.add(searchLabel); // Just a label for the textfield
-
-        // JCombo box is a generic type(it accepts all data types)
-        // For good practice, you should specify what data type you're using
-        // in this case out Combo box only stores Strings.
-        JComboBox<String> searchComboBox = new JComboBox<>(searchFilters); // combo box for choosing what filter to use
         searchBar.add(searchComboBox);
 
         layoutManager.comboBoxStyleDefault(searchComboBox);
-
         // ====================================================
 
         searchLabel.setForeground(GlobalVariables.mediumColor);
@@ -89,9 +79,7 @@ public class SearchBooksPage extends JPanel {
         searchTextField = new JTextField();
         searchBar.add(searchTextField); // Where the user will write the text to search
 
-        searchTextField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
-        searchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        searchTextField.setForeground(GlobalVariables.darkestColor);
+        layoutManager.textfieldStyleDefault(searchTextField);
 
         JButton searchIconButton = new JButton(GlobalVariables.searchIcon);
         searchBar.add(searchIconButton); // SEARCH BUTTON
@@ -101,11 +89,24 @@ public class SearchBooksPage extends JPanel {
         searchIconButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                keyword = searchTextField.getText(); // get the text inside searchTextField / the Search Bar
-                searchFilter = searchComboBox.getSelectedItem().toString(); // get what search filter is used
-                displayPanel(instantiateScrollBar()); // display the search suggestions
-                revalidate();// inform the layout manager that something has changed in the displayPanel
-                repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
+                updateScrollBar();
+            }
+        });
+        searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) { // When a character is inserted
+                updateScrollBar();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) { // When a character is removed
+                updateScrollBar();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                // This is typically used for attributes like formatting changes
+                // We leave it empty for plain text
             }
         });
 
@@ -114,14 +115,8 @@ public class SearchBooksPage extends JPanel {
             public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
                 if (!searchTextField.getText().equals(""))
                     return;
-                // change border color
                 searchTextField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
-
-                keyword = searchTextField.getText(); // get the text inside searchTextField / the Search Bar
-                searchFilter = searchComboBox.getSelectedItem().toString(); // get what search filter is used
-                displayPanel(instantiateScrollBar()); // display the search suggestions
-                revalidate();// inform the layout manager that something has changed in the displayPanel
-                repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
+                updateScrollBar();
             }
 
             @Override
@@ -134,14 +129,31 @@ public class SearchBooksPage extends JPanel {
         return searchBar;
     }
 
-    // Scroll Bar to display Books
+    // switch what panel is displayed on the bottom of search bar
+    private void displayPanel(JPanel panel) {
+        displaySearch.removeAll();
+        this.remove(displaySearch);
+        displaySearch = panel;
+        this.add(displaySearch, BorderLayout.CENTER);
+    }
+
+    // Update ScrollBar (Update the Available Books based on the search)
+    private void updateScrollBar() {
+        keyword = searchTextField.getText(); // get the text inside searchTextField / the Search Bar
+        searchFilter = searchComboBox.getSelectedItem().toString(); // get what search filter is used
+        displayPanel(instantiateScrollBar()); // display the search suggestions
+        this.revalidate();// inform the layout manager that something has changed in the displayPanel
+        this.repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
+    }
+
+    // Scroll Bar to display Available Books when searching
     private JPanel instantiateScrollBar() {
         JPanel searchPanel = new JPanel(new BorderLayout());
         searchPanel.setBackground(GlobalVariables.lightestColor);
 
-        JPanel scrollBarPanel = new JPanel();
-        scrollBarPanel.setLayout(new GridLayout(0, 1, 0, 0)); // Single-column layout
-        scrollBarPanel.setBackground(GlobalVariables.lighterColor);
+        JPanel scrollBarPanel = new JPanel(); // Put here the available books in the scroll bar
+        scrollBarPanel.setLayout(new BoxLayout(scrollBarPanel, BoxLayout.Y_AXIS)); // components are arranged vertically
+        scrollBarPanel.setBackground(GlobalVariables.lightestColor);
 
         availableBooks(scrollBarPanel);
 
@@ -183,8 +195,8 @@ public class SearchBooksPage extends JPanel {
             JButton button = new JButton(book.getTitle());
             scrollBarPanel.add(button); // add this component to the scroll bar
 
-            layoutManager.buttonStyleSearchSuggestions(button);
-            button.setSize(new Dimension(GlobalVariables.width / 2, 20));
+            layoutManager.buttonStyleSearchSuggestions(button); // style the button to a suggested button
+            button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
 
             button.addActionListener(new ActionListener() {
                 @Override
