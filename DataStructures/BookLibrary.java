@@ -30,9 +30,7 @@ public class BookLibrary {
 
         while (temp != null) {
             Book currBook = temp.getItem(); // Item is now a Book, no need for casting
-            System.out.println("Currbook: " + currBook);
             if (currBook.getTitle().toLowerCase().contains(title.toLowerCase())) {
-                System.out.println("Added in results");
                 results.addLast(currBook); // add Book to results
             }
             temp = temp.getNext();

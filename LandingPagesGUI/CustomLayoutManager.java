@@ -56,7 +56,7 @@ public class CustomLayoutManager {
 
     // Add a Profile Picture
     private void addProfilePicture(JPanel panel) {
-        System.out.println("Added a Back Button");
+        System.out.println(this + " > Added a Back Button");
 
         JPanel userPanel = new JPanel(new FlowLayout());
         panel.add(userPanel, BorderLayout.EAST);
@@ -77,7 +77,7 @@ public class CustomLayoutManager {
 
     // Add a Back button
     private void addBackButton(JPanel panel) {
-        System.out.println("Added a Back Button");
+        System.out.println(this + " > Added a Back Button");
 
         JButton backButton = new JButton(GlobalVariables.backArrowImage);
         panel.add(backButton, BorderLayout.WEST);
@@ -106,7 +106,7 @@ public class CustomLayoutManager {
     // create a search bar(it takes a textfield parameter because you need a
     // textfield to check action events on the search bar)
     public JPanel createSearchBar(JTextField textField) {
-        System.out.println("Search Bar added");
+        System.out.println(this + " > Search Bar added");
         JPanel searchBar = new JPanel(new FlowLayout());
 
         searchBar.setBackground(GlobalVariables.lightestColor);
@@ -255,7 +255,7 @@ public class CustomLayoutManager {
 
     // to change the style of Option buttons(when user hovers, font, etc.)
     public void buttonStyleSimplistic(JButton button) {
-        System.out.println("Set button to simplistic style");
+        System.out.println(this + " > Set button to simplistic style");
         // border to have only specific sides have border lines while other sides dont
         button.setBorder(new MatteBorder(1, 1, 0, 0, GlobalVariables.darkestColor));
         button.setBackground(GlobalVariables.lightestColor); // background color
@@ -306,7 +306,7 @@ public class CustomLayoutManager {
 
     // change the style of buttons that only has an icon
     public void buttonStyleIconDependent(JButton button) {
-        button.setBorder(new EmptyBorder(5, 10, 5, 10)); // not margin
+        button.setBorder(new EmptyBorder(2, 5, 2, 5)); // not margin
         button.setBackground(GlobalVariables.lightestColor); // background color
         button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
         button.setContentAreaFilled(false); // Disable default content area fill
@@ -347,15 +347,16 @@ public class CustomLayoutManager {
         button.setHorizontalAlignment(SwingConstants.LEFT); // put the text at center horizontally
         button.setSize(new Dimension(GlobalVariables.width / 4, 20)); // change size(important)
         button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
-        button.setBorder(new EmptyBorder(5, 48, 5, 5)); // margin border
+        button.setBorder(new EmptyBorder(5, 5, 5, 5)); // margin border
         button.setForeground(GlobalVariables.darkestColor);
         button.setBackground(GlobalVariables.lightestColor);
+        button.setIcon(GlobalVariables.searchIcon);
 
         // check if the mouse is hovering over a button that is currently not toggled
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(GlobalVariables.darkestColor); // Change background when mouse hovers
+                button.setBackground(GlobalVariables.mediumColor); // Change background when mouse hovers
                 button.setForeground(GlobalVariables.lightestColor); // Change text color when mouse hovers
             }
 
