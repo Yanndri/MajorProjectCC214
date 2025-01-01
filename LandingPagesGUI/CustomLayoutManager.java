@@ -3,6 +3,7 @@ package LandingPagesGUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import LibGUI.LoginInterface;
 
@@ -132,7 +133,6 @@ public class CustomLayoutManager {
         label.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
         label.setBorder(BorderFactory.createEmptyBorder(20, 5, 0, 5));
     }
-    // LABEL STYLES END =================================================
 
     // TEXTFIELD STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -156,7 +156,6 @@ public class CustomLayoutManager {
             }
         });
     }
-    // TEXTFIELD STYLES END =================================================
 
     // TEXTAREA STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -181,7 +180,23 @@ public class CustomLayoutManager {
             }
         });
     }
-    // TEXTAREA STYLES END =================================================
+
+    // COMBO BOX STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void comboBoxStyleDefault(JComboBox<String> comboBox) {
+        comboBox.setBackground(GlobalVariables.mediumColor);
+        comboBox.setFont(new Font("Monospaced", Font.BOLD, 14));
+        comboBox.setForeground(GlobalVariables.lightestColor);
+
+        comboBox.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton arrowButton = super.createArrowButton(); // create a new arrow button
+                arrowButton.setBorder(BorderFactory.createEmptyBorder()); // remove the focus border
+                return arrowButton; // replace the arrow button with this arrow button
+            }
+        });
+    }
 
     // BUTTON STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -364,7 +379,6 @@ public class CustomLayoutManager {
             // }
         });
     }
-    // BUTTON STYLES END =======================================================
 
     // SingleActionListener() Erases multiple Action Listeners
     // incase it has multiple instances
