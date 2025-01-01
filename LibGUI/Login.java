@@ -13,6 +13,10 @@ public class Login {
     BufferedReader reader = null;
     HashTest accounts = new HashTest();
 
+    public Login(){
+        getAccounts();
+    }
+
     public boolean storeAccount(Object newAccount) {
         User account = (User) newAccount;
         account.setKey(encrypt(account.getIdentifier()));
