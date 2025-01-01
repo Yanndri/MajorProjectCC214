@@ -13,7 +13,7 @@ public class Login {
     BufferedReader reader = null;
     HashTest accounts = new HashTest();
 
-    public Login(){
+    public Login() {
         getAccounts();
     }
 
@@ -45,6 +45,10 @@ public class Login {
             return false;
         return username.equals(existingAccount.getIdentifier()) &&
                 password.equals(existingAccount.getPassword());
+    }
+
+    public boolean isIdentifierAvailable(String identifier) {
+        return false;
     }
 
     // public boolean isIdentifierAvailable(String identifier) {

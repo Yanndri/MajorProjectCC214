@@ -6,8 +6,10 @@ public class User {
     int age, key;
     // Date of Birth
 
+    // firstName//lastName//middleName//age//address//gender//phoneNumber//identifier//password//key;
+
     public User(String firstName, String lastName, String middleName, int age, String address, String gender,
-        String phoneNumber, String identifier, String password, int key) {
+            String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;

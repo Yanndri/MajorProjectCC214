@@ -2,9 +2,9 @@ package LandingPagesGUI.GUIAdminAcess;
 
 import javax.swing.*;
 
-import LandingPagesGUI.GlobalVariables;
 import LandingPagesGUI.HomePage;
 import LandingPagesGUI.CustomLayoutManager;
+import LandingPagesGUI.GlobalVariables;
 import LandingPagesGUI.TimeFrame;
 
 import java.awt.*;
