@@ -48,40 +48,39 @@ public class CustomLayoutManager {
         northPanel.setBackground(GlobalVariables.lightestColor);
 
         // Children
-        addProfilePicture(northPanel);
-        addBackButton(northPanel);
+        addProfile(northPanel);
+        addLogOutButton(northPanel);
         // =====================================
 
         return mainPanel;
     }
 
     // Add a Profile Picture
-    private void addProfilePicture(JPanel panel) {
-        System.out.println(this + " > Added a Profile Picture");
+    public void addProfile(JPanel panel) {
+        System.out.println(this + " > Added a Profile with username " + GlobalVariables.username);
 
-        JPanel userPanel = new JPanel(new FlowLayout());
-        panel.add(userPanel, BorderLayout.EAST);
+        JPanel buttonContainer = new JPanel(new FlowLayout()); // For margin
+        panel.add(buttonContainer, BorderLayout.WEST);
 
-        userPanel.setBackground(GlobalVariables.lightestColor);
+        buttonContainer.setBackground(GlobalVariables.lightestColor);
 
-        JLabel userLabel = new JLabel("Admin");
-        userPanel.add(userLabel); // Just a label for the textfield
-
-        userLabel.setForeground(GlobalVariables.mediumColor);
-        userLabel.setFont(new Font("Monospaced", Font.PLAIN, 16));
-
-        JButton profileButton = new JButton(GlobalVariables.defaultProfileImage);
-        userPanel.add(profileButton, BorderLayout.EAST);
+        JButton profileButton = new JButton(GlobalVariables.username, GlobalVariables.defaultProfileImage);
+        buttonContainer.add(profileButton, BorderLayout.EAST);
 
         buttonStyleIconDependent(profileButton);
     }
 
-    // Add a Back button(To go back/switch to a new FRAME)
-    private void addBackButton(JPanel panel) {
+    // Add a Log Out button(To go to Login Page)
+    public void addLogOutButton(JPanel panel) {
         System.out.println(this + " > Added a Back Button");
 
-        JButton backButton = new JButton(GlobalVariables.backArrowImage);
-        panel.add(backButton, BorderLayout.WEST);
+        JPanel buttonContainer = new JPanel(new FlowLayout()); // For margin
+        panel.add(buttonContainer, BorderLayout.EAST);
+
+        buttonContainer.setBackground(GlobalVariables.lightestColor);
+
+        JButton backButton = new JButton("Log Out", GlobalVariables.logOutImage);
+        buttonContainer.add(backButton, BorderLayout.EAST);
 
         buttonStyleIconDependent(backButton);
         backButton.addActionListener(new ActionListener() {
@@ -368,7 +367,10 @@ public class CustomLayoutManager {
         button.setFocusPainted(false); // gets rid of the annoying stuff(cant explain it)
         button.setContentAreaFilled(false); // Disable default content area fill
         button.setOpaque(true); // Make the button opaque to allow custom background colors
-        button.setFont(new Font("Comic Sans MS", Font.PLAIN, 16)); // set font of the button
+        button.setFont(new Font("Monospaced", Font.PLAIN, 16));// set font of the button
+        button.setForeground(GlobalVariables.darkestColor); // text color
+        button.setVerticalTextPosition(SwingConstants.BOTTOM); // Puts the text below the icon
+        button.setHorizontalTextPosition(SwingConstants.CENTER); // Centers the text horizontally
 
         // check for Mouse input events on the button
         button.addMouseListener(new java.awt.event.MouseAdapter() {

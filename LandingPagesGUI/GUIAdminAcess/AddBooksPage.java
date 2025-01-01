@@ -2,6 +2,7 @@ package LandingPagesGUI.GUIAdminAcess;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.GlobalVariables;
 
