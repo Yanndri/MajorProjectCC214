@@ -31,7 +31,7 @@ public class MainAdminPage extends CustomLayoutManager {
     JPanel clockPanel = clock.getTimeFramePanel();
     // =================================
 
-    MainAdminPage() {
+    public MainAdminPage() {
         initialize();
     }
 
@@ -61,7 +61,6 @@ public class MainAdminPage extends CustomLayoutManager {
 
     // display options here (home page, search books, borrowed books, etc?)
     private JPanel taskBar() {
-        System.out.println(this + "> Taskbar instantiated");
         JPanel taskBar = createTaskBarPanel();
 
         // Create the main buttons

@@ -36,7 +36,7 @@ public class MainUserPage extends CustomLayoutManager {
         initialize();
     }
 
-    private void initialize() {
+    public void initialize() {
         frame.add(mainPanel);
 
         // South Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

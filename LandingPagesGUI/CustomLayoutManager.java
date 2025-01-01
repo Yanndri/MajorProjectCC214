@@ -33,6 +33,7 @@ public class CustomLayoutManager {
 
     // Base Layout for the main panel(The background desgin)
     public JPanel createMainPanel() {
+        System.out.println(this + " > Created a Main Panel");
         JPanel mainPanel = new JPanel();
         // design at the top
         mainPanel.setBorder(BorderFactory.createMatteBorder(// this makes clones of an image(40 is the size of image)
@@ -56,7 +57,7 @@ public class CustomLayoutManager {
 
     // Add a Profile Picture
     private void addProfilePicture(JPanel panel) {
-        System.out.println(this + " > Added a Back Button");
+        System.out.println(this + " > Added a Profile Picture");
 
         JPanel userPanel = new JPanel(new FlowLayout());
         panel.add(userPanel, BorderLayout.EAST);
@@ -75,7 +76,7 @@ public class CustomLayoutManager {
         buttonStyleIconDependent(profileButton);
     }
 
-    // Add a Back button
+    // Add a Back button(To go back/switch to a new FRAME)
     private void addBackButton(JPanel panel) {
         System.out.println(this + " > Added a Back Button");
 
@@ -86,7 +87,7 @@ public class CustomLayoutManager {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                frame.dispose(); // delete this frame
                 new LoginInterface(); // the Login interface class goes to the Login Page
             }
         });
@@ -94,6 +95,7 @@ public class CustomLayoutManager {
 
     // Create a taskbar(like a menu, or navbar) design only
     public JPanel createTaskBarPanel() {
+        System.out.println(this + " > Created a Task Bar");
         JPanel taskBar = new JPanel(new GridLayout(1, 0));
         taskBar.setPreferredSize(new Dimension(GlobalVariables.width, GlobalVariables.height / 3));
         // using setSize() doesnt work on Grid Layouts
@@ -106,7 +108,7 @@ public class CustomLayoutManager {
     // create a search bar(it takes a textfield parameter because you need a
     // textfield to check action events on the search bar)
     public JPanel createSearchBar(JTextField textField) {
-        System.out.println(this + " > Search Bar added");
+        System.out.println(this + " > Created a Search Bar");
         JPanel searchBar = new JPanel(new FlowLayout());
 
         searchBar.setBackground(GlobalVariables.lightestColor);
@@ -124,6 +126,19 @@ public class CustomLayoutManager {
         textField.setForeground(GlobalVariables.darkestColor);
 
         return searchBar;
+    }
+
+    // Create an input field,
+    // has parameter JLabel to customize what type of input field(ex: username)
+    public void createInputField(JPanel panel, JLabel label) {
+        System.out.println(this + " > Created an Input Field for " + label.getText());
+        panel.add(label);
+
+        JTextField textField = new JTextField();
+        panel.add(textField);
+
+        labelStyleDefault(label); // change the style of label
+        textfieldStyleDefault(textField); // changes text field style(lol)
     }
 
     // LABEL STYLES
@@ -198,6 +213,49 @@ public class CustomLayoutManager {
         });
     }
 
+    // SCROLL PANE STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void scrollPaneStyleDefault(JScrollPane scrollPane) {
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Change how fast mouse wheel scrolls
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scrollPane.setBackground(GlobalVariables.lightestColor);
+
+        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
+        this.scrollBarStyleDefault(verticalScrollBar); // Change the vertical scroll bar style
+
+        JScrollBar horizontalScrollBar = scrollPane.getHorizontalScrollBar();
+        this.scrollBarStyleDefault(horizontalScrollBar); // Change the horizontal scroll bar style
+    }
+
+    // SCROLL BAR STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void scrollBarStyleDefault(JScrollBar scrollBar) {
+        scrollBar.setUnitIncrement(16); // Change how fast mouse wheel scrolls
+        scrollBar.setUI(new javax.swing.plaf.basic.BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                // Change the colors for the scroll bar
+                this.thumbColor = GlobalVariables.mediumColor; // Color of the scroll bar thumb (handle)
+                this.trackColor = GlobalVariables.lighterColor; // Color of the track
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) { // Decrease button (the icon at the bottom of
+                                                                      // scroll)
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0)); // Make the button size 0
+                return button; // Hide decrease button
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) { // Increase button (the icon at the top of scroll)
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0)); // Make the button size 0
+                return button; // Hide increase button
+            }
+        });
+    }
+
     // BUTTON STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     public void buttonStyleDefault(JButton button) {
@@ -255,7 +313,6 @@ public class CustomLayoutManager {
 
     // to change the style of Option buttons(when user hovers, font, etc.)
     public void buttonStyleSimplistic(JButton button) {
-        System.out.println(this + " > Set button to simplistic style");
         // border to have only specific sides have border lines while other sides dont
         button.setBorder(new MatteBorder(1, 1, 0, 0, GlobalVariables.darkestColor));
         button.setBackground(GlobalVariables.lightestColor); // background color
@@ -399,5 +456,4 @@ public class CustomLayoutManager {
         }
         button.addActionListener(listener);
     }
-
 }
