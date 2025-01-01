@@ -3,6 +3,7 @@ package LandingPagesGUI;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import LibGUI.LoginInterface;
 
@@ -25,7 +26,7 @@ public class CustomLayoutManager {
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         return frame;
     }
@@ -116,7 +117,6 @@ public class CustomLayoutManager {
         searchLabel.setForeground(GlobalVariables.mediumColor);
         searchLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
-        textField = new JTextField();
         searchBar.add(textField); // Where the user will write the text to search
 
         textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
@@ -133,7 +133,6 @@ public class CustomLayoutManager {
         label.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
         label.setBorder(BorderFactory.createEmptyBorder(20, 5, 0, 5));
     }
-    // LABEL STYLES END =================================================
 
     // TEXTFIELD STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -153,11 +152,10 @@ public class CustomLayoutManager {
             @Override
             public void focusLost(FocusEvent e) { // When the textfield lost focus
                 // get rid of border
-                textField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                textField.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 5));
             }
         });
     }
-    // TEXTFIELD STYLES END =================================================
 
     // TEXTAREA STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -182,7 +180,23 @@ public class CustomLayoutManager {
             }
         });
     }
-    // TEXTAREA STYLES END =================================================
+
+    // COMBO BOX STYLES
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public void comboBoxStyleDefault(JComboBox<String> comboBox) {
+        comboBox.setBackground(GlobalVariables.mediumColor);
+        comboBox.setFont(new Font("Monospaced", Font.BOLD, 14));
+        comboBox.setForeground(GlobalVariables.lightestColor);
+
+        comboBox.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton arrowButton = super.createArrowButton(); // create a new arrow button
+                arrowButton.setBorder(BorderFactory.createEmptyBorder()); // remove the focus border
+                return arrowButton; // replace the arrow button with this arrow button
+            }
+        });
+    }
 
     // BUTTON STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -365,7 +379,6 @@ public class CustomLayoutManager {
             // }
         });
     }
-    // BUTTON STYLES END =======================================================
 
     // SingleActionListener() Erases multiple Action Listeners
     // incase it has multiple instances

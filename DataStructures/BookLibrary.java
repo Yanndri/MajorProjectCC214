@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class LibraryTest {
-    DLinkedList<Book> bookshelf = new DLinkedList<>();
+public class BookLibrary {
+    public DLinkedList<Book> bookshelf = new DLinkedList<>();
 
     // Adding Method/s
     public void addBook(MyLinkedList authors, String title, String description, String publicationDate,
@@ -23,55 +23,60 @@ public class LibraryTest {
     // Deleting Method/s
 
     // Searching Methods
-    public String searchTitle(DLinkedList<Book> list, String title) {
+    public DLinkedList<Book> searchTitle(String title) { // returns a lists of books that contains the keyword
+        System.out.println("Library Test > searchTitle()");
         DLinkedList<Book> results = new DLinkedList<>();
-        DNode<Book> temp = list.head; // Use DNode<Book> for type safety
+        DNode<Book> temp = bookshelf.head; // Use DNode<Book> for type safety
 
         while (temp != null) {
             Book currBook = temp.getItem(); // Item is now a Book, no need for casting
-            if (currBook.getTitle().contains(title)) {
+            System.out.println("Currbook: " + currBook);
+            if (currBook.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                System.out.println("Added in results");
                 results.addLast(currBook); // add Book to results
             }
             temp = temp.getNext();
         }
-        return results.toString();
+
+        return results;
     }
 
-    public String searchAuthor(DLinkedList<Book> list, String author) {
+    public DLinkedList<Book> searchAuthor(String author) { // returns a lists of books that contains the keyword
         DLinkedList<Book> results = new DLinkedList<>();
-        DNode<Book> temp = list.head;
+        DNode<Book> temp = bookshelf.head;
 
         while (temp != null) {
             Book currBook = temp.getItem(); // Item is now a Book, no need for casting
-            if (currBook.getAuthors().contains(author)) {
+            if (currBook.getAuthors().toLowerCase().contains(author.toLowerCase())) {
                 results.addLast(currBook); // add Book to results
             }
             temp = temp.getNext();
         }
-        return results.toString();
+        return results;
     }
 
     public void getBooks() {
         BufferedReader reader = null;
+        System.out.println("Library Test > getBooks()");
         try {
             reader = new BufferedReader(
                     new FileReader(
-                            "C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LandingPagesGUI\\AdminAcess\\Books.txt"));
+                            "LandingPagesGUI\\AdminAcess\\Books.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] separator = line.split(":", 2);
                 if (separator.length == 2) {
                     String authorsPart = separator[0].trim(); // authors part
                     String bookPart = separator[1].trim(); // book detail
-    
+
                     String[] authorsArray = authorsPart.split("-->");
                     String[] bookDetails = bookPart.split("//");
-    
+
                     MyLinkedList authors = new MyLinkedList();
                     for (String author : authorsArray) {
                         authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
                     }
-    
+
                     addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
                             Integer.parseInt(bookDetails[3]));
                 }
@@ -88,13 +93,12 @@ public class LibraryTest {
             }
         }
     }
-    
 
     public void updateFile() {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(
-                    "C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LandingPagesGUI\\AdminAcess\\Books.txt"));
+                    "LandingPagesGUI\\AdminAcess\\Books.txt"));
 
             DNode<Book> currNode = bookshelf.head;
             while (currNode != null) {
@@ -126,26 +130,29 @@ public class LibraryTest {
         }
     }
 
-    public static void main(String[] args) {
-        MyLinkedList author1 = new MyLinkedList();
-        author1.addLast("Peter");
-        author1.addLast("JK Rowling");
-        Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
+    // public static void main(String[] args) {
+    // MyLinkedList author1 = new MyLinkedList();
+    // author1.addLast("Peter");
+    // author1.addLast("JK Rowling");
+    // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
 
-        MyLinkedList author2 = new MyLinkedList();
-        author2.addLast("Pete");
-        author2.addLast("John Rowling");
-        Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
+    // MyLinkedList author2 = new MyLinkedList();
+    // author2.addLast("Pete");
+    // author2.addLast("John Rowling");
+    // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
 
-        LibraryTest lib = new LibraryTest();
-        lib.getBooks();
-        // Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
-        // System.out.println(currBook.getAuthors());
+    // LibraryTest lib = new LibraryTest();
+    // lib.getBooks();
+    // // Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this
+    // my
+    // // guy
+    // // System.out.println(currBook.getAuthors());
 
-        lib.addBook(book1);
-        lib.addBook(book2);
-        lib.updateFile();
+    // lib.addBook(book1);
+    // lib.addBook(book2);
+    // // lib.updateFile();
+    // System.out.println(lib.bookshelf);
 
-    }
+    // }
 
 }
