@@ -247,7 +247,7 @@ public class SearchBooksPage extends JPanel {
         // Description
         JLabel description = new JLabel(
                 "<html><body style='width: " + 420
-                        + "px; text-align: justify'>" + book.getDescription() + "</body></html>");
+                        + "px; text-align: center'>" + book.getDescription() + "</body></html>");
         southPanel.add(description, BorderLayout.SOUTH);
 
         description.setHorizontalAlignment(SwingConstants.CENTER);
