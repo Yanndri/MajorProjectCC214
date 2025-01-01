@@ -13,6 +13,10 @@ public class Login {
     BufferedReader reader = null;
     HashTest accounts = new HashTest();
 
+    public Login(){
+        getAccounts();
+    }
+
     public boolean storeAccount(Object newAccount) {
         User account = (User) newAccount;
         account.setKey(encrypt(account.getIdentifier()));
@@ -52,7 +56,7 @@ public class Login {
     public void getAccounts() {
         try {
             reader = new BufferedReader(
-                    new FileReader("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+                    new FileReader("LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split("//");
