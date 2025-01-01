@@ -25,6 +25,7 @@ public class LoginInterface extends JFrame {
     JButton adminButton, userButton, signupButton;
     signinPanel signin;
     signupPanel signup;
+    Login accounts = new Login();
 
     public LoginInterface() {
 
@@ -204,7 +205,7 @@ public class LoginInterface extends JFrame {
 
     private void switchToSignupPanel() {
         castPanel.remove(loginPanel);
-        signup = new signupPanel(castPanel, loginPanel);
+        signup = new signupPanel(castPanel, loginPanel, accounts);
         castPanel.add(signup.dataPrivacyPage());
         castPanel.revalidate();
         castPanel.repaint();

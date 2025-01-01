@@ -3,9 +3,11 @@ package LibGUI;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.Year;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
@@ -21,17 +23,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 public class signupPanel {
 
     JPanel parent, prevPanel;
     JPanel dataPrivacyPanel;
     JPanel signUpPage;
-    Login accountChecks = new Login();
+    Login accounts;
 
-    public signupPanel(JPanel parent, JPanel prevPanel) {
+    public signupPanel(JPanel parent, JPanel prevPanel, Login accounts) {
         this.parent = parent;
         this.prevPanel = prevPanel;
+        this.accounts = accounts;// Receives the user accounts in the main class
     }
 
     public JPanel dataPrivacyPage() {
@@ -162,6 +166,23 @@ public class signupPanel {
         // sexAtBirthPanel.setPreferredSize(new Dimension(300, 1000));
         // sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
         sexAtBirthPanel.setOpaque(false);
+
+        // DOB panel
+        JPanel dobPanel = new JPanel();
+        dobPanel.setLayout(new BoxLayout(dobPanel, BoxLayout.X_AXIS));
+        dobPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JPanel monthPanel = new JPanel();
+        monthPanel.setLayout(new BoxLayout(monthPanel, BoxLayout.Y_AXIS));
+        monthPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JPanel dayPanel = new JPanel();
+        dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.Y_AXIS));
+        dayPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JPanel yearPanel = new JPanel();
+        yearPanel.setLayout(new BoxLayout(yearPanel, BoxLayout.Y_AXIS));
+        yearPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         // user & pass panel
         JPanel identifierJPanel = new JPanel();
@@ -300,6 +321,67 @@ public class signupPanel {
         mLabelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
         mLabelSexAtBirth.setForeground(Color.RED);
 
+        // Date of Birth
+        JLabel labelDOB = new JLabel("Date of Birth");
+        labelDOB.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelDOB.setPreferredSize(new Dimension(75, 25));
+
+        JLabel labelMonth = new JLabel("Month");
+        labelMonth.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelMonth.setPreferredSize(new Dimension(75, 25));
+
+        JLabel labelDay = new JLabel("Day");
+        labelDay.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelDay.setPreferredSize(new Dimension(75, 25));
+
+        JLabel labelYear = new JLabel("Year");
+        labelYear.setAlignmentX(Component.LEFT_ALIGNMENT);
+        labelYear.setPreferredSize(new Dimension(75, 25));
+
+        String[] months = {
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        };
+
+        JComboBox<String> choiceMonth = new JComboBox<>(months);
+        choiceMonth.setPreferredSize(new Dimension(500, 25));
+        choiceMonth.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        Integer[] days = new Integer[31];
+        for (int i = 0; i < 31; i++) {
+            days[i] = i + 1;
+        }
+        JComboBox<Integer> choiceDay = new JComboBox<>(days);
+        choiceMonth.setPreferredSize(new Dimension(500, 25));
+        choiceMonth.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Create a combo box for years (e.g., 1900 to current year)
+        int currentYear = Year.now().getValue();
+        Integer[] years = new Integer[150]; // 200 years range
+        for (int i = 0; i < years.length; i++) {
+            years[i] = currentYear - i;
+        }
+        JComboBox<Integer> choiceYear = new JComboBox<>(years);
+        choiceMonth.setPreferredSize(new Dimension(500, 25));
+        choiceMonth.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        monthPanel.add(labelMonth);
+        monthPanel.add(choiceMonth);
+
+        dayPanel.add(labelDay);
+        dayPanel.add(choiceDay);
+
+        yearPanel.add(labelYear);
+        yearPanel.add(choiceYear);
+
+        dobPanel.add(monthPanel);
+        dobPanel.add(dayPanel);
+        dobPanel.add(yearPanel);
+        dobPanel.setOpaque(true);
+
+        choiceMonth.addActionListener(e -> updateDays(choiceDay, choiceMonth, choiceYear));
+        choiceYear.addActionListener(e -> updateDays(choiceDay, choiceMonth, choiceYear));
+
         // ADD COMPONENTS TO USER & PASS PANEL
         identifierJPanel.add(Box.createVerticalGlue());
         identifierJPanel.add(userJLabel);
@@ -334,6 +416,8 @@ public class signupPanel {
         textFields.add(labelLName);
         textFields.add(fieldLName);
         textFields.add(mLabelLName);
+        textFields.add(labelDOB);
+        textFields.add(dobPanel);
         textFields.add(labelAddress);
         textFields.add(fieldAddress);
         textFields.add(mLabelAddress);
@@ -396,11 +480,11 @@ public class signupPanel {
                     mLabelPass.setText(messagePrompt);
                     flg = 1;
                 }
-                if (flg == 0){
-                    if(isUserExisting(userJField.getText()))
+                if (flg == 0) {
+                    if (isUserExisting(userJField.getText()))
                         mLabelUser.setText("Username is already taken.");
                     else
-                    createAccount();
+                        createAccount();
                 }
             }
         });
@@ -419,14 +503,27 @@ public class signupPanel {
         return signUpPage;
     }
 
+    private static void updateDays(JComboBox<Integer> dayComboBox, JComboBox<String> monthComboBox,
+            JComboBox<Integer> yearComboBox) {
+        int selectedMonth = monthComboBox.getSelectedIndex() + 1; // Months are 0-indexed
+        int selectedYear = (int) yearComboBox.getSelectedItem();
+
+        int daysInMonth = java.time.YearMonth.of(selectedYear, selectedMonth).lengthOfMonth();
+
+        dayComboBox.removeAllItems();
+        for (int i = 1; i <= daysInMonth; i++) {
+            dayComboBox.addItem(i);
+        }
+    }
+
     public boolean isFieldEmpty(JTextField field) {
         if (field.getText().isEmpty())
             return true;
         return false;
     }
 
-    public boolean isUserExisting(String username){
-        if(loginEssentials)
+    public boolean isUserExisting(String username) {
+        if (accounts.isIdentifierAvailable(username))
             return true;
         return false;
     }
@@ -453,7 +550,7 @@ public class signupPanel {
     }
 
     public void createAccount() {
-
+        accounts.createAccount();
     }
 
 }

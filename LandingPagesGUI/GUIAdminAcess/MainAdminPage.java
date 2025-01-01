@@ -31,7 +31,7 @@ public class MainAdminPage extends CustomLayoutManager {
     JPanel clockPanel = clock.getTimeFramePanel();
     // =================================
 
-    MainAdminPage() {
+    public MainAdminPage() {
         initialize();
     }
 
