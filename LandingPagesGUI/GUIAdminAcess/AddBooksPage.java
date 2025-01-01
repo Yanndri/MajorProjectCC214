@@ -41,28 +41,23 @@ public class AddBooksPage extends JPanel {
 
         westPanel.setBackground(GlobalVariables.lightestColor);
 
-        JPanel inputFieldsPanel = new JPanel(); // covers the center part of the west border
-        westPanel.add(inputFieldsPanel, BorderLayout.CENTER);
+        JPanel inputFields = new JPanel(); // Add here the Title, Author, Publication Date Input Fields
+        westPanel.add(inputFields, BorderLayout.CENTER); // covers the center part of the west border
 
-        inputFieldsPanel.setBackground(GlobalVariables.lightestColor);
-
-        JPanel boxLayoutPanel = new JPanel(); // make another panel that doesnt cover the whole west border
-        inputFieldsPanel.add(boxLayoutPanel); // so the components doesnt fill the whole panel when using box layout
-
-        boxLayoutPanel.setLayout(new BoxLayout(boxLayoutPanel, BoxLayout.Y_AXIS)); // components are arranged vertically
-        boxLayoutPanel.setBackground(GlobalVariables.lightestColor);
+        inputFields.setLayout(new BoxLayout(inputFields, BoxLayout.Y_AXIS)); // components are arranged vertically
+        inputFields.setBackground(GlobalVariables.lightestColor);
 
         // Title Input
         JLabel titleLabel = new JLabel("Title");
-        createInputField(boxLayoutPanel, titleLabel); // create an input field for title
+        layoutManager.createInputField(inputFields, titleLabel); // create an input field for title
 
         // Author Input
         JLabel authorLabel = new JLabel("Author");
-        createInputField(boxLayoutPanel, authorLabel); // create an input field for Author
+        layoutManager.createInputField(inputFields, authorLabel); // create an input field for Author
 
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
-        createInputField(boxLayoutPanel, publicationDateLabel); // create an input field for Date
+        layoutManager.createInputField(inputFields, publicationDateLabel); // create an input field for Date
 
         // =======================================
 
@@ -78,7 +73,7 @@ public class AddBooksPage extends JPanel {
         inputAreaPanel.setBackground(GlobalVariables.lightestColor);
 
         JPanel inputDescriptionPanel = new JPanel(); // put here the description input, total copies input, etc.
-        inputAreaPanel.add(inputDescriptionPanel);
+        centerPanel.add(inputDescriptionPanel, BorderLayout.WEST);
 
         inputDescriptionPanel.setLayout(new BoxLayout(inputDescriptionPanel, BoxLayout.Y_AXIS));
         inputDescriptionPanel.setBackground(GlobalVariables.lightestColor);
@@ -96,19 +91,19 @@ public class AddBooksPage extends JPanel {
         JScrollPane scrollPane = new JScrollPane(descriptionTextArea); // add a scroll bar for text area
         inputDescriptionPanel.add(scrollPane);
 
+        layoutManager.scrollPaneStyleDefault(scrollPane);
         scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 9));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
         // Total Copies Input
         JLabel totalCopiesLabel = new JLabel("Total Copies");
-        createInputField(inputDescriptionPanel, totalCopiesLabel);
+        layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
 
+        // Submit Button (when user is done with their inputs)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
         inputDescriptionPanel.add(buttonPanel);
 
         buttonPanel.setBackground(GlobalVariables.lightestColor);
 
-        // Submit Button (when user is done with their inputs)
         JButton submitButton = new JButton("Submit");
         buttonPanel.add(submitButton);
 
@@ -116,16 +111,6 @@ public class AddBooksPage extends JPanel {
         // ===============================================================
 
         return this;
-    }
-
-    private void createInputField(JPanel panel, JLabel label) {
-        panel.add(label);
-
-        JTextField textField = new JTextField();
-        panel.add(textField);
-
-        layoutManager.labelStyleDefault(label); // change the style of label
-        layoutManager.textfieldStyleDefault(textField); // changes text field style(lol)
     }
 
 }

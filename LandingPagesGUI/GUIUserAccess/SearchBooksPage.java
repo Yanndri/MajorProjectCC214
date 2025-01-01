@@ -158,15 +158,9 @@ public class SearchBooksPage extends JPanel {
         availableBooks(scrollBarPanel);
 
         JScrollPane scrollPane = new JScrollPane(scrollBarPanel); // JScrollPane adds a scroll bar to a container
-        scrollPane.getVerticalScrollBar().setUnitIncrement(16); // Change how fast mouse wheel scrolls
-        scrollPane // to make the size of the scroll pane small:
-                .setBorder(BorderFactory.createEmptyBorder(0, GlobalVariables.width / 5, 0, GlobalVariables.width / 5));
-        scrollPane.setBackground(GlobalVariables.lightestColor);
-
-        JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
-        verticalScrollBar.setUI(new CustomScrollBarUI());
-
         searchPanel.add(scrollPane);
+
+        layoutManager.scrollPaneStyleDefault(scrollPane);
 
         return searchPanel;
     }
@@ -263,31 +257,6 @@ public class SearchBooksPage extends JPanel {
         // Author
 
         return bookPanel;
-    }
-
-}
-
-// Custom ScrollBar UI for modifying colors
-class CustomScrollBarUI extends javax.swing.plaf.basic.BasicScrollBarUI {
-    @Override
-    protected void configureScrollBarColors() {
-        // Change the colors for the scroll bar
-        this.thumbColor = GlobalVariables.mediumColor; // Color of the scroll bar thumb (handle)
-        this.trackColor = GlobalVariables.lighterColor; // Color of the track
-    }
-
-    @Override
-    protected JButton createDecreaseButton(int orientation) { // Decrease button(the icon at the bottom of scroll)
-        JButton button = new JButton();
-        button.setPreferredSize(new Dimension(0, 0)); // Make the button size 0
-        return button; // Hide decrease button
-    }
-
-    @Override
-    protected JButton createIncreaseButton(int orientation) { // Increase button(the icon at the top of scroll)
-        JButton button = new JButton();
-        button.setPreferredSize(new Dimension(0, 0)); // Make the button size 0
-        return button; // Hide increase button
     }
 
 }
