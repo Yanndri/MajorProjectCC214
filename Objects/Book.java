@@ -1,25 +1,25 @@
 package Objects;
 
-import DataStructures.MyLinkedList;
+import DataStructures.DLinkedList;
 import DataStructures.QueueLinkedList;
 
 public class Book {
     private String title, description, publicationDate;
     private int totalCopies, borrowedCopies;
-    private MyLinkedList borrowers;
     private QueueLinkedList requesters;
-    private MyLinkedList authors;
+    private DLinkedList authors, borrowers;
 
-    public Book(MyLinkedList authors, String title, String description, String publicationDate, int noOfCopies) {
+    public Book(DLinkedList authors, String title, String description, String publicationDate, int noOfCopies, DLinkedList borrowers) {
         this.authors = authors;
         this.title = title;
         this.description = description;
         this.publicationDate = publicationDate;
         this.totalCopies = noOfCopies;
+        this.borrowers = borrowers;
     }
 
     public Book() {
-        this(null, null, null, null, 0);
+        this(null, null, null, null, 0, null);
     }
 
     // setters
@@ -41,10 +41,10 @@ public class Book {
 
     public String addAuthor(String author) {
         if (authors == null) {
-            authors = new MyLinkedList(); // ensure authors list is initialized
+            authors = new DLinkedList<>(); // ensure authors list is initialized
         }
-        authors.addFront(author);
-        return authors.getFirstElement().toString();
+        authors.addLast(author);
+        return authors.toString();
     }
 
     public Object removeAuthor(String author) {
@@ -52,7 +52,7 @@ public class Book {
         if (!authors.isFound(author)) {
             return null;
         } else {
-            int pos = authors.getPosition(author);
+            int pos = authors.getItemPosition(author);
             removedAuthor = authors.getItemAt(pos);
             authors.deleteItemAt(pos);
         }
@@ -79,10 +79,6 @@ public class Book {
         return publicationDate;
     }
 
-    public String getBorrowers() {
-        return borrowers.toString();
-    }
-
     public int getTotalCopies() {
         return totalCopies;
     }
@@ -102,12 +98,12 @@ public class Book {
         return borrowers.count < totalCopies;
     }
 
-    public String bookReturned(Borrower borrower) {
+    public String bookReturned(User borrower) {
         if (borrowedCopies <= totalCopies && borrowers != null) {
             if (!borrowers.isFound(borrower)) {
                 return "Borrower Not Found.";
             } else {
-                borrowers.deleteItemAt(borrowers.getPosition(borrower));
+                borrowers.deleteItemAt(borrowers.getItemPosition(borrower));
                 borrowedCopies--;
                 return borrower + " Returned Book.";
             }

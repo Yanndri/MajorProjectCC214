@@ -1,15 +1,18 @@
 package Objects;
 
+import DataStructures.DLinkedList;
+
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
     int age, key;
+    DLinkedList<Book> borrowedBooks;
     // Date of Birth
 
     // firstName//lastName//middleName//age//address//gender//phoneNumber//identifier//password//key;
 
     public User(String firstName, String lastName, String middleName, int age, String address, String gender,
-            String phoneNumber, String identifier, String password, int key) {
+            String phoneNumber, String identifier, String password, int key, DLinkedList borrowedBooks) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -20,10 +23,11 @@ public class User {
         this.identifier = identifier;
         this.password = password;
         this.key = key;
+        this.borrowedBooks = borrowedBooks;
     }
 
     public User() {
-        this(null, null, null, 0, null, null, null, null, null, 0);
+        this(null, null, null, 0, null, null, null, null, null, 0, null);
     }
 
     // setters
@@ -110,5 +114,9 @@ public class User {
 
     public int getKey() {
         return key;
+    }
+
+    public String getBorrowedBooks(){
+        return borrowedBooks.toString();
     }
 }
