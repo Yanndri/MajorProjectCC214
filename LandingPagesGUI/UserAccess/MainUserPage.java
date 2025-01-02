@@ -57,85 +57,90 @@ public class MainUserPage extends LayoutManager {
     private JPanel taskBar() {
         System.out.println("Taskbar instantiated");
         JPanel taskBar = createTaskBarPanel();
-
+    
         // Create the main buttons
         JButton homePageButton = new JButton("Home Page");
         JButton searchBooksButton = new JButton("Search Books");
         JButton borrowedBooksButton = new JButton("Borrowed Books");
-
-        // instantiate the buttons as children of taskBar
+        JButton borrowBookButton = new JButton("Borrow a Book"); // Add this button for Borrowing a Book
+    
+        // Instantiate the buttons as children of taskBar
         taskBar.add(homePageButton);
         taskBar.add(searchBooksButton);
         taskBar.add(borrowedBooksButton);
-
-        // change the style of buttons
+        taskBar.add(borrowBookButton); // Add Borrow a Book button to taskbar
+    
+        // Change the style of buttons
         buttonStyleSimplistic(homePageButton);
         buttonStyleSimplistic(searchBooksButton);
         buttonStyleSimplistic(borrowedBooksButton);
-
-        // since homePage is the first page to open once logged in
-        homePageButton.setBackground(GlobalVariables.darkestColor); // set button background to darkest
-        homePageButton.setForeground(GlobalVariables.lightestColor); // set button text to lightest for visual stuff
-
-        // What to do when the buttons get clicked >>>>>>>>
-        SingleActionListener(homePageButton, new ActionListener() { // listen for gui events on homePageButton
-
+        buttonStyleSimplistic(borrowBookButton); // Apply style to the new button
+    
+        // Set the active button style
+        homePageButton.setBackground(GlobalVariables.darkestColor);
+        homePageButton.setForeground(GlobalVariables.lightestColor);
+    
+        // Button actions
+        SingleActionListener(homePageButton, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { // when home page is clicked:
+            public void actionPerformed(ActionEvent e) {
                 if (currentPanel != homePage.getHomePagePanel()) {
                     buttonToggledOn(homePageButton);
-
                     buttonToggledOff(searchBooksButton);
                     buttonToggledOff(borrowedBooksButton);
-
-                    mainPanel.remove(currentPanel); // remove the current panel
+                    buttonToggledOff(borrowBookButton);
+                    mainPanel.remove(currentPanel);
                     setActivePage(homePage.getHomePagePanel());
-                    mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
-                    mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
                 }
             }
         });
-
-        SingleActionListener(searchBooksButton, new ActionListener() { // listen for gui events on searchBooksButton
-
+    
+        SingleActionListener(searchBooksButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentPanel != searchBooksPage.getSearchBooksPage()) {
-                    System.out.println("huhuh");
                     buttonToggledOn(searchBooksButton);
-
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(borrowedBooksButton);
-
-                    mainPanel.remove(currentPanel); // remove the current panel
+                    buttonToggledOff(borrowBookButton);
+                    mainPanel.remove(currentPanel);
                     setActivePage(searchBooksPage.getSearchBooksPage());
-                    mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
-                    mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
                 }
             }
         });
-
-        SingleActionListener(borrowedBooksButton, new ActionListener() {// listen for gui events on borrowedBookButton
-
+    
+        SingleActionListener(borrowedBooksButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentPanel != borrowedBooksPage.getBorrowedBooksPage()) {
                     buttonToggledOn(borrowedBooksButton);
-
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(searchBooksButton);
-
-                    mainPanel.remove(currentPanel); // remove the current panel
+                    buttonToggledOff(borrowBookButton);
+                    mainPanel.remove(currentPanel);
                     setActivePage(borrowedBooksPage.getBorrowedBooksPage());
-                    mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
-                    mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
                 }
             }
         });
-        // ====================================================================
-
+    
+        // Action for Borrow a Book button
+        SingleActionListener(borrowBookButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create and display the Borrower form when the button is clicked
+                Borrower.main(new String[0]); // This calls the static main method of the Borrower class
+            }
+        });
+    
         return taskBar;
     }
+    
 
     // change what panel should be displayed(based on what page)
     private void setActivePage(JPanel panel) {

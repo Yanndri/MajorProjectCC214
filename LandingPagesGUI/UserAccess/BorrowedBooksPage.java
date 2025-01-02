@@ -1,11 +1,16 @@
 package LandingPagesGUI.UserAccess;
 
+import LandingPagesGUI.GlobalVariables;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
-import LandingPagesGUI.GlobalVariables;
-
-import java.awt.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class BorrowedBooksPage extends JPanel {
 
@@ -23,5 +28,6 @@ public class BorrowedBooksPage extends JPanel {
         projectTitle.setForeground(GlobalVariables.mediumColor);
 
         return this;
+
     }
 }
