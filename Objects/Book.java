@@ -83,6 +83,13 @@ public class Book {
         return totalCopies;
     }
 
+    public String getBorrowers(){
+        if (authors.isEmpty()) {
+            return "\tNo Borrowers";
+        } else
+            return borrowers.toString();
+    }
+
     // queue
     public void bookRequest(Borrower borrower) {
         if (!isAvailable())

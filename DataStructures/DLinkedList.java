@@ -173,7 +173,7 @@ public class DLinkedList<B> {
 		DNode<B> p;
         
 		for (p = head; p != null; p = p.getNext()){
-			sb.append(p.getItem()).append(" ");
+			sb.append(p.getItem()).append(", ");
 	    if(p.getNext() == tail){
 		    sb.append(" & ");
 		    sb.append(p.getItem());
