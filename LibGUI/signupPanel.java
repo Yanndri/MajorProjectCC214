@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.Year;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -24,6 +27,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+
+import Objects.User;
 
 public class signupPanel {
 
@@ -452,39 +457,52 @@ public class signupPanel {
             public void actionPerformed(ActionEvent e) {
                 int flg = 0;
 
-                if (isFieldEmpty(fieldFName)) {
+                if (isFieldBlank(fieldFName)) {
                     mLabelFName.setText(messagePrompt);
                     flg = 1;
                 }
-                if (isFieldEmpty(fieldMName)) {
+                if (isFieldBlank(fieldMName)) {
                     mLabelMName.setText(messagePrompt);
                     flg = 1;
                 }
-                if (isFieldEmpty(fieldLName)) {
+                if (isFieldBlank(fieldLName)) {
                     mLabelLName.setText(messagePrompt);
                     flg = 1;
                 }
-                if (isFieldEmpty(fieldAddress)) {
+                if (isFieldBlank(fieldAddress)) {
                     mLabelAddress.setText(messagePrompt);
                     flg = 1;
                 }
-                if (isFieldEmpty(fieldPhoneNumber)) {
+                if (isFieldBlank(fieldPhoneNumber)) {
                     mLabelPhoneNumber.setText(messagePrompt);
                     flg = 1;
                 }
-                if (isFieldEmpty(userJField)) {
+                if (isFieldBlank(userJField)) {
                     mLabelUser.setText(messagePrompt);
                     flg = 1;
                 }
-                if (isFieldEmpty(passJField)) {
+                if (isFieldBlank(passJField)) {
                     mLabelPass.setText(messagePrompt);
                     flg = 1;
                 }
                 if (flg == 0) {
+                    String fName = fieldFName.getText();
+                    String mName = fieldMName.getText();
+                    String lName = fieldLName.getText();
+                    String address = fieldAddress.getText();
+                    String phoneNumber = fieldPhoneNumber.getText();
+                    String gender = (String) choiceSex.getSelectedItem();
+                    String username = userJField.getText();
+                    String password = passJField.getText();
+                    LocalDate dob = createDOB(choiceMonth.getSelectedItem(), choiceDay.getSelectedItem(), choiceYear.getSelectedItem());
+
                     if (isUserExisting(userJField.getText()))
                         mLabelUser.setText("Username is already taken.");
-                    else
-                        createAccount();
+                    else{
+                        if(createAccount(fName, lName, mName, dob, address,
+                        gender, phoneNumber, username, password))
+                            privacySwitchToPreviousPanel();
+                    }
                 }
             }
         });
@@ -516,8 +534,18 @@ public class signupPanel {
         }
     }
 
-    public boolean isFieldEmpty(JTextField field) {
-        if (field.getText().isEmpty())
+    public LocalDate createDOB(Object stringMonth, Object objDay, Object obYear){
+
+        int year = Integer.parseInt((String) obYear);
+        int day = Integer.parseInt((String) objDay);
+
+        Month month = Month.valueOf(((String) stringMonth).toUpperCase());
+
+        return LocalDate.of(year, month, day);
+    }
+
+    public boolean isFieldBlank(JTextField field) {
+        if (field.getText().isBlank())
             return true;
         return false;
     }
@@ -549,8 +577,22 @@ public class signupPanel {
         parent.repaint();
     }
 
-    public void createAccount() {
-        accounts.createAccount();
+    public boolean createAccount(String firstName, String lastName, String middleName, LocalDate dob, String address,
+            String gender,
+            String phoneNumber, String identifier, String password) {
+                String message;
+        if (accounts.isIdentifierAvailable(identifier)) {
+            int key = accounts.encrypt(identifier);
+            User newAccount = new User(firstName, lastName, middleName, dob, address, gender, phoneNumber, identifier,
+                    password, key);
+            accounts.storeAccount(newAccount);
+            accounts.updateFile();
+            message = "Account created successfully";
+            return true;
+        }
+        message = "An error occured while creating your account. Please try again.";
+        JOptionPane.showMessageDialog(null, message, null, JOptionPane.OK_OPTION);
+        return false;
     }
 
 }

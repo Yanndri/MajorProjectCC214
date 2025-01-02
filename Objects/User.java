@@ -1,17 +1,19 @@
 package Objects;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
-    int age, key;
-    // Date of Birth
+    int key;
+    LocalDate dob;
 
-    public User(String firstName, String lastName, String middleName, int age, String address, String gender,
-        String phoneNumber, String identifier, String password, int key) {
+    public User(String firstName, String lastName, String middleName, LocalDate dob, String address, String gender,
+            String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
-        this.age = age;
+        this.dob = dob;
         this.address = address;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
@@ -21,7 +23,7 @@ public class User {
     }
 
     public User() {
-        this(null, null, null, 0, null, null, null, null, null, 0);
+        this(null, null, null, null, null, null, null, null, null, 0);
     }
 
     // setters
@@ -47,10 +49,6 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public void setIdentifier(String identifier) {
@@ -95,6 +93,12 @@ public class User {
     }
 
     public int getAge() {
+        int age;
+
+        LocalDate currenDate = LocalDate.now();
+
+        age = Period.between(dob, currenDate).getYears();
+
         return age;
     }
 
