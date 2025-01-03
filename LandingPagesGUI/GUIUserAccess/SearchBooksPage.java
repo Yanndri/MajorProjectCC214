@@ -86,12 +86,15 @@ public class SearchBooksPage extends JPanel {
 
         layoutManager.buttonStyleIconDependent(searchIconButton);
 
+        // When the search icon is pressed
         searchIconButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 updateScrollBar();
             }
         });
+
+        // When the textfield character count changes
         searchTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) { // When a character is inserted
@@ -110,7 +113,8 @@ public class SearchBooksPage extends JPanel {
             }
         });
 
-        searchTextField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
+        // to check for any events related to focus
+        searchTextField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
                 if (!searchTextField.getText().equals(""))
@@ -192,6 +196,7 @@ public class SearchBooksPage extends JPanel {
             layoutManager.buttonStyleSearchSuggestions(button); // style the button to a suggested button
             button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
 
+            // When this button gets pressed
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {

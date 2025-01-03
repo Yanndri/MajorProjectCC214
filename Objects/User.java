@@ -9,6 +9,8 @@ public class User {
     int key;
     LocalDate dob;
 
+    // First Name //Last Name //middleName //dob //address //gender
+    // phoneNumber //identifier //password //key
     public User(String firstName, String lastName, String middleName, LocalDate dob, String address, String gender,
             String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
