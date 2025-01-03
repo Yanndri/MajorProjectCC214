@@ -1,4 +1,5 @@
-package LandingPagesGUI.UserAccess; 
+package LandingPagesGUI.GUIUserAccess;
+
 import java.awt.*;
 import java.time.LocalDate; // import the LocalDate class
 import java.time.LocalDateTime; // import the LocalDateTime class
@@ -16,20 +17,19 @@ public class Borrower {
         // Define the date-time formatter
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        
-         // Get the screen dimensions
-         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-         int screenWidth = screenSize.width;  // Width of the screen
-         int screenHeight = screenSize.height;  // Height of the screen
+
+        // Get the screen dimensions
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screenSize.width; // Width of the screen
+        int screenHeight = screenSize.height; // Height of the screen
 
         // Create the main frame
         JFrame frame = new JFrame("Library Due Date Notifier");
-        //frame.setSize(500, 450);
+        // frame.setSize(500, 450);
         frame.setSize(screenWidth, screenHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
-
 
         // Top Panel: Real-time clock
         JPanel clockPanel = new JPanel();
@@ -87,7 +87,7 @@ public class Borrower {
         JButton setButton = new JButton("Set Due Date and Time");
         buttonPanel.add(setButton);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 150, 10)); // Add padding around the panel
-        
+
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         frame.setVisible(true);
@@ -149,7 +149,7 @@ public class Borrower {
                         if (now.isAfter(dueDate)) {
                             SwingUtilities.invokeLater(() -> {
                                 JOptionPane.showMessageDialog(frame,
-                                        "The due date has passed!\nUser: " + userName + "\nAge: " + age+
+                                        "The due date has passed!\nUser: " + userName + "\nAge: " + age +
                                                 "\nBorrowed Book Number: " + bookNumber +
                                                 "\nDue Date: " + dueDate.format(dateTimeFormatter),
                                         "Due Date Alert", JOptionPane.WARNING_MESSAGE);
