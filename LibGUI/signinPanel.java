@@ -145,7 +145,7 @@ public class signinPanel extends JPanel {
                     return false;
                 }
             } else if (role.equals("Admin")) {// change for admin
-                if (accounts.checkAccountCredentials(username, password)) {
+                if (accounts.checkAdminCredentials(username, password)) {
                     MainAdminPage adminpage = new MainAdminPage();
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(signinPanel.this);
                     if (frame != null) {
