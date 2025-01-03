@@ -14,8 +14,8 @@ public class BookLibrary {
     Login accounts = new Login();
 
     // Adding Method/s
-    public void addBook(DLinkedList authors, String title, String description, String publicationDate,
-            int noOfCopies, DLinkedList borrowers) {
+    public void addBook(DLinkedList<String> authors, String title, String description, String publicationDate,
+            int noOfCopies, DLinkedList<User> borrowers) {
         bookshelf.addLast(new Book(authors, title, description, publicationDate, noOfCopies, borrowers));
     }
 
