@@ -1,6 +1,8 @@
 package DataStructures;
 
+import LibGUI.Login;
 import Objects.Book;
+import Objects.User;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -9,11 +11,12 @@ import java.io.IOException;
 
 public class BookLibrary {
     public DLinkedList<Book> bookshelf = new DLinkedList<>();
+    Login accounts = new Login();
 
     // Adding Method/s
-    public void addBook(MyLinkedList authors, String title, String description, String publicationDate,
-            int noOfCopies) {
-        bookshelf.addLast(new Book(authors, title, description, publicationDate, noOfCopies));
+    public void addBook(DLinkedList authors, String title, String description, String publicationDate,
+            int noOfCopies, DLinkedList borrowers) {
+        bookshelf.addLast(new Book(authors, title, description, publicationDate, noOfCopies, borrowers));
     }
 
     public void addBook(Book book) {
@@ -53,6 +56,7 @@ public class BookLibrary {
         return results;
     }
 
+    // TEXT FILE METHODS
     public void getBooks() {
         BufferedReader reader = null;
         System.out.println("Library Test > getBooks()");
@@ -62,21 +66,31 @@ public class BookLibrary {
                             "LandingPagesGUI\\AdminAcess\\Books.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] separator = line.split(":", 2);
-                if (separator.length == 2) {
+                String[] separator = line.split(":", 3);
+                if (separator.length == 3) {
                     String authorsPart = separator[0].trim(); // authors part
                     String bookPart = separator[1].trim(); // book detail
+                    String borrowersPart = separator[2].trim(); // borrower
 
-                    String[] authorsArray = authorsPart.split("-->");
+                    String[] authorsArray = authorsPart.split("[,&]");
                     String[] bookDetails = bookPart.split("//");
+                    String[] borrowersArray = borrowersPart.split("[,&]");
 
-                    MyLinkedList authors = new MyLinkedList();
+                    DLinkedList authors = new DLinkedList<>();
                     for (String author : authorsArray) {
+                        if(!author.equals("No Author/s") && !author.isBlank())
                         authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
                     }
 
+                    DLinkedList<User> borrowers = new DLinkedList<>();
+                    for (String borrower : borrowersArray){
+                        if(!borrower.equals("No Borrower/s") && !borrower.isBlank()){
+                        borrowers.addLast(accounts.accounts.getUser(Integer.parseInt(borrower.trim())));
+                    }
+                    }
+
                     addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
-                            Integer.parseInt(bookDetails[3]));
+                            Integer.parseInt(bookDetails[3]), borrowers);
                 }
             }
         } catch (IOException e) {
@@ -101,14 +115,17 @@ public class BookLibrary {
             DNode<Book> currNode = bookshelf.head;
             while (currNode != null) {
                 Book currBook = currNode.getItem();
-                String authors = currBook.getAuthors().trim();
+                // String authors = currBook.getAuthors().trim();
+                // String borrowers = currBook.getBorrowers().trim();
 
-                String bookDetails = String.format("%s : %s//%s//%s//%d", // there was a more convenient way to do it?
-                        authors,
+                String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a more convenient way to do it?
+                        currBook.getAuthors().trim(),
                         currBook.getTitle(),
                         currBook.getDescription(),
                         currBook.getPublicationDate(),
-                        currBook.getTotalCopies());
+                        currBook.getTotalCopies(),
+                        currBook.getBorrowersString().trim());
+
 
                 writer.write(bookDetails);
                 writer.newLine();
@@ -128,29 +145,33 @@ public class BookLibrary {
         }
     }
 
-    // public static void main(String[] args) {
-    // MyLinkedList author1 = new MyLinkedList();
+    public static void main(String[] args) {
+    // DLinkedList author1 = new DLinkedList();
     // author1.addLast("Peter");
     // author1.addLast("JK Rowling");
-    // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
+    // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1, null);
 
-    // MyLinkedList author2 = new MyLinkedList();
+    // DLinkedList author2 = new DLinkedList();
     // author2.addLast("Pete");
     // author2.addLast("John Rowling");
-    // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
+    // Book book2 = new Book(author2, "Potter Harry", "Desc1", "12/23/24", 1, null);
 
-    // LibraryTest lib = new LibraryTest();
-    // lib.getBooks();
-    // // Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this
-    // my
-    // // guy
-    // // System.out.println(currBook.getAuthors());
+    User user1 = new User("Asheerah", "Stop", "Bautro", 75, "Kangkong, Cordova", "Bayot", "09123456789","asheerahbokiboki", "jedgo123", 1675, null);
+
+    BookLibrary lib = new BookLibrary();
+    lib.getBooks();
+    Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
+    System.out.println(currBook.getAuthors());
+    //currBook.addAuthor("TESTAUTHOR");
+    //currBook.addBorrower(user1);
+    User borrowerUser = (User) currBook.getBorrowerDLinkedList().head.getItem();
+    System.out.println("Borrower: " + borrowerUser.getFirstName());
 
     // lib.addBook(book1);
     // lib.addBook(book2);
-    // // lib.updateFile();
-    // System.out.println(lib.bookshelf);
+    lib.updateFile();
+    //System.out.println(lib.bookshelf);
 
-    // }
+    }
 
 }

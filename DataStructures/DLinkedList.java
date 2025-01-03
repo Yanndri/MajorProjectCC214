@@ -2,7 +2,7 @@ package DataStructures;
 // Doubly Linked List
 
 public class DLinkedList<B> {
-	
+
 	public DNode<B> head, tail;
 	public int count = 0;
 
@@ -109,18 +109,18 @@ public class DLinkedList<B> {
 			} else if (tail.getItem() == item) {
 				return true;
 			} else { // position is greater (near tail)
-					curr = head;
-					while(curr != null) {
-						if(curr.getItem() == item){
-							return true;
-						}
-						curr = curr.getNext();
+				curr = head;
+				while (curr != null) {
+					if (curr.getItem() == item) {
+						return true;
 					}
+					curr = curr.getNext();
 				}
 			}
-			return false;
 		}
-	
+		return false;
+	}
+
 	public int getItemPosition(B item) {
 		DNode<B> curr;
 		if (!isEmpty()) {
@@ -129,56 +129,59 @@ public class DLinkedList<B> {
 			} else if (tail.getItem() == item) {
 				return count;
 			} else { // position is greater (near tail)
-					curr = head;
-					int pos = 1;
-					while(curr != null) {
-						if(curr.getItem() == item){
-							return pos;
-						}
-						curr = curr.getNext();
-						pos++;
+				curr = head;
+				int pos = 1;
+				while (curr != null) {
+					if (curr.getItem() == item) {
+						return pos;
 					}
+					curr = curr.getNext();
+					pos++;
 				}
 			}
-			return 0;
 		}
+		return 0;
+	}
 
 	public boolean isEmpty() {
 		return head == null;
 	}
 
 	public Object getItemAt(int pos) {
-        if (!isEmpty()) {
-            if (pos >= 1 && pos <= count) {
-                if (head == tail && pos == 1) {
-                    return head.getItem();
-                } else if (pos == count)
-                    return tail.getItem();
-                else {
-                    DNode<B> curr = head;
-                    for (int i = 1; i < pos; i++) {
-                        curr = curr.getNext();
-                    }
-                    return curr.getItem();
-                }
-            }
-        }
-        return null;
-    }
+		if (!isEmpty()) {
+			if (pos >= 1 && pos <= count) {
+				if (head == tail && pos == 1) {
+					return head.getItem();
+				} else if (pos == count)
+					return tail.getItem();
+				else {
+					DNode<B> curr = head;
+					for (int i = 1; i < pos; i++) {
+						curr = curr.getNext();
+					}
+					return curr.getItem();
+				}
+			}
+		}
+		return null;
+	}
 
 	// display
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		DNode<B> p;
-        
-		for (p = head; p != null; p = p.getNext()){
-			sb.append(p.getItem()).append(", ");
-	    if(p.getNext() == tail){
-		    sb.append(" & ");
-		    sb.append(p.getItem());
-			break;
-		}
+		DNode<B> p = head;
+	
+		while (p != null) {
+			sb.append(p.getItem());
+			if (p.getNext() != null) {
+				if (p.getNext().getNext() == null) { // if next node is tial 
+					sb.append(" & ");
+				} else {
+					sb.append(", ");
+				}
+			}
+			p = p.getNext();
 		}
 		return sb.toString();
 	}

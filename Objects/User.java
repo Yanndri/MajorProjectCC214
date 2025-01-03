@@ -1,6 +1,7 @@
 package Objects;
 
 import DataStructures.DLinkedList;
+import DataStructures.DNode;
 
 public class User {
 
@@ -12,7 +13,7 @@ public class User {
     // firstName//lastName//middleName//age//address//gender//phoneNumber//identifier//password//key;
 
     public User(String firstName, String lastName, String middleName, int age, String address, String gender,
-            String phoneNumber, String identifier, String password, int key, DLinkedList borrowedBooks) {
+            String phoneNumber, String identifier, String password, int key, DLinkedList<Book> borrowedBooks) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -71,6 +72,12 @@ public class User {
         this.key = key;
     }
 
+    public void addBorrowedBook(Book book) {
+        if (borrowedBooks == null)
+            borrowedBooks = new DLinkedList<>();
+        borrowedBooks.addFront(book);
+    }
+
     // getters
     public String getFirstName() {
         return firstName;
@@ -116,7 +123,18 @@ public class User {
         return key;
     }
 
-    public String getBorrowedBooks(){
-        return borrowedBooks.toString();
+    public String getBorrowedBooks() {
+        StringBuilder sb = new StringBuilder();
+        DNode<Book> currNode;
+        for (currNode = borrowedBooks.head; currNode != null; currNode = currNode.getNext()) {
+            sb.append(currNode.getItem().toString()).append(", ");
+            if (currNode.getNext() == borrowedBooks.tail) {
+                sb.append("& ");
+                sb.append(currNode.getItem().getTitle());
+                break;
+            }
+        }
+        return sb.toString();
+
     }
 }

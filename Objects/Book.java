@@ -1,15 +1,18 @@
 package Objects;
 
 import DataStructures.DLinkedList;
+import DataStructures.DNode;
 import DataStructures.QueueLinkedList;
 
 public class Book {
     private String title, description, publicationDate;
-    private int totalCopies, borrowedCopies;
-    private QueueLinkedList requesters;
-    private DLinkedList authors, borrowers;
+    private int totalCopies;
+    private QueueLinkedList<User> requesters;
+    private DLinkedList<String> authors;
+    private DLinkedList<User> borrowers;
 
-    public Book(DLinkedList authors, String title, String description, String publicationDate, int noOfCopies, DLinkedList borrowers) {
+    public Book(DLinkedList<String> authors, String title, String description, String publicationDate, int noOfCopies,
+            DLinkedList<User> borrowers) {
         this.authors = authors;
         this.title = title;
         this.description = description;
@@ -44,6 +47,7 @@ public class Book {
             authors = new DLinkedList<>(); // ensure authors list is initialized
         }
         authors.addLast(author);
+
         return authors.toString();
     }
 
@@ -59,10 +63,17 @@ public class Book {
         return removedAuthor;
     }
 
+    public String addBorrower(User user) {
+        if (borrowers == null)
+            borrowers = new DLinkedList<>();
+        borrowers.addLast(user);
+        return borrowers.toString();
+    }
+
     // getters
     public String getAuthors() {
-        if (authors.isEmpty()) {
-            return "\tNo authors";
+        if (authors == null) {
+            return "No Author/s";
         } else
             return authors.toString();
     }
@@ -83,22 +94,38 @@ public class Book {
         return totalCopies;
     }
 
-    public String getBorrowers(){
-        if (authors.isEmpty()) {
-            return "\tNo Borrowers";
+    public DLinkedList getBorrowerDLinkedList(){
+        return borrowers;
+    }
+
+    public String getBorrowersString() {
+        StringBuilder sb = new StringBuilder();
+        DNode<User> p = borrowers.head;
+
+        if (borrowers == null) {
+            return "No Borrower/s";
         } else
-            return borrowers.toString();
+            while (p != null) {
+                sb.append(p.getItem().getKey());
+                if (p.getNext() != null) {
+                    if (p.getNext().getNext() == null) { // if next node is tial
+                        sb.append(" & ");
+                    } else {
+                        sb.append(", ");
+                    }
+                }
+                p = p.getNext();
+            }
+        return sb.toString();
     }
 
     // queue
-    public void bookRequest(Borrower borrower) {
+    public void bookRequest(User borrower) { // if book is not available put the users in requesters
         if (!isAvailable())
             requesters.enqueue(borrower);
-    }
-
-    public void addBorrower(Borrower borrower) {
-        if (isAvailable())
-            borrowers.addFront(borrower);
+        // else
+        // borrowers.addFront(requesters.dequeue()); // will need to add an admin
+        // section where they manage these
     }
 
     public boolean isAvailable() {
@@ -106,12 +133,11 @@ public class Book {
     }
 
     public String bookReturned(User borrower) {
-        if (borrowedCopies <= totalCopies && borrowers != null) {
+        if (borrowers.count <= totalCopies && borrowers != null) {
             if (!borrowers.isFound(borrower)) {
                 return "Borrower Not Found.";
             } else {
                 borrowers.deleteItemAt(borrowers.getItemPosition(borrower));
-                borrowedCopies--;
                 return borrower + " Returned Book.";
             }
         }
@@ -122,9 +148,8 @@ public class Book {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-
-        sb.append("\tBook Title: " + title + "\n\n\tAuthor/s : " + getAuthors() + "\n\n\tPublication Date: "
-                + publicationDate + "\n\n\tDescription: " + description);
+        sb.append(getAuthors() + ":" + getTitle() + "//" + getDescription() + "//" + getPublicationDate() + "//"
+                + getTotalCopies());
 
         return sb.toString();
     }

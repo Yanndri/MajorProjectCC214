@@ -1,17 +1,17 @@
 package DataStructures;
 
-public class QueueLinkedList extends MyLinkedList {
-  public void enqueue(Object item) {
+public class QueueLinkedList<B> extends DLinkedList {
+  public void enqueue(B item) {
     addLast(item);
   }
 
   public Object dequeue() {
-    Object item = getFirstElement();
+    Object item = head.getItem();
     deleteFront();
     return item;
   }
 
   public Object qFront() {
-    return getFirstElement();
+    return head;
   }
 }
