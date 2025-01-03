@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 
 import DataStructures.Node;
 import Objects.User;
@@ -50,7 +51,9 @@ public class Login {
     public boolean isIdentifierAvailable(String identifier) {
         int key = encrypt(identifier);
         User existingAccount = (User) accounts.getUser(key);
-        return existingAccount.getIdentifier().equals(identifier);
+        if(existingAccount==null)
+            return true;
+        return !existingAccount.getIdentifier().equals(identifier);
     }
 
     public void getUserAccounts() {
@@ -61,7 +64,7 @@ public class Login {
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split("//");
                 System.out.println(line);
-                User user = new User(userDetails[0], userDetails[1], userDetails[2], Integer.parseInt(userDetails[3]),
+                User user = new User(userDetails[0], userDetails[1], userDetails[2], LocalDate.parse(userDetails[3]),
                         userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
                         0);
                 storeAccount(user);
@@ -154,15 +157,15 @@ public class Login {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter( // CHANGE IT TO fiLE PATH
-                    new FileWriter("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+                    new FileWriter("LibGUI\\UserAccounts.txt"));
             for (int i = 0; i < accounts.items.length; i++) {
                 if (accounts.items[i] != null) {
                     Node currNode = accounts.items[i];
                     while (currNode != null) {
                         User user = (User) currNode.getItem();
                         writer.write(user.getFirstName() + "//" + user.getLastName() + "//" + user.getMiddleName()
-                                + "//" + user.getAge() + "//" + user.getAddress() + "//" + user.getGender() + "//"
-                                + user.getPassword() + "//" + user.getIdentifier() + "//" + user.getPassword() + "//"
+                                + "//" + user.getDOB() + "//" + user.getAddress() + "//" + user.getGender() + "//"
+                                + user.getPhoneNumber() + "//" + user.getIdentifier() + "//" + user.getPassword() + "//"
                                 + user.getKey());
                         System.out.println("User " + user.getFirstName() + " successfully added.");
                         currNode = currNode.getLink();
@@ -187,9 +190,9 @@ public class Login {
         Login login = new Login();
         login.getUserAccounts();
 
-        login.storeAccount(new User("Asheerah", "Stop", "Bautro", 75, "Kangkong, Cordova", "Bayot", "09123456789",
+        login.storeAccount(new User("Asheerah", "Stop", "Bautro", LocalDate.parse("2005-09-23"), "Kangkong, Cordova", "Bayot", "09123456789",
                 "asheerahbokiboki", "jedgo123", login.encrypt("asheerahbokiboki")));
-        login.storeAccount(new User("Test", "TEST1", "Test2", 69, "TestADD", "attack Helicopter", "09123213",
+        login.storeAccount(new User("Test", "TEST1", "Test2", LocalDate.parse("1992-06-12"), "TestADD", "attack Helicopter", "09123213",
                 "TESTUSER", "TESTPASS", login.encrypt("TESTUSER")));
 
         login.updateFile();

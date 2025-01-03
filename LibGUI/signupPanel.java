@@ -2,6 +2,7 @@ package LibGUI;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -18,6 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -148,14 +150,14 @@ public class signupPanel {
         textFields.setBackground(new java.awt.Color(245, 222, 179));
         textFields.setLayout(new BoxLayout(textFields, BoxLayout.Y_AXIS));
         textFields.setBorder(BorderFactory.createEmptyBorder(5, 30, 5, 30));
-        textFields.setPreferredSize(new Dimension(500, 400));
-        textFields.setMaximumSize(new Dimension(500, 400));
+        textFields.setPreferredSize(new Dimension(500, 500));
+        // textFields.setMaximumSize(new Dimension(500, 450));
 
         // Container Panel for Phone Number and Sex at Birth
         JPanel numAndSaB = new JPanel();
         numAndSaB.setLayout(new BoxLayout(numAndSaB, BoxLayout.X_AXIS));
         numAndSaB.setAlignmentX(Component.LEFT_ALIGNMENT);
-        numAndSaB.setPreferredSize(new Dimension(500, 75));
+        numAndSaB.setPreferredSize(new Dimension(500, 50));
         numAndSaB.setOpaque(false);
 
         // Panel for Phone Number
@@ -169,7 +171,7 @@ public class signupPanel {
         JPanel sexAtBirthPanel = new JPanel();
         sexAtBirthPanel.setLayout(new BoxLayout(sexAtBirthPanel, BoxLayout.Y_AXIS));
         // sexAtBirthPanel.setPreferredSize(new Dimension(300, 1000));
-        // sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        sexAtBirthPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         sexAtBirthPanel.setOpaque(false);
 
         // DOB panel
@@ -320,12 +322,6 @@ public class signupPanel {
         choiceSex.setPreferredSize(new Dimension(500, 25));
         choiceSex.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel mLabelSexAtBirth = new JLabel();
-        mLabelSexAtBirth.setPreferredSize(new Dimension(200, 15));
-        mLabelSexAtBirth.setFont(new Font(null, Font.ITALIC, 10));
-        mLabelSexAtBirth.setAlignmentX(Component.LEFT_ALIGNMENT);
-        mLabelSexAtBirth.setForeground(Color.RED);
-
         // Date of Birth
         JLabel labelDOB = new JLabel("Date of Birth");
         labelDOB.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -405,7 +401,6 @@ public class signupPanel {
         // Sex
         sexAtBirthPanel.add(labelSexAtBirth);
         sexAtBirthPanel.add(choiceSex);
-        sexAtBirthPanel.add(mLabelSexAtBirth);
 
         // Phone Number and Sex
         numAndSaB.add(phoneNumberPanel);
@@ -494,14 +489,15 @@ public class signupPanel {
                     String gender = (String) choiceSex.getSelectedItem();
                     String username = userJField.getText();
                     String password = passJField.getText();
-                    LocalDate dob = createDOB(choiceMonth.getSelectedItem(), choiceDay.getSelectedItem(), choiceYear.getSelectedItem());
-
-                    if (isUserExisting(userJField.getText()))
+                    LocalDate dob = createDOB(choiceMonth.getSelectedItem(), choiceDay.getSelectedItem(),
+                            choiceYear.getSelectedItem());
+                    System.out.println(accounts.isIdentifierAvailable(userJField.getText()));
+                    if (!accounts.isIdentifierAvailable(userJField.getText()))
                         mLabelUser.setText("Username is already taken.");
-                    else{
-                        if(createAccount(fName, lName, mName, dob, address,
-                        gender, phoneNumber, username, password))
-                            privacySwitchToPreviousPanel();
+                    else {
+                        if (createAccount(fName, lName, mName, dob, address,
+                                gender, phoneNumber, username, password))
+                            switchToLogin();
                     }
                 }
             }
@@ -534,10 +530,10 @@ public class signupPanel {
         }
     }
 
-    public LocalDate createDOB(Object stringMonth, Object objDay, Object obYear){
+    public LocalDate createDOB(Object stringMonth, Object objDay, Object obYear) {
 
-        int year = Integer.parseInt((String) obYear);
-        int day = Integer.parseInt((String) objDay);
+        int year = Integer.parseInt(obYear.toString());
+        int day = Integer.parseInt(objDay.toString());
 
         Month month = Month.valueOf(((String) stringMonth).toUpperCase());
 
@@ -546,12 +542,6 @@ public class signupPanel {
 
     public boolean isFieldBlank(JTextField field) {
         if (field.getText().isBlank())
-            return true;
-        return false;
-    }
-
-    public boolean isUserExisting(String username) {
-        if (accounts.isIdentifierAvailable(username))
             return true;
         return false;
     }
@@ -570,6 +560,12 @@ public class signupPanel {
         parent.repaint();
     }
 
+    public void switchToLogin() {
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(parent);
+        frame.dispose();
+        new LoginInterface();
+    }
+
     public void signupCancel() { // check if fields are not empty
         parent.remove(signUpPage);
         parent.add(prevPanel);
@@ -580,19 +576,15 @@ public class signupPanel {
     public boolean createAccount(String firstName, String lastName, String middleName, LocalDate dob, String address,
             String gender,
             String phoneNumber, String identifier, String password) {
-                String message;
-        if (accounts.isIdentifierAvailable(identifier)) {
-            int key = accounts.encrypt(identifier);
-            User newAccount = new User(firstName, lastName, middleName, dob, address, gender, phoneNumber, identifier,
-                    password, key);
-            accounts.storeAccount(newAccount);
-            accounts.updateFile();
-            message = "Account created successfully";
-            return true;
-        }
-        message = "An error occured while creating your account. Please try again.";
-        JOptionPane.showMessageDialog(null, message, null, JOptionPane.OK_OPTION);
-        return false;
+        String message;
+        int key = accounts.encrypt(identifier);
+        User newAccount = new User(firstName, lastName, middleName, dob, address, gender, phoneNumber, identifier,
+                password, key);
+        accounts.storeAccount(newAccount);
+        accounts.updateFile();
+        message = "Account created successfully!";
+        JOptionPane.showMessageDialog(null, message, null, JOptionPane.INFORMATION_MESSAGE);
+        return true;
     }
 
 }

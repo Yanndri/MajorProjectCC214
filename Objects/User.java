@@ -102,6 +102,10 @@ public class User {
         return age;
     }
 
+    public LocalDate getDOB(){
+        return dob;
+    }
+
     public String getIdentifier() {
         return identifier;
     }
