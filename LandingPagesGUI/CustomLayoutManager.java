@@ -129,7 +129,7 @@ public class CustomLayoutManager {
 
     // Create an input field,
     // has parameter JLabel to customize what type of input field(ex: username)
-    public void createInputField(JPanel panel, JLabel label) {
+    public JTextField createInputField(JPanel panel, JLabel label) {
         System.out.println(this + " > Created an Input Field for " + label.getText());
         panel.add(label);
 
@@ -138,6 +138,8 @@ public class CustomLayoutManager {
 
         labelStyleDefault(label); // change the style of label
         textfieldStyleDefault(textField); // changes text field style(lol)
+
+        return textField;
     }
 
     // LABEL STYLES

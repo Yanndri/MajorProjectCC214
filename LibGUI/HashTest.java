@@ -39,12 +39,15 @@ public class HashTest {
 		while (currNode != null) {
 			User user = (User) currNode.getItem();
 			if (user.getKey() == key) {
+				System.out.println("User found: " + user.getFirstName() + " with key: " + key); // Debug statement
 				return user;
 			}
 			currNode = currNode.getLink();
 		}
+		System.out.println("User not found for key: " + key); // Debug statement
 		return null;
 	}
+	
 
 	public boolean search(User user) {
 		boolean found = false;

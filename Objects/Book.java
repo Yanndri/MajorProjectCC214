@@ -94,17 +94,17 @@ public class Book {
         return totalCopies;
     }
 
-    public DLinkedList<User> getBorrowerDLinkedList(){
+    public DLinkedList<User> getBorrowerDLinkedList() {
         return borrowers;
     }
 
-    public String getBorrowersString() {        // this will be primarily used in the books txt file
-        StringBuilder sb = new StringBuilder(); // the purpose of this method is that so that we can list the borrowers of
-        DNode<User> p = borrowers.head;         // this.book; otherwise, i think we will be listing all the details
-                                                // of the users in the text file
-        if (borrowers == null) {
+    public String getBorrowersString() { // this will be primarily used in the books txt file
+        StringBuilder sb = new StringBuilder(); // the purpose of this method is that so that we can list the borrowers
+        DNode<User> p; // of this.book; otherwise, i think we will be listing all the details
+        if (borrowers == null) { // of the users in the text file
             return "No Borrower/s";
-        } else
+        } else {
+            p = borrowers.head;
             while (p != null) {
                 sb.append(p.getItem().getKey());
                 if (p.getNext() != null) {
@@ -116,7 +116,8 @@ public class Book {
                 }
                 p = p.getNext();
             }
-        return sb.toString();
+            return sb.toString();
+        }
     }
 
     // queue
