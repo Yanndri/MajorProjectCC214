@@ -2,9 +2,9 @@ package DataStructures;
 // Doubly Linked List
 
 public class DLinkedList<B> {
-	public DNode<B> head;
-    DNode<B> tail;
-	int count = 0;
+	
+	public DNode<B> head, tail;
+	public int count = 0;
 
 	// add
 	public void addFront(B item) {
@@ -99,21 +99,87 @@ public class DLinkedList<B> {
 				count--;
 			}
 		}
-
 	}
+
+	public boolean isFound(B item) {
+		DNode<B> curr;
+		if (!isEmpty()) {
+			if (head.getItem() == item) {
+				return true;
+			} else if (tail.getItem() == item) {
+				return true;
+			} else { // position is greater (near tail)
+					curr = head;
+					while(curr != null) {
+						if(curr.getItem() == item){
+							return true;
+						}
+						curr = curr.getNext();
+					}
+				}
+			}
+			return false;
+		}
+	
+	public int getItemPosition(B item) {
+		DNode<B> curr;
+		if (!isEmpty()) {
+			if (head.getItem() == item) {
+				return 1;
+			} else if (tail.getItem() == item) {
+				return count;
+			} else { // position is greater (near tail)
+					curr = head;
+					int pos = 1;
+					while(curr != null) {
+						if(curr.getItem() == item){
+							return pos;
+						}
+						curr = curr.getNext();
+						pos++;
+					}
+				}
+			}
+			return 0;
+		}
 
 	public boolean isEmpty() {
 		return head == null;
 	}
 
+	public Object getItemAt(int pos) {
+        if (!isEmpty()) {
+            if (pos >= 1 && pos <= count) {
+                if (head == tail && pos == 1) {
+                    return head.getItem();
+                } else if (pos == count)
+                    return tail.getItem();
+                else {
+                    DNode<B> curr = head;
+                    for (int i = 1; i < pos; i++) {
+                        curr = curr.getNext();
+                    }
+                    return curr.getItem();
+                }
+            }
+        }
+        return null;
+    }
+
 	// display
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		for (DNode<B> p = head; p != null; p = p.getNext())
-			sb.append(p.getItem()).append(" ");
-		sb.append("}");
+		DNode<B> p;
+        
+		for (p = head; p != null; p = p.getNext()){
+			sb.append(p.getItem()).append(", ");
+	    if(p.getNext() == tail){
+		    sb.append(" & ");
+		    sb.append(p.getItem());
+			break;
+		}
+		}
 		return sb.toString();
 	}
 
