@@ -94,14 +94,14 @@ public class Book {
         return totalCopies;
     }
 
-    public DLinkedList getBorrowerDLinkedList(){
+    public DLinkedList<User> getBorrowerDLinkedList(){
         return borrowers;
     }
 
-    public String getBorrowersString() {
-        StringBuilder sb = new StringBuilder();
-        DNode<User> p = borrowers.head;
-
+    public String getBorrowersString() {        // this will be primarily used in the books txt file
+        StringBuilder sb = new StringBuilder(); // the purpose of this method is that so that we can list the borrowers of
+        DNode<User> p = borrowers.head;         // this.book; otherwise, i think we will be listing all the details
+                                                // of the users in the text file
         if (borrowers == null) {
             return "No Borrower/s";
         } else

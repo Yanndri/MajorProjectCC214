@@ -76,7 +76,7 @@ public class BookLibrary {
                     String[] bookDetails = bookPart.split("//");
                     String[] borrowersArray = borrowersPart.split("[,&]");
 
-                    DLinkedList authors = new DLinkedList<>();
+                    DLinkedList<String> authors = new DLinkedList<>();
                     for (String author : authorsArray) {
                         if(!author.equals("No Author/s") && !author.isBlank())
                         authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
