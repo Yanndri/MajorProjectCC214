@@ -1,5 +1,7 @@
 package LibGUI;
 
+import DataStructures.Node;
+import Objects.User;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -7,21 +9,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import DataStructures.Node;
-import Objects.User;
-
 public class Login {
     BufferedReader reader = null;
-    HashTest accounts = new HashTest();
+    public HashTest accounts = new HashTest();
 
     public Login() {
         getUserAccounts();
     }
 
-    public boolean storeAccount(Object newAccount) {
-        User account = (User) newAccount;
-        account.setKey(encrypt(account.getIdentifier()));
-        accounts.insert(account);
+    public boolean storeAccount(User newAccount) {
+        accounts.insert(newAccount);
         return true;
     }
 
@@ -72,7 +69,7 @@ public class Login {
                 System.out.println(line);
                 User user = new User(userDetails[0], userDetails[1], userDetails[2], LocalDate.parse(userDetails[3]),
                         userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
-                        0);
+                        encrypt(userDetails[7]));
                 storeAccount(user);
             }
         } catch (IOException e) {

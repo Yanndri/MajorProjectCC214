@@ -1,6 +1,7 @@
 package DataStructures;
 
 import Objects.Book;
+import Objects.User;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -9,11 +10,12 @@ import java.io.IOException;
 
 public class BookLibrary {
     public DLinkedList<Book> bookshelf = new DLinkedList<>();
+    //public Login userAccounts = new Login();
 
     // Adding Method/s
-    public void addBook(MyLinkedList authors, String title, String description, String publicationDate,
-            int noOfCopies) {
-        bookshelf.addLast(new Book(authors, title, description, publicationDate, noOfCopies));
+    public void addBook(DLinkedList<String> authors, String title, String description, String publicationDate,
+            int noOfCopies, DLinkedList<Integer> borrowers) {
+        bookshelf.addLast(new Book(authors, title, description, publicationDate, noOfCopies, borrowers));
     }
 
     public void addBook(Book book) {
@@ -62,21 +64,36 @@ public class BookLibrary {
                             "LandingPagesGUI\\AdminAcess\\Books.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] separator = line.split(":", 2);
-                if (separator.length == 2) {
+                String[] separator = line.split(":", 3);
+                if (separator.length == 3) {
                     String authorsPart = separator[0].trim(); // authors part
                     String bookPart = separator[1].trim(); // book detail
+                    String borrowerPart = separator[2].trim(); // borrowers
 
-                    String[] authorsArray = authorsPart.split("-->");
+                    System.out.println("borrowers: "+borrowerPart);
+                    System.out.println("authors: "+authorsPart);
+                    System.out.println("book: "+bookPart);
+
+                    String[] authorsArray = authorsPart.split("[,&]");
                     String[] bookDetails = bookPart.split("//");
+                    String[] borrowersArray = borrowerPart.split("[,&]");
 
-                    MyLinkedList authors = new MyLinkedList();
+                    DLinkedList<String> authors = new DLinkedList<>();
                     for (String author : authorsArray) {
-                        authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
+                        if(!author.equals("No Author/s") && !author.isBlank()){
+                            authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
+                        }
+                    }
+
+                    DLinkedList<Integer> borrowers = new DLinkedList<>();
+                    for (String borrower : borrowersArray){
+                        if(!borrower.equals("No Borrower/s") && !borrower.isBlank()){
+                        borrowers.addLast(Integer.parseInt(borrower.trim()));
+                    }
                     }
 
                     addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
-                            Integer.parseInt(bookDetails[3]));
+                            Integer.parseInt(bookDetails[3]), borrowers);
                 }
             }
         } catch (IOException e) {
@@ -103,12 +120,13 @@ public class BookLibrary {
                 Book currBook = currNode.getItem();
                 String authors = currBook.getAuthors().trim();
 
-                String bookDetails = String.format("%s : %s//%s//%s//%d", // there was a more convenient way to do it?
+                String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a more convenient way to do it?
                         authors,
                         currBook.getTitle(),
                         currBook.getDescription(),
                         currBook.getPublicationDate(),
-                        currBook.getTotalCopies());
+                        currBook.getTotalCopies(),
+                        currBook.getBorrowersKeys());
 
                 writer.write(bookDetails);
                 writer.newLine();
@@ -128,29 +146,37 @@ public class BookLibrary {
         }
     }
 
-    // public static void main(String[] args) {
-    // MyLinkedList author1 = new MyLinkedList();
+    public static void main(String[] args) {
+    // DLinkedList author1 = new DLinkedList();
     // author1.addLast("Peter");
     // author1.addLast("JK Rowling");
     // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
 
-    // MyLinkedList author2 = new MyLinkedList();
+    // DLinkedList author2 = new DLinkedList();
     // author2.addLast("Pete");
     // author2.addLast("John Rowling");
     // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
 
-    // LibraryTest lib = new LibraryTest();
-    // lib.getBooks();
-    // // Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this
-    // my
-    // // guy
-    // // System.out.println(currBook.getAuthors());
+    BookLibrary lib = new BookLibrary();
+    lib.getBooks();
+    Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
 
-    // lib.addBook(book1);
-    // lib.addBook(book2);
-    // // lib.updateFile();
-    // System.out.println(lib.bookshelf);
+    System.out.println("Head Author: "+currBook.getAuthorsList().head.getItem());
+    
+    System.out.println(currBook.getAuthors());
+    //currBook.addAuthor("Test");
+    System.out.println(currBook.removeAuthor("Test"));
+    System.out.println("Borrowers: "+currBook.getBorrowersKeys()); 
+    DLinkedList<User> headBorrowers = currBook.getBorrowers();
+    User user = headBorrowers.head.getItem();
+    System.out.println("Borrower User: "+user.getFirstName());
 
-    // }
+    System.out.println(currBook.getAuthors());
+    
+
+
+    lib.updateFile();
+
+    }
 
 }

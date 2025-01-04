@@ -2,9 +2,9 @@ package DataStructures;
 // Doubly Linked List
 
 public class DLinkedList<B> {
-	public DNode<B> head;
-    DNode<B> tail;
-	int count = 0;
+
+	public DNode<B> head, tail;
+	public int count = 0;
 
 	// add
 	public void addFront(B item) {
@@ -99,21 +99,91 @@ public class DLinkedList<B> {
 				count--;
 			}
 		}
+	}
 
+	public boolean isFound(B item) {
+		DNode<B> curr;
+		if (!isEmpty()) {
+			if (head.getItem().equals(item)) {
+				return true;
+			} else if (tail.getItem().equals(item)) {
+				return true;
+			} else { // position is greater (near tail)
+				curr = head;
+				while (curr != null) {
+					if (curr.getItem().equals(item)) {
+						return true;
+					}
+					curr = curr.getNext();
+				}
+			}
+		}
+		return false;
+	}
+
+	public int getItemPosition(B item) {
+		DNode<B> curr;
+		if (!isEmpty()) {
+			if (head.getItem().equals(item)) {
+				return 1;
+			} else if (tail.getItem().equals(item)) {
+				return count;
+			} else { // position is greater (near tail)
+				curr = head;
+				int pos = 1;
+				while (curr != null) {
+					if (curr.getItem().equals(item)) {
+						return pos;
+					}
+					curr = curr.getNext();
+					pos++;
+				}
+			}
+		}
+		return -1;
 	}
 
 	public boolean isEmpty() {
 		return head == null;
 	}
 
+	public Object getItemAt(int pos) {
+		if (!isEmpty()) {
+			if (pos >= 1 && pos <= count) {
+				if (head == tail && pos == 1) { 
+					return head.getItem();
+				} else if (pos == count) { 
+					return tail.getItem();
+				} else { // Middle nodes
+					DNode<B> curr = head;
+					for (int i = 1; i < pos; i++) {
+						curr = curr.getNext();
+					}
+					return curr.getItem(); 
+				}
+			}
+		}
+		return null; // invalid position or empty list
+	}
+	
+
 	// display
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		for (DNode<B> p = head; p != null; p = p.getNext())
-			sb.append(p.getItem()).append(" ");
-		sb.append("}");
+		DNode<B> p = head;
+	
+		while (p != null) {
+			sb.append(p.getItem());
+			if (p.getNext() != null) {
+				if (p.getNext().getNext() == null) { // if next node is tial 
+					sb.append(" & ");
+				} else {
+					sb.append(", ");
+				}
+			}
+			p = p.getNext();
+		}
 		return sb.toString();
 	}
 
@@ -127,27 +197,25 @@ public class DLinkedList<B> {
 	}
 
 	public static void main(String[] args) {
-		/*
-		 * MyLinkedList authortest = new MyLinkedList();
-		 * Book book1 = new Book(authortest,"bc","cdas","deqe",1);
-		 * 
-		 * DLinkedList list = new DLinkedList();
-		 * list.addFront(book1);
-		 * list.addFront(6);
-		 * list.addFront(7);
-		 * list.addLast(80);
-		 * list.addFront(420);
-		 * System.out.println("COUNT: " + list.count);
-		 * list.insertAt(69, 3);
-		 * list.insertAt(75, 2);
-		 * System.out.println("COUNT: " + list.count);
-		 * System.out.println("List contains:" + list);
-		 * System.out.println();
-		 * list.deleteItemAt(3);
-		 * System.out.println("List contains:" + list);
-		 * System.out.println("POST COUNT: " + list.count);
-		 * System.out.println("List in reverse contains:" + list.reverseToString());
-		 */
+		
+		 DLinkedList<Object> list = new DLinkedList<>();
+		 list.addFront(6);
+		 list.addFront(7);
+		 list.addLast(80);
+		 list.addFront(420);
+		 System.out.println("COUNT: " + list.count);
+		 list.insertAt(69, 3);
+		 list.insertAt(75, 2);
+		 System.out.println("COUNT: " + list.count);
+		 System.out.println("List contains:" + list);
+		 System.out.println();
+		 list.deleteItemAt(3);
+		 System.out.println("List contains:" + list);
+		 System.out.println("POST COUNT: " + list.count);
+		 System.out.println("ITEM AT: "+list.getItemAt(3));
+		 System.out.println("IS FOUND: "+list.isFound(75));
+		 System.out.println("List in reverse contains:" + list.reverseToString());
+		
 	}
 } // end of DLinkedList class & Start of DNode class
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,25 +1,28 @@
 package Objects;
 
-import DataStructures.MyLinkedList;
+import DataStructures.DLinkedList;
+import DataStructures.DNode;
 import DataStructures.QueueLinkedList;
+import LibGUI.Login;
 
 public class Book {
     private String title, description, publicationDate;
     private int totalCopies, borrowedCopies;
-    private MyLinkedList borrowers;
     private QueueLinkedList requesters;
-    private MyLinkedList authors;
+    private DLinkedList<String> authors;
+    private DLinkedList<Integer> borrowers;
 
-    public Book(MyLinkedList authors, String title, String description, String publicationDate, int noOfCopies) {
+    public Book(DLinkedList<String> authors, String title, String description, String publicationDate, int noOfCopies, DLinkedList<Integer> borrowers) {
         this.authors = authors;
         this.title = title;
         this.description = description;
         this.publicationDate = publicationDate;
         this.totalCopies = noOfCopies;
+        this.borrowers = borrowers;
     }
 
     public Book() {
-        this(null, null, null, null, 0);
+        this(null, null, null, null, 0, null);
     }
 
     // setters
@@ -41,23 +44,23 @@ public class Book {
 
     public String addAuthor(String author) {
         if (authors == null) {
-            authors = new MyLinkedList(); // ensure authors list is initialized
+            authors = new DLinkedList<>(); // ensure authors list is initialized
         }
-        authors.addFront(author);
-        return authors.getFirstElement().toString();
+        authors.addLast(author);
+        return authors.tail.getItem(); // the object is already a string so no need cast to STring
     }
 
     public Object removeAuthor(String author) {
-        Object removedAuthor;
-        if (!authors.isFound(author)) {
-            return null;
+        if (!authors.isFound(author)) { 
+            return "Author Not Found"; 
         } else {
-            int pos = authors.getPosition(author);
-            removedAuthor = authors.getItemAt(pos);
-            authors.deleteItemAt(pos);
+            int pos = authors.getItemPosition(author);
+            Object removedAuthor = authors.getItemAt(pos);
+            authors.deleteItemAt(pos); 
+            return removedAuthor;
         }
-        return removedAuthor;
     }
+    
 
     // getters
     public String getAuthors() {
@@ -65,6 +68,10 @@ public class Book {
             return "\tNo authors";
         } else
             return authors.toString();
+    }
+
+    public DLinkedList<String> getAuthorsList(){
+        return authors;
     }
 
     public String getTitle() {
@@ -79,49 +86,69 @@ public class Book {
         return publicationDate;
     }
 
-    public String getBorrowers() {
-        return borrowers.toString();
+    public DLinkedList<User> getBorrowers(){
+        Login login = new Login();
+        DLinkedList<User> borrowersList = new DLinkedList<>();
+        if(borrowers.isEmpty()){
+            return null;
+        } else {
+            DNode<Integer> currNode = borrowers.head;
+            while(currNode != null){
+                User user = login.accounts.getUser(currNode.getItem());
+                borrowersList.addLast(user);
+                currNode = currNode.getNext();
+            }
+            return borrowersList;
+        }
     }
+
+    public String getBorrowersKeys() {
+        if (borrowers == null || borrowers.isEmpty()) {
+            return "No Borrower/s";
+        } else {
+            return borrowers.toString();
+        }
+    }
+    
 
     public int getTotalCopies() {
         return totalCopies;
     }
 
     // queue
-    public void bookRequest(Borrower borrower) {
+    public void bookRequest(User borrower) {
         if (!isAvailable())
             requesters.enqueue(borrower);
     }
 
-    public void addBorrower(Borrower borrower) {
+    public void addBorrower(User borrower) {
         if (isAvailable())
-            borrowers.addFront(borrower);
+            borrowers.addFront(borrower.getKey());
     }
 
     public boolean isAvailable() {
         return borrowers.count < totalCopies;
     }
 
-    public String bookReturned(Borrower borrower) {
-        if (borrowedCopies <= totalCopies && borrowers != null) {
-            if (!borrowers.isFound(borrower)) {
-                return "Borrower Not Found.";
-            } else {
-                borrowers.deleteItemAt(borrowers.getPosition(borrower));
-                borrowedCopies--;
-                return borrower + " Returned Book.";
-            }
-        }
-        return "No Borrowed Book/s.";
-    }
+    // public String bookReturned(Borrower borrower) {
+    //     if (borrowedCopies <= totalCopies && borrowers != null) {
+    //         if (!borrowers.isFound(borrower)) {
+    //             return "Borrower Not Found.";
+    //         } else {
+    //             borrowers.deleteItemAt(borrowers.getPosition(borrower));
+    //             borrowedCopies--;
+    //             return borrower + " Returned Book.";
+    //         }
+    //     }
+    //     return "No Borrowed Book/s.";
+    // }
 
     // toString
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-
-        sb.append("\tBook Title: " + title + "\n\n\tAuthor/s : " + getAuthors() + "\n\n\tPublication Date: "
-                + publicationDate + "\n\n\tDescription: " + description);
+        sb.append(getAuthors() + ":" + getTitle() + "//" + getDescription() + "//" + getPublicationDate() + "//"
+                + getTotalCopies());
 
         return sb.toString();
     }
