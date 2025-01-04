@@ -1,11 +1,17 @@
 package Objects;
 
+<<<<<<< HEAD
 import DataStructures.DLinkedList;
 import DataStructures.DNode;
+=======
+import java.time.LocalDate;
+import java.time.Period;
+>>>>>>> main
 
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
+<<<<<<< HEAD
     int age, key;
     DLinkedList<Book> borrowedBooks;
     // Date of Birth
@@ -14,10 +20,17 @@ public class User {
 
     public User(String firstName, String lastName, String middleName, int age, String address, String gender,
             String phoneNumber, String identifier, String password, int key, DLinkedList<Book> borrowedBooks) {
+=======
+    int key;
+    LocalDate dob;
+
+    public User(String firstName, String lastName, String middleName, LocalDate dob, String address, String gender,
+            String phoneNumber, String identifier, String password, int key) {
+>>>>>>> main
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
-        this.age = age;
+        this.dob = dob;
         this.address = address;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
@@ -28,7 +41,11 @@ public class User {
     }
 
     public User() {
+<<<<<<< HEAD
         this(null, null, null, 0, null, null, null, null, null, 0, null);
+=======
+        this(null, null, null, null, null, null, null, null, null, 0);
+>>>>>>> main
     }
 
     // setters
@@ -54,10 +71,6 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public void setIdentifier(String identifier) {
@@ -108,7 +121,17 @@ public class User {
     }
 
     public int getAge() {
+        int age;
+
+        LocalDate currenDate = LocalDate.now();
+
+        age = Period.between(dob, currenDate).getYears();
+
         return age;
+    }
+
+    public LocalDate getDOB() {
+        return dob;
     }
 
     public String getIdentifier() {
