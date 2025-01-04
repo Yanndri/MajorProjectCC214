@@ -81,25 +81,33 @@ public class SearchBooksPage extends JPanel {
 
         layoutManager.textfieldStyleDefault(searchTextField);
 
-        JButton searchIconButton = new JButton(GlobalVariables.searchIcon);
-        searchBar.add(searchIconButton); // SEARCH BUTTON
+        JButton clearIconButton = new JButton(GlobalVariables.clearIcon);
+        searchBar.add(clearIconButton); // SEARCH BUTTON
 
-        layoutManager.buttonStyleIconDependent(searchIconButton);
+        clearIconButton.setPreferredSize(
+                new Dimension(GlobalVariables.clearIcon.getIconWidth(), GlobalVariables.clearIcon.getIconHeight()));
+        clearIconButton.setIcon(null);
 
-        searchIconButton.addActionListener(new ActionListener() {
+        layoutManager.buttonStyleIconDependent(clearIconButton);
+
+        clearIconButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                updateScrollBar();
+                searchTextField.setText("");
+                clearIconButton.setIcon(null);
             }
         });
         searchTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) { // When a character is inserted
+                clearIconButton.setIcon(GlobalVariables.clearIcon);
                 updateScrollBar();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) { // When a character is removed
+                if (searchTextField.getText().equals(""))
+                    clearIconButton.setIcon(null);
                 updateScrollBar();
             }
 
@@ -113,8 +121,9 @@ public class SearchBooksPage extends JPanel {
         searchTextField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
             @Override
             public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
-                if (!searchTextField.getText().equals(""))
+                if (!searchTextField.getText().equals("")) // if not equal to null
                     return;
+
                 searchTextField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
                 updateScrollBar();
             }
@@ -185,28 +194,37 @@ public class SearchBooksPage extends JPanel {
         bookNode = List.head; // get the head of the list of books
 
         while (bookNode != null) { // loop until bookNode is null
-            Book book = bookNode.getItem();
-            JButton button = new JButton(book.getTitle());
-            scrollBarPanel.add(button); // add this component to the scroll bar
+            Book book = bookNode.getItem(); // get the item in the book node
 
-            layoutManager.buttonStyleSearchSuggestions(button); // style the button to a suggested button
-            button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
+            // add this component to the scroll bar
+            scrollBarPanel.add(createBookButton(book));
 
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Book Panel displayed");
-
-                    searchedText = button.getText(); // get the text of the button
-                    searchTextField.setText(searchedText); // set the text field of the search bar the clicked button
-
-                    displayPanel(instantiateBookPanel(book)); // Change the display Panel to Book Panel
-                    revalidate(); // inform the layout manager that something has changed in the displayPanel
-                    repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
-                }
-            });
-            bookNode = bookNode.getNext();
+            bookNode = bookNode.getNext(); // to iterate to the linked list
         }
+    }
+
+    private JButton createBookButton(Book book) {
+        JButton button = new JButton(
+                "<html><div style='text-align: left;'>" + book.getTitle()
+                        + "</div><div style='text-align: right;'>by: " + book.getAuthors() + "</div></html>");
+
+        layoutManager.buttonStyleSearchSuggestions(button); // style the button to a suggested button
+        button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Book Panel displayed");
+
+                searchedText = book.getTitle(); // get the text of the button
+                searchTextField.setText(searchedText); // set the text field of the search bar the clicked button
+
+                displayPanel(instantiateBookPanel(book)); // Change the display Panel to Book Panel
+                revalidate(); // inform the layout manager that something has changed in the displayPanel
+                repaint(); // repaints the displayPanel, causing it to redraw itself(makes loading faster)
+            }
+        });
+        return button;
     }
 
     // displays the book that was searched
@@ -246,7 +264,7 @@ public class SearchBooksPage extends JPanel {
 
         // Description
         JLabel description = new JLabel(
-                "<html><body style='width: " + 420
+                "<html><body style='width: " + GlobalVariables.width / 2
                         + "px; text-align: center'>" + book.getDescription() + "</body></html>");
         southPanel.add(description, BorderLayout.SOUTH);
 
