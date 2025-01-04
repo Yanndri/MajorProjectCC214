@@ -206,7 +206,7 @@ public class SearchBooksPage extends JPanel {
     private JButton createBookButton(Book book) {
         JButton button = new JButton(
                 "<html><div style='text-align: left;'>" + book.getTitle()
-                        + "</div><div style='text-align: right;'>by: " + book.getAuthors() + "</div></html>");
+                        + "</div><div style='text-align: left;'>by: " + book.getAuthors() + "</div></html>");
 
         layoutManager.buttonStyleSearchSuggestions(button); // style the button to a suggested button
         button.setMaximumSize(new Dimension(Integer.MAX_VALUE, button.getMinimumSize().height));
@@ -229,50 +229,56 @@ public class SearchBooksPage extends JPanel {
 
     // displays the book that was searched
     private JPanel instantiateBookPanel(Book book) {
-        JPanel bookPanel = new JPanel(new BorderLayout());
+        JPanel bookPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
 
         bookPanel.setBackground(GlobalVariables.lightestColor);
+        bookPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 
-        // The title of the Book (North)
+        // A book image cuz why not
+        JLabel bookImage = new JLabel(GlobalVariables.bookPlaceholderImage);
+        bookPanel.add(bookImage);
+
+        JPanel bookInformationPanel = new JPanel();
+        bookPanel.add(bookInformationPanel);
+
+        bookInformationPanel.setLayout(new BoxLayout(bookInformationPanel, BoxLayout.Y_AXIS));
+        bookInformationPanel.setBackground(GlobalVariables.lightestColor);
+
+        // The title of the Book
         JLabel title = new JLabel(
                 "<html><body style='width: " + 420
-                        + "px; text-align: center'>" + searchedText + "</body></html>");
-        bookPanel.add(title, BorderLayout.NORTH);
+                        + "px; text-align: left'>" + searchedText + "</body></html>");
+        bookInformationPanel.add(title);
 
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setForeground(GlobalVariables.mediumColor);
-        title.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+        title.setFont(new Font("Comic Sans MS", Font.BOLD, 24));
 
-        // A book image cuz why not (Center)
-        JLabel bookImage = new JLabel(GlobalVariables.bookPlaceholderImage);
-        bookPanel.add(bookImage, BorderLayout.CENTER);
-
-        // Author and Description (South)
-        JPanel southPanel = new JPanel(new BorderLayout());
-        bookPanel.add(southPanel, BorderLayout.SOUTH);
-
-        southPanel.setBackground(GlobalVariables.lightestColor);
-
+        // Author
         JLabel author = new JLabel(
                 "<html><body style='width: " + 420
-                        + "px; text-align: center'>by " + book.getAuthors() + "</body></html>");
-        southPanel.add(author, BorderLayout.CENTER);
+                        + "px; text-align: left'>by " + book.getAuthors() + "</body></html>");
+        bookInformationPanel.add(author);
 
         author.setHorizontalAlignment(SwingConstants.CENTER);
         author.setForeground(GlobalVariables.darkestColor);
         author.setFont(new Font("Monospaced", Font.BOLD, 12));
 
+        // Borrow the book Button
+        JButton borrowButton = new JButton("Borrow");
+        bookPanel.add(borrowButton);
+
+        layoutManager.buttonStyleDefault(borrowButton);
+
         // Description
         JLabel description = new JLabel(
                 "<html><body style='width: " + GlobalVariables.width / 2
                         + "px; text-align: center'>" + book.getDescription() + "</body></html>");
-        southPanel.add(description, BorderLayout.SOUTH);
+        bookPanel.add(description);
 
         description.setHorizontalAlignment(SwingConstants.CENTER);
         description.setForeground(GlobalVariables.mediumColor);
         description.setFont(new Font("Monospaced", Font.PLAIN, 12));
-
-        // Author
 
         return bookPanel;
     }
