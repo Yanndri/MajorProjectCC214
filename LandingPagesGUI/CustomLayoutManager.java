@@ -23,6 +23,7 @@ public class CustomLayoutManager {
     // Base Layout for the frame
     public JFrame createCanvas() {
         frame.setSize(GlobalVariables.width, GlobalVariables.height);
+        // frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // full screen
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
         frame.setResizable(true);
