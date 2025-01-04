@@ -1,4 +1,4 @@
-package LandingPagesGUI.UserAccess;
+package LandingPagesGUI.GUIUserAccess;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ public class Borrower {
     public static JPanel createBorrowerPanel() {
         // Define the date-time formatter
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        
+
         // Create the main panel for Borrower
         JPanel borrowPanel = new JPanel(new BorderLayout());
 

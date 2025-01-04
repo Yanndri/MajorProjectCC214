@@ -139,15 +139,36 @@ public class MainUserPage extends CustomLayoutManager {
             }
         });
 
+        // Borrow Book Button
+        SingleActionListener(borrowBookButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel borrowerPanel = Borrower.createBorrowerPanel(); // Get the panel from Borrower class
+                if (currentPanel != borrowerPanel) {
+                    buttonToggledOn(borrowBookButton);
+                    buttonToggledOff(homePageButton);
+                    buttonToggledOff(searchBooksButton);
+                    buttonToggledOff(borrowedBooksButton);
+                    mainPanel.remove(currentPanel);
+                    setActivePage(borrowerPanel); // Set Borrower panel as active panel
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                }
+            }
+        });
+
         return taskBar;
     }
 
     // Change the active page being displayed
     private void setActivePage(JPanel panel) {
-        currentPanel.removeAll(); // Clear previous panel content
         currentPanel = panel; // Set the new panel as the active one
         mainPanel.add(currentPanel, BorderLayout.CENTER); // Add new panel to main panel
         mainPanel.revalidate();
         mainPanel.repaint();
+    }
+
+    public static void main(String[] args) {
+        new MainUserPage();
     }
 }
