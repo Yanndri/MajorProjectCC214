@@ -1,4 +1,4 @@
-package LandingPagesGUI.UserAccess;
+package LandingPagesGUI.GUIUserAccess;
 
 import LandingPagesGUI.GlobalVariables;
 import java.awt.*;
@@ -20,7 +20,7 @@ public class BorrowedBooksPage extends JPanel {
         this.setBorder(new EmptyBorder(20, 20, 0, 20));
         this.setBackground(GlobalVariables.lightestColor);
 
-        JLabel projectTitle = new JLabel("<html>You're a Poopy Stinky Bear<html>");
+        JLabel projectTitle = new JLabel("<html>You have no Borrowed Books<html>");
         this.add(projectTitle, BorderLayout.NORTH);
 
         projectTitle.setHorizontalAlignment(SwingConstants.CENTER);

@@ -13,6 +13,10 @@ public class Login {
     BufferedReader reader = null;
     HashTest accounts = new HashTest();
 
+    public Login() {
+        getAccounts();
+    }
+
     public boolean storeAccount(Object newAccount) {
         User account = (User) newAccount;
         account.setKey(encrypt(account.getIdentifier()));
@@ -30,17 +34,22 @@ public class Login {
         return key;
     }
 
-    // public boolean checkAccountCredentials(User user, String password) {
-    // if (user.getIdentifier() == null || password == null)
-    // return false;
-    // int key = encrypt(user.getIdentifier());
-    // User existingAccount = (User) accounts.getAccount(user);
-    // if (existingAccount == null)
-    // return false;
-    // return user.getIdentifier().equals(existingAccount.getIdentifier()) &&
-    // password.equals(existingAccount.getPassword());
+    public boolean checkAccountCredentials(String username, String password) {
+        if (username.isEmpty() || password.isEmpty())
+            return false;
 
-    // }
+        int key = encrypt(username);
+
+        User existingAccount = accounts.getUser(key);
+        if (existingAccount == null)
+            return false;
+        return username.equals(existingAccount.getIdentifier()) &&
+                password.equals(existingAccount.getPassword());
+    }
+
+    public boolean isIdentifierAvailable(String identifier) {
+        return false;
+    }
 
     // public boolean isIdentifierAvailable(String identifier) {
     // int key = encrypt(identifier);
@@ -51,7 +60,7 @@ public class Login {
     public void getAccounts() {
         try {
             reader = new BufferedReader(
-                    new FileReader("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+                    new FileReader("LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split("//");
@@ -78,7 +87,7 @@ public class Login {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter( // CHANGE IT TO fiLE PATH
-                    new FileWriter("C:\\Users\\Ashee\\Documents\\GitHub\\MajorProjectCC214\\LibGUI\\UserAccounts.txt"));
+                    new FileWriter("LibGUI\\UserAccounts.txt"));
             for (int i = 0; i < accounts.items.length; i++) {
                 if (accounts.items[i] != null) {
                     Node currNode = accounts.items[i];

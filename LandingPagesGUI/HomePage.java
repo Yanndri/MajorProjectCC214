@@ -9,7 +9,7 @@ public class HomePage extends JPanel {
     // returns the panel for the home page
     public JPanel getHomePagePanel() {
         this.setLayout(new BorderLayout());
-        this.setBorder(new EmptyBorder(20, 20, 0, 20));
+        this.setBorder(new EmptyBorder(0, 20, 0, 20));
         this.setBackground(GlobalVariables.lightestColor);
 
         JLabel projectTitle = new JLabel("<html>Library <br>Management <br>System<html>");
