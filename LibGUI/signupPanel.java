@@ -431,7 +431,6 @@ public class signupPanel {
         SwingUtilities.invokeLater(() -> {
             JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
             verticalScrollBar.setValue(0); // Set the vertical scroll to the top
-            verticalScrollBar.setUnitIncrement(16);
         });
 
         // Container for buttons

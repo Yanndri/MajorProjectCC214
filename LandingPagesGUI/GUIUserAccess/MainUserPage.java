@@ -2,11 +2,7 @@ package LandingPagesGUI.GUIUserAccess;
 
 import javax.swing.*;
 
-import LandingPagesGUI.HomePage;
-import LandingPagesGUI.CustomLayoutManager;
-import LandingPagesGUI.GlobalVariables;
-import LandingPagesGUI.TimeFrame;
-
+import LandingPagesGUI.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,8 +28,10 @@ public class MainUserPage extends CustomLayoutManager {
     JPanel clockPanel = clock.getTimeFramePanel();
     // =================================
 
+    // Constructor where frame is maximized
     public MainUserPage() {
-        initialize();
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizing the frame
+        initialize(); // Initialize the components
     }
 
     public void initialize() {
@@ -60,7 +58,7 @@ public class MainUserPage extends CustomLayoutManager {
         frame.setVisible(true);// ensure all components are initialized before making the frame visible
     }
 
-    // display options here (home page, search books, borrowed books, etc?)
+    // Create the TaskBar panel with buttons
     private JPanel taskBar() {
         System.out.println("Taskbar instantiated");
         JPanel taskBar = createTaskBarPanel();
@@ -69,57 +67,61 @@ public class MainUserPage extends CustomLayoutManager {
         JButton homePageButton = new JButton("Home Page");
         JButton searchBooksButton = new JButton("Search Books");
         JButton borrowedBooksButton = new JButton("Borrowed Books");
-        JButton borrowBookButton = new JButton("Borrow a Book"); // Add this button for Borrowing a Book
+        JButton borrowBookButton = new JButton("Borrow a Book");
 
         // Instantiate the buttons as children of taskBar
         taskBar.add(homePageButton);
         taskBar.add(searchBooksButton);
         taskBar.add(borrowedBooksButton);
-        taskBar.add(borrowBookButton); // Add Borrow a Book button to taskbar
+        taskBar.add(borrowBookButton);
 
         // Change the style of buttons
         buttonStyleSimplistic(homePageButton);
         buttonStyleSimplistic(searchBooksButton);
         buttonStyleSimplistic(borrowedBooksButton);
-        buttonStyleSimplistic(borrowBookButton); // Apply style to the new button
+        buttonStyleSimplistic(borrowBookButton);
 
-        // Set the active button style
-        homePageButton.setBackground(GlobalVariables.darkestColor);
-        homePageButton.setForeground(GlobalVariables.lightestColor);
+        // since homePage is the first page to open once logged in
+        homePageButton.setBackground(GlobalVariables.darkestColor); // set button background to darkest
+        homePageButton.setForeground(GlobalVariables.lightestColor); // set button text to lightest for visual stuff
 
         // Button actions
+        // Home Page Button
         SingleActionListener(homePageButton, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (currentPanel != homePage.getHomePagePanel()) {
+            public void actionPerformed(ActionEvent e) { // when home page is clicked:
+                if (currentPanel != homePagePanel) {// exit if the button is on already
                     buttonToggledOn(homePageButton);
                     buttonToggledOff(searchBooksButton);
                     buttonToggledOff(borrowedBooksButton);
                     buttonToggledOff(borrowBookButton);
-                    mainPanel.remove(currentPanel);
-                    setActivePage(homePage.getHomePagePanel());
-                    mainPanel.revalidate();
-                    mainPanel.repaint();
+                    mainPanel.remove(currentPanel); // remove the current panel
+                    setActivePage(homePagePanel); // change the page
+                    mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
+                    mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
                 }
             }
         });
 
+        // Search Books Button
         SingleActionListener(searchBooksButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentPanel != searchBooksPage.getSearchBooksPage()) {
+                if (currentPanel != searchBooksPagePanel) {// exit if the button is on already
                     buttonToggledOn(searchBooksButton);
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(borrowedBooksButton);
                     buttonToggledOff(borrowBookButton);
-                    mainPanel.remove(currentPanel);
-                    setActivePage(searchBooksPage.getSearchBooksPage());
-                    mainPanel.revalidate();
-                    mainPanel.repaint();
+                    mainPanel.remove(currentPanel); // remove the current panel
+                    setActivePage(searchBooksPagePanel);
+                    mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
+                    mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
+
                 }
             }
         });
 
+        // Borrowed Books Button
         SingleActionListener(borrowedBooksButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,34 +130,45 @@ public class MainUserPage extends CustomLayoutManager {
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(searchBooksButton);
                     buttonToggledOff(borrowBookButton);
+                    mainPanel.remove(currentPanel); // remove the current panel
+                    setActivePage(borrowedBooksPagePanel);
+                    mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
+                    mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
+
+                }
+            }
+        });
+
+        // Borrow Book Button
+        SingleActionListener(borrowBookButton, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPanel borrowerPanel = Borrower.createBorrowerPanel(); // Get the panel from Borrower class
+                if (currentPanel != borrowerPanel) {
+                    buttonToggledOn(borrowBookButton);
+                    buttonToggledOff(homePageButton);
+                    buttonToggledOff(searchBooksButton);
+                    buttonToggledOff(borrowedBooksButton);
                     mainPanel.remove(currentPanel);
-                    setActivePage(borrowedBooksPage.getBorrowedBooksPage());
+                    setActivePage(borrowerPanel); // Set Borrower panel as active panel
                     mainPanel.revalidate();
                     mainPanel.repaint();
                 }
             }
         });
 
-        // Action for Borrow a Book button
-        SingleActionListener(borrowBookButton, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Create and display the Borrower form when the button is clicked
-                Borrower.main(new String[0]); // This calls the static main method of the Borrower class
-            }
-        });
-
         return taskBar;
     }
 
-    // change what panel should be displayed(based on what page)
+    // Change the active page being displayed
     private void setActivePage(JPanel panel) {
-        currentPanel = panel; // replace the current panel
-        mainPanel.add(currentPanel, BorderLayout.CENTER); // the panel that will be displayed on the page
+        currentPanel = panel; // Set the new panel as the active one
+        mainPanel.add(currentPanel, BorderLayout.CENTER); // Add new panel to main panel
+        mainPanel.revalidate();
+        mainPanel.repaint();
     }
 
     public static void main(String[] args) {
-        // MainFrame frame = new MainFrame();
         new MainUserPage();
     }
 }

@@ -2,17 +2,13 @@ package Objects;
 
 import java.time.LocalDate;
 import java.time.Period;
-import DataStructures.DLinkedList;
 
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
     int key;
     LocalDate dob;
-    DLinkedList<Book> borrowedBooks;
 
-    // First Name //Last Name //middleName //dob //address //gender
-    // phoneNumber //identifier //password //key
     public User(String firstName, String lastName, String middleName, LocalDate dob, String address, String gender,
             String phoneNumber, String identifier, String password, int key) {
         this.firstName = firstName;
@@ -25,7 +21,6 @@ public class User {
         this.identifier = identifier;
         this.password = password;
         this.key = key;
-        this.borrowedBooks = borrowedBooks;
     }
 
     public User() {
@@ -122,9 +117,5 @@ public class User {
 
     public int getKey() {
         return key;
-    }
-
-    public String getBorrowedBooks() {
-        return borrowedBooks.toString();
     }
 }

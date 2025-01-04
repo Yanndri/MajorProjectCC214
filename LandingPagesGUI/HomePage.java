@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class HomePage extends JPanel {
+
     // returns the panel for the home page
     public JPanel getHomePagePanel() {
         this.setLayout(new BorderLayout());
