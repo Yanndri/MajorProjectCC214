@@ -133,12 +133,12 @@ public class AddBooksPage extends JPanel {
                     DLinkedList<String> authors = new DLinkedList<>();
 
                     for (String author : authorsArray) {
-                        authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
+                        authors.addLast(author.trim()); 
                     }
 
                     Book book = new Book(authors, titleField.getText(), descriptionTextArea.getText(), publicationField.getText(), Integer.parseInt(copiesField.getText()), new DLinkedList<>());
                     bookshelf.addBook(book);
-                    bookshelf.updateFile(book, true); // overwrite test
+                    bookshelf.updateFile(); 
                     System.out.println("Book successfully added!");
                 }
             }

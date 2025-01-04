@@ -1,8 +1,6 @@
 package LibGUI;
 
-import DataStructures.DLinkedList;
 import DataStructures.Node;
-import Objects.Book;
 import Objects.User;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -69,38 +67,12 @@ public class Login {
                     new FileReader("LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
-<<<<<<< HEAD
-                String[] separator = line.split(":", 2);
-                if (separator.length == 2) {
-                    String userPart = separator[0].trim();
-                    String borrowedBooksPart = separator[1].trim();
-
-                    String[] userDetails = userPart.split("//");
-                    String[] borrowedBooksArr = borrowedBooksPart.split("[,&]", 3);
-
-                    for(int i = 0; i < borrowedBooksArr.length; i++){
-                        String[] booksDetails = borrowedBooksArr[i].split(":",2);
-                    }
-
-                    DLinkedList borrowedBooks = new DLinkedList<>();
-                    for (String borrow : borrowedBooksArr) {
-                        borrowedBooks.addLast(borrow.trim()); // trim to delete the leading and trailing white spaces
-                    }
-
-                    User user = new User(userDetails[0], userDetails[1], userDetails[2],
-                            Integer.parseInt(userDetails[3]),
-                            userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
-                            0, borrowedBooks);
-                    storeAccount(user);
-                }
-=======
                 String[] userDetails = line.split("//");
                 System.out.println(line);
                 User user = new User(userDetails[0], userDetails[1], userDetails[2], LocalDate.parse(userDetails[3]),
                         userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
                         0);
                 storeAccount(user);
->>>>>>> main
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -197,15 +169,9 @@ public class Login {
                     while (currNode != null) {
                         User user = (User) currNode.getItem();
                         writer.write(user.getFirstName() + "//" + user.getLastName() + "//" + user.getMiddleName()
-<<<<<<< HEAD
-                                + "//" + user.getAge() + "//" + user.getAddress() + "//" + user.getGender() + "//"
-                                + user.getPassword() + "//" + user.getIdentifier() + "//" + user.getPassword() + "//"
-                                + user.getKey() + ": " + user.getBorrowedBooks());
-=======
                                 + "//" + user.getDOB() + "//" + user.getAddress() + "//" + user.getGender() + "//"
                                 + user.getPhoneNumber() + "//" + user.getIdentifier() + "//" + user.getPassword() + "//"
                                 + user.getKey());
->>>>>>> main
                         System.out.println("User " + user.getFirstName() + " successfully added.");
                         currNode = currNode.getLink();
                         writer.newLine();
@@ -225,31 +191,6 @@ public class Login {
         }
     }
 
-<<<<<<< HEAD
-    public static void main(String[] args) {
-
-        DLinkedList author1 = new DLinkedList();
-        author1.addLast("Peter");
-        author1.addLast("JK Rowling");
-        Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1, null);
-
-        Login login = new Login();
-        Node currNode = login.accounts.items[5];
-        User currUser = (User) currNode.getItem();
-        currUser.addBorrowedBook(book1);
-
-        login.updateFile();
-
-        // login.storeAccount(new User("Asheerah", "Stop", "Bautro", 75, "Kangkong, Cordova", "Bayot", "09123456789",
-        //         "asheerahbokiboki", "jedgo123", login.encrypt("asheerahbokiboki"), null));
-
-        // login.storeAccount(new User("Test", "TEST1", "Test2", 69, "TestADD", "attack
-        // Helicopter", "09123213",
-        // "TESTUSER", "TESTPASS", login.encrypt("TESTUSER")));
-
-        // System.out.println("YEAAAAAAAAAAAAAAAYYYYYYY!!!!1");
-    }
-=======
     // public static void main(String[] args) {
     // Login login = new Login();
     // login.getUserAccounts();
@@ -264,5 +205,4 @@ public class Login {
     // login.updateFile();
     // System.out.println("YEAAAAAAAAAAAAAAAYYYYYYY!!!!1");
     // }
->>>>>>> main
 }
