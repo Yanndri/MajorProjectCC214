@@ -25,7 +25,7 @@ public class CustomLayoutManager {
         frame.setSize(GlobalVariables.width, GlobalVariables.height);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         return frame;

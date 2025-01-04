@@ -1,16 +1,10 @@
 package LandingPagesGUI;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import LibGUI.LoginInterface;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class HomePage extends JPanel {
-    private LoginInterface loginInterface;
 
     // returns the panel for the home page
     public JPanel getHomePagePanel() {

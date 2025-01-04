@@ -1,34 +1,18 @@
 package Objects;
 
+import java.time.LocalDate;
+
 public class Librarian extends User {
 
     public Librarian(String firstName, String lastName, String middleName, String address, String gender,
-            String phoneNumber, int age, String librarianIdNumber, String position, String identifier,
+            String phoneNumber, LocalDate dob, String librarianIdNumber, String position, String identifier,
             String password) {
-        super(firstName, lastName, middleName, address, gender, phoneNumber, age,
+        super(firstName, lastName, middleName, address, gender, phoneNumber, dob,
                 identifier, password);
     }
 
     public Librarian() {
-        this(null, null, null, null, null, null, 0, null, null, null, null);
-    }
-
-    // setters
-    public void setLibrarianIDNumber(String librarianIdNumber) {
-        this.librarianIdNumber = librarianIdNumber;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    // getters
-    public String getLibrarianIDNumber() {
-        return librarianIdNumber;
-    }
-
-    public String getPosition() {
-        return position;
+        this(null, null, null, null, null, null, dob, null, null, null, null);
     }
 
     // Approve/Decline Book Request
