@@ -30,7 +30,6 @@ public class MainUserPage extends CustomLayoutManager {
 
     // Constructor where frame is maximized
     public MainUserPage() {
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizing the frame
         initialize(); // Initialize the components
     }
 
