@@ -64,7 +64,7 @@ public class Book {
 
     // getters
     public String getAuthors() {
-        if (authors.isEmpty()) {
+        if (authors == null || authors.isEmpty()) {
             return "\tNo authors";
         } else
             return authors.toString();

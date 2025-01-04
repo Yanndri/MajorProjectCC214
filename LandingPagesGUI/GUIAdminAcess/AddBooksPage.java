@@ -1,16 +1,20 @@
 package LandingPagesGUI.GUIAdminAcess;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
+import DataStructures.BookLibrary;
+import DataStructures.DLinkedList;
 import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.GlobalVariables;
-
+import Objects.Book;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 // Admin Page to add books
 public class AddBooksPage extends JPanel {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access component styles
+    BookLibrary bookshelf = new BookLibrary();
 
     // title, description, publicationDate, authors
     // private int totalCopies, borrowedCopies;
@@ -50,15 +54,20 @@ public class AddBooksPage extends JPanel {
 
         // Title Input
         JLabel titleLabel = new JLabel("Title");
-        layoutManager.createInputField(inputFields, titleLabel); // create an input field for title
+        JTextField titleField = layoutManager.createInputField(inputFields, titleLabel); // create an input field for
+                                                                                         // title
 
         // Author Input
         JLabel authorLabel = new JLabel("Author");
-        layoutManager.createInputField(inputFields, authorLabel); // create an input field for Author
+        JTextField authorField = layoutManager.createInputField(inputFields, authorLabel); // create an input field for
+                                                                                           // Author
 
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
-        layoutManager.createInputField(inputFields, publicationDateLabel); // create an input field for Date
+        JTextField publicationDateField = layoutManager.createInputField(inputFields, publicationDateLabel); // create
+                                                                                                             // an input
+                                                                                                             // field
+                                                                                                             // for Date
 
         // =======================================
 
@@ -97,7 +106,7 @@ public class AddBooksPage extends JPanel {
 
         // Total Copies Input
         JLabel totalCopiesLabel = new JLabel("Total Copies");
-        layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
+        JTextField copiesTextField = layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
 
         // Submit Button (when user is done with their inputs)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
@@ -109,6 +118,51 @@ public class AddBooksPage extends JPanel {
         buttonPanel.add(submitButton);
 
         layoutManager.buttonStyleDefault(submitButton); // change the style of button
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (authorField.getText().isBlank() || titleField.getText().isBlank()
+                        || publicationDateField.getText().isBlank() || copiesTextField.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error",
+                            JOptionPane.ERROR_MESSAGE); // check if the fields are empty/blank
+        
+                } else {
+                    if (descriptionTextArea.getText().isBlank())
+                        descriptionTextArea.setText("No Description");
+        
+                    String[] authorsArray = authorField.getText().split("[,&]");
+                    DLinkedList<String> authors = new DLinkedList<>();
+                    for (String author : authorsArray) {
+                        if (!author.equals("No Author/s") && !author.isBlank()) {
+                            authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
+                        }
+                    }
+        
+                    try {
+                        int noOfCopies = Integer.parseInt(copiesTextField.getText());
+                        Book book = new Book(authors, titleField.getText(), descriptionTextArea.getText(),
+                        publicationDateField.getText(), noOfCopies, null);
+                        bookshelf.addBook(book);
+                        bookshelf.updateFile(book, true);
+                        JOptionPane.showMessageDialog(null, "Book Added Successfully", "Success",
+                                JOptionPane.INFORMATION_MESSAGE); 
+
+                        // clear the fields after submission
+                        authorField.setText("");
+                        titleField.setText("");
+                        publicationDateField.setText("");
+                        copiesTextField.setText("");
+                        descriptionTextArea.setText("");
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Please enter a valid integer for the number of copies.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+        
+        
         // ===============================================================
 
         return this;
