@@ -1,8 +1,6 @@
-J.K. Rowling --> Jack Thorne --> null : Harry Potter and the Cursed Child//*insert short or long description here*//12/24/1984//2
-Peter --> JK Rowling --> null : Harry Potter//Harry Potter and the Cursed Child is a stage play written by Jack Thorne, based on an original story by Thorne, J.K. Rowling, and John Tiffany. It premiered in London's West End in 2016 and has since been performed worldwide. The story is divided into two parts, and it is often performed over two separate evenings or as a day-long event.//12/23/24//1
-Pete --> John Rowling --> null : Porter Harry//Harry Potter and the Cursed Child is a stage play written by Jack Thorne, based on an original story by Thorne, J.K. Rowling, and John Tiffany. It premiered in London's West End in 2016 and has since been performed worldwide. The story is divided into two parts, and it is often performed over two separate evenings or as a day-long event.//12/23/24//1
-B.J Maravillas : Why Yuri is the best//Read this book to open your mind to the wonderful world of SESBIAN LEX//04/20/6969//5
-B.J Maravillas : The Art of Bullsh*tting//Do you feel like your life do not have any meaning? Come and learn bullsh*ting with Mr. Maravillas so that your life will appear meaningful, though on closer examination, it isn’t.//06/09/6969//3
-R.A Coretico : Day Dream Club//A Group of teens made a club to just do nothing, they need to after knowing the world will end soon//04/19/2050//5
-Grady Hendrix : The Southern Book Club's Guide To Slaying Vampires Because Of Human Extinction//if you love vampires and want a scary, vulgar, modern story that gives you major “‘Salem’s Lot” vibes, this checks all those boxes and then some. Everything from the main protagonist, Patricia, to the eventual villain you’ll encounter, made for an extremely memorable read.//04/19/2050//5
-R.A Coretico : The Poop Shitters//the world was taken over by dogs, only three kittens can save the world, see how Masticator Pro, Universe Destroyer and Sisyphus tackle the evil and take some shits//04/60/2051//5
+J.K. Rowling, Jack Thorne & Victor David : Harry Potter and the Cursed Child//*insert short or long description here*//12/24/1984//2 : 1079
+Peter & JK Rowling : Harry Potter//Desc1//12/23/24//1 : No Borrower/s
+Pete & John Rowling : Porter Harry//Desc1//12/23/24//1 : No Borrower/s
+B.J Maravillas : The Art of Bullsh*tting//Do you feel like your life do not have any meaning? Come and learn bullsh*ting with Mr. Maravillas so that your life will appear meaningful, though on closer examination, it isn’t.//06/09/6969//3 : No Borrower/s
+R.A Coretico : Day Dream Club//A Group of teens made a club to just do nothing, they need to after knowing the world will end soon//04/19/2050//5 : No Borrower/s
+R.A Coretico : The Poop Shitters//the world was taken over by dogs, only three kittens can save the world, see how Masticator Pro, Universe Destroyer and Sisyphus tackle the evil and take some shits//04/60/2051//5 : No Borrower/s
