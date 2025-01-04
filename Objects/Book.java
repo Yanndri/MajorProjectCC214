@@ -7,17 +7,20 @@ import LibGUI.Login;
 
 public class Book {
     private String title, description, publicationDate;
-    private int totalCopies, borrowedCopies;
+    private int noOfCopies, borrowedCopies;
     private QueueLinkedList requesters;
     private DLinkedList<String> authors;
     private DLinkedList<Integer> borrowers;
+    private final int totalCopies; // Max copies
 
-    public Book(DLinkedList<String> authors, String title, String description, String publicationDate, int noOfCopies, DLinkedList<Integer> borrowers) {
+    public Book(DLinkedList<String> authors, String title, String description, String publicationDate, int noOfCopies,
+            DLinkedList<Integer> borrowers) {
         this.authors = authors;
         this.title = title;
         this.description = description;
         this.publicationDate = publicationDate;
-        this.totalCopies = noOfCopies;
+        this.noOfCopies = noOfCopies;
+        this.totalCopies = noOfCopies; // Set the Maximun copies
         this.borrowers = borrowers;
     }
 
@@ -38,8 +41,14 @@ public class Book {
         this.publicationDate = publicationDate;
     }
 
-    public void setNoOfCopies(int totalCopies) {
-        this.totalCopies = totalCopies;
+    // when user borrows a book or returns a book, pass 1 or -1
+    // if no books return false
+    public void setNoOfCopies(int value) {
+        this.noOfCopies += value;
+        if (this.noOfCopies < 0)
+            this.noOfCopies = 0;
+        else if (this.noOfCopies > this.totalCopies)
+            this.noOfCopies = this.totalCopies;
     }
 
     public String addAuthor(String author) {
@@ -51,16 +60,15 @@ public class Book {
     }
 
     public Object removeAuthor(String author) {
-        if (!authors.isFound(author)) { 
-            return "Author Not Found"; 
+        if (!authors.isFound(author)) {
+            return "Author Not Found";
         } else {
             int pos = authors.getItemPosition(author);
             Object removedAuthor = authors.getItemAt(pos);
-            authors.deleteItemAt(pos); 
+            authors.deleteItemAt(pos);
             return removedAuthor;
         }
     }
-    
 
     // getters
     public String getAuthors() {
@@ -70,7 +78,7 @@ public class Book {
             return authors.toString();
     }
 
-    public DLinkedList<String> getAuthorsList(){
+    public DLinkedList<String> getAuthorsList() {
         return authors;
     }
 
@@ -86,14 +94,14 @@ public class Book {
         return publicationDate;
     }
 
-    public DLinkedList<User> getBorrowers(){
+    public DLinkedList<User> getBorrowers() {
         Login login = new Login();
         DLinkedList<User> borrowersList = new DLinkedList<>();
-        if(borrowers.isEmpty()){
+        if (borrowers.isEmpty()) {
             return null;
         } else {
             DNode<Integer> currNode = borrowers.head;
-            while(currNode != null){
+            while (currNode != null) {
                 User user = login.accounts.getUser(currNode.getItem());
                 borrowersList.addLast(user);
                 currNode = currNode.getNext();
@@ -109,10 +117,13 @@ public class Book {
             return borrowers.toString();
         }
     }
-    
 
     public int getTotalCopies() {
         return totalCopies;
+    }
+
+    public int getNoOfCopies() {
+        return noOfCopies;
     }
 
     // queue
@@ -127,20 +138,20 @@ public class Book {
     }
 
     public boolean isAvailable() {
-        return borrowers.count < totalCopies;
+        return borrowers.count < noOfCopies;
     }
 
     // public String bookReturned(Borrower borrower) {
-    //     if (borrowedCopies <= totalCopies && borrowers != null) {
-    //         if (!borrowers.isFound(borrower)) {
-    //             return "Borrower Not Found.";
-    //         } else {
-    //             borrowers.deleteItemAt(borrowers.getPosition(borrower));
-    //             borrowedCopies--;
-    //             return borrower + " Returned Book.";
-    //         }
-    //     }
-    //     return "No Borrowed Book/s.";
+    // if (borrowedCopies <= noOfCopies && borrowers != null) {
+    // if (!borrowers.isFound(borrower)) {
+    // return "Borrower Not Found.";
+    // } else {
+    // borrowers.deleteItemAt(borrowers.getPosition(borrower));
+    // borrowedCopies--;
+    // return borrower + " Returned Book.";
+    // }
+    // }
+    // return "No Borrowed Book/s.";
     // }
 
     // toString

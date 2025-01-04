@@ -6,6 +6,8 @@ import DataStructures.BookLibrary;
 import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.GlobalVariables;
 import Objects.Book; // NOTE
+import Objects.User;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -272,10 +274,14 @@ public class SearchBooksPage extends JPanel {
         borrowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (borrowButton.getText().equals("Borrow"))
+                if (borrowButton.getText().equals("Borrow")) {
                     borrowButton.setText("Borrowed");
-                else if (borrowButton.getText().equals("Borrowed"))
+                    book.addBorrower();
+                } else if (borrowButton.getText().equals("Borrowed")) {
                     borrowButton.setText("Borrow");
+                    book.setNoOfCopies(1);
+                }
+                System.out.println(book.getNoOfCopies());
             }
         });
 
