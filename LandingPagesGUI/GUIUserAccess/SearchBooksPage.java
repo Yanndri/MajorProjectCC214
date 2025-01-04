@@ -177,7 +177,6 @@ public class SearchBooksPage extends JPanel {
     // Add the components of the scroll bar -- SEARCH RESULTS
     private void availableBooks(JPanel scrollBarPanel) {
         BookLibrary bookFetcher = new BookLibrary(); // class that have books
-        bookFetcher.getBooks(); // get a list of books from LibraryTest (Doubly Linked List)
 
         DLinkedList<Book> List = null; // Store here the available books
         if (keyword.equals("")) {// if there is no text in textfield(no keywords)
@@ -203,6 +202,7 @@ public class SearchBooksPage extends JPanel {
         }
     }
 
+    // create a button for a book suggestion
     private JButton createBookButton(Book book) {
         JButton button = new JButton(
                 "<html><div style='text-align: left;'>" + book.getTitle()
