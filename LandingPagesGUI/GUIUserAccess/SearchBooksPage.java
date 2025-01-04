@@ -269,6 +269,15 @@ public class SearchBooksPage extends JPanel {
         bookPanel.add(borrowButton);
 
         layoutManager.buttonStyleDefault(borrowButton);
+        borrowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (borrowButton.getText().equals("Borrow"))
+                    borrowButton.setText("Borrowed");
+                else if (borrowButton.getText().equals("Borrowed"))
+                    borrowButton.setText("Borrow");
+            }
+        });
 
         // Description
         JLabel description = new JLabel(
