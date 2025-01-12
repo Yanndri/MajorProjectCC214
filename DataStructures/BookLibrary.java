@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class BookLibrary {
     public DLinkedList<Book> bookshelf = new DLinkedList<>();
-    //public Login userAccounts = new Login();
+    // public Login userAccounts = new Login();
 
     // Adding Method/s
     public void addBook(DLinkedList<String> authors, String title, String description, String publicationDate,
@@ -26,7 +26,7 @@ public class BookLibrary {
 
     // Searching Methods
     public DLinkedList<Book> searchTitle(String title) { // returns a lists of books that contains the keyword
-        System.out.println("Library Test > searchTitle()");
+        // System.out.println("Library Test > searchTitle()");
         DLinkedList<Book> results = new DLinkedList<>();
         DNode<Book> temp = bookshelf.head; // Use DNode<Book> for type safety
 
@@ -57,7 +57,7 @@ public class BookLibrary {
 
     public void getBooks() {
         BufferedReader reader = null;
-        System.out.println("Library Test > getBooks()");
+        // System.out.println("Library Test > getBooks()");
         try {
             reader = new BufferedReader(
                     new FileReader(
@@ -70,9 +70,9 @@ public class BookLibrary {
                     String bookPart = separator[1].trim(); // book detail
                     String borrowerPart = separator[2].trim(); // borrowers
 
-                    System.out.println("borrowers: "+borrowerPart);
-                    System.out.println("authors: "+authorsPart);
-                    System.out.println("book: "+bookPart);
+                    // System.out.println("borrowers: "+borrowerPart);
+                    // System.out.println("authors: "+authorsPart);
+                    // System.out.println("book: "+bookPart);
 
                     String[] authorsArray = authorsPart.split("[,&]");
                     String[] bookDetails = bookPart.split("//");
@@ -80,16 +80,16 @@ public class BookLibrary {
 
                     DLinkedList<String> authors = new DLinkedList<>();
                     for (String author : authorsArray) {
-                        if(!author.equals("No Author/s") && !author.isBlank()){
+                        if (!author.equals("No Author/s") && !author.isBlank()) {
                             authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
                         }
                     }
 
                     DLinkedList<Integer> borrowers = new DLinkedList<>();
-                    for (String borrower : borrowersArray){
-                        if(!borrower.equals("No Borrower/s") && !borrower.isBlank()){
-                        borrowers.addLast(Integer.parseInt(borrower.trim()));
-                    }
+                    for (String borrower : borrowersArray) {
+                        if (!borrower.equals("No Borrower/s") && !borrower.isBlank()) {
+                            borrowers.addLast(Integer.parseInt(borrower.trim()));
+                        }
                     }
 
                     addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
@@ -120,7 +120,8 @@ public class BookLibrary {
                 Book currBook = currNode.getItem();
                 String authors = currBook.getAuthors().trim();
 
-                String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a more convenient way to do it?
+                String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a more convenient way to do
+                                                                               // it?
                         authors,
                         currBook.getTitle(),
                         currBook.getDescription(),
@@ -147,35 +148,33 @@ public class BookLibrary {
     }
 
     public static void main(String[] args) {
-    // DLinkedList author1 = new DLinkedList();
-    // author1.addLast("Peter");
-    // author1.addLast("JK Rowling");
-    // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
+        // DLinkedList author1 = new DLinkedList();
+        // author1.addLast("Peter");
+        // author1.addLast("JK Rowling");
+        // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
 
-    // DLinkedList author2 = new DLinkedList();
-    // author2.addLast("Pete");
-    // author2.addLast("John Rowling");
-    // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
+        // DLinkedList author2 = new DLinkedList();
+        // author2.addLast("Pete");
+        // author2.addLast("John Rowling");
+        // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
 
-    BookLibrary lib = new BookLibrary();
-    lib.getBooks();
-    Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
+        BookLibrary lib = new BookLibrary();
+        lib.getBooks();
+        Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
 
-    System.out.println("Head Author: "+currBook.getAuthorsList().head.getItem());
-    
-    System.out.println(currBook.getAuthors());
-    //currBook.addAuthor("Test");
-    System.out.println(currBook.removeAuthor("Test"));
-    System.out.println("Borrowers: "+currBook.getBorrowersKeys()); 
-    DLinkedList<User> headBorrowers = currBook.getBorrowers();
-    User user = headBorrowers.head.getItem();
-    System.out.println("Borrower User: "+user.getFirstName());
+        // System.out.println("Head Author: "+currBook.getAuthorsList().head.getItem());
 
-    System.out.println(currBook.getAuthors());
-    
+        // System.out.println(currBook.getAuthors());
+        // currBook.addAuthor("Test");
+        // System.out.println(currBook.removeAuthor("Test"));
+        // System.out.println("Borrowers: "+currBook.getBorrowersKeys());
+        DLinkedList<User> headBorrowers = currBook.getBorrowers();
+        User user = headBorrowers.head.getItem();
+        // System.out.println("Borrower User: "+user.getFirstName());
 
+        // System.out.println(currBook.getAuthors());
 
-    lib.updateFile();
+        lib.updateFile();
 
     }
 

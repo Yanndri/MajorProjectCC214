@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 public class GlobalVariables {
     // User Information
     public static String username = "Ryan Andrie";
+    public static String userType = "User"; // checks wether it's an admin or user
 
     // canvas size
     public static int width = 1000;
@@ -28,4 +29,7 @@ public class GlobalVariables {
     public static ImageIcon searchIcon = new ImageIcon("LandingPagesGUI\\Images\\searchIcon.png");
     public static ImageIcon clearIcon = new ImageIcon("LandingPagesGUI\\Images\\Clear.png");
 
+    public static void setUserType(String newUserType) {
+        userType = newUserType;
+    }
 }
