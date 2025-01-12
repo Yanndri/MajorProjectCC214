@@ -67,7 +67,8 @@ public class EditBooksPage extends JPanel {
         book = bookNode.getItem(); // get the item in the book node
 
         // instantiate the input fields
-        displayPanel.add(guiComponents.instantiateInputFields(book), BorderLayout.CENTER);
+        JPanel inputFields = guiComponents.instantiateInputFields(book);
+        displayPanel.add(inputFields, BorderLayout.CENTER);
 
         return this;
     }
