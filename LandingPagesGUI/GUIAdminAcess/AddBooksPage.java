@@ -1,18 +1,22 @@
 package LandingPagesGUI.GUIAdminAcess;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
+import DataStructures.BookLibrary;
+import DataStructures.DLinkedList;
 import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.GUIComponents;
 import LandingPagesGUI.GlobalVariables;
-
+import Objects.Book;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 // Admin Page to add books
 public class AddBooksPage extends JPanel {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access component styles
     GUIComponents guiComponents = new GUIComponents();
+    BookLibrary bookshelf = new BookLibrary();
 
     // title, description, publicationDate, authors
     // private int totalCopies, borrowedCopies;

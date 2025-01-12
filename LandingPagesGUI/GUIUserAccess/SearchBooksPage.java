@@ -4,6 +4,8 @@ import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.GlobalVariables;
 import LandingPagesGUI.GUIComponents;
 import Objects.Book; // NOTE
+import Objects.User;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
