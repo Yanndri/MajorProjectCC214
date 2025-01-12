@@ -15,6 +15,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class GUIComponents {
+
+    BookLibrary bookFetcher = new BookLibrary(); // class that have books
+
+    private boolean isEditMode = false; // toggles if Book is in Edit mode
+
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
 
     // Search Bar
@@ -155,7 +160,8 @@ public class GUIComponents {
     // Add the components of the scroll bar -- SEARCH RESULTS
     private void availableBooks(JPanel scrollBarPanel) {
         BookLibrary bookFetcher = new BookLibrary(); // class that have books
-        bookFetcher.getBooks(); // get a list of books from LibraryTest (Doubly Linked List)
+        bookFetcher.getBooks(); // get a list of books from LibraryTest (Doubly
+        // Linked List)
 
         DLinkedList<Book> List = null; // Store here the available books
         if (keyword.equals("")) {// if there is no text in textfield(no keywords)
@@ -263,6 +269,13 @@ public class GUIComponents {
 
     // for admin inputting data on a book (For Admins)
     public JPanel instantiateInputFields(Book book) {
+
+        if (book != null) {
+            isEditMode = true;
+        } else {
+            isEditMode = false;
+        }
+
         // INPUT FIELDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         JPanel inputFieldsPanel = new JPanel(new GridLayout(1, 2, 0, 0));
         displayPanel.add(inputFieldsPanel, BorderLayout.CENTER);
@@ -277,19 +290,19 @@ public class GUIComponents {
         // Title Input
         JLabel titleLabel = new JLabel("Title");
         JTextField titleTextField = layoutManager.createInputField(inputFields, titleLabel); // input field for title
-        if (book != null) // check if there is no books passed(for add books)
+        if (isEditMode) // check if there is no books passed(for add books)
             titleTextField.setText(book.getTitle());
 
         // Author Input
         JLabel authorLabel = new JLabel("Author");
         JTextField authorTextField = layoutManager.createInputField(inputFields, authorLabel);
-        if (book != null) // check if there is no books passed(for add books)
+        if (isEditMode) // check if there is no books passed(for add books)
             authorTextField.setText(book.getAuthors());
 
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
         JTextField publicationDateTextField = layoutManager.createInputField(inputFields, publicationDateLabel);
-        if (book != null) // check if there is no books passed(for add books)
+        if (isEditMode) // check if there is no books passed(for add books)
             publicationDateTextField.setText(book.getPublicationDate());
 
         // 2nd Column >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -308,7 +321,7 @@ public class GUIComponents {
         // Total Copies Input
         JLabel totalCopiesLabel = new JLabel("Total Copies");
         JTextField totalCopiesLabelTextField = layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
-        if (book != null) // check if there is no books passed(for add books)
+        if (isEditMode) // check if there is no books passed(for add books)
             totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
 
         // Description Input(Text Area)
@@ -320,7 +333,7 @@ public class GUIComponents {
         JTextArea descriptionTextArea = new JTextArea();
         layoutManager.textareaStyleDefault(descriptionTextArea); // change the style of the text Area
 
-        if (book != null) // check if there is no books passed(for add books)
+        if (isEditMode) // check if there is no books passed(for add books)
             descriptionTextArea.setText(book.getDescription());
 
         JScrollPane scrollPane = new JScrollPane(descriptionTextArea); // add a scroll bar for text area
@@ -335,7 +348,7 @@ public class GUIComponents {
 
         buttonPanel.setBackground(GlobalVariables.lightestColor);
 
-        if (book != null) { // Remove button only shows when a book is passed
+        if (isEditMode) { // Remove button only shows when a book is passed
             // Remove Button (when user wants to delete the book)
             JButton removeButton = new JButton("Remove");
             buttonPanel.add(removeButton);
@@ -345,10 +358,24 @@ public class GUIComponents {
             removeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println(this + " > Removed Book:");
-                    System.out.println(">> title: " + book.getTitle());
+                    bookFetcher.getBooks();
+                    bookFetcher.updateFile(null, false);
+
+                    if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this book?", "Remove", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        int position = bookFetcher.bookshelf.getItemPosition(book);
+                        System.out.println("Position of book to be removed: " + position);
+                        bookFetcher.bookshelf.deleteItemAt(position);
+                        
+                        System.out.println("Bookshelf after removal: " + bookFetcher.bookshelf); // Debugging
+                        System.out.println(this + " > Removed Book:");
+                        System.out.println(">> title: " + book.getTitle());
+                        bookFetcher.updateFile(null, false); // Always overwrite the file
+                        JOptionPane.showMessageDialog(null, "Book Removed Successfully", "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             });
+                            
         }
 
         // Submit Button (when user is done with their inputs)
@@ -360,14 +387,70 @@ public class GUIComponents {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(this + " > Submitted Book:");
-                System.out.println(">> title: " + titleTextField.getText());
-                System.out.println(">> author: " + authorTextField.getText());
-                System.out.println(">> publicationDate: " + publicationDateTextField.getText());
-                System.out.println(">> description: " + descriptionTextArea.getText());
-                System.out.println(">> totalCopiesLabel: " + totalCopiesLabelTextField.getText());
+                bookFetcher.getBooks(); // fetches book
+
+                if (authorTextField.getText().isBlank() || titleTextField.getText().isBlank()
+                        || publicationDateTextField.getText().isBlank()
+                        || totalCopiesLabelTextField.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error",
+                            JOptionPane.ERROR_MESSAGE); // check if the fields are empty/blank
+
+                } else {
+                    if (descriptionTextArea.getText().isBlank())
+                        descriptionTextArea.setText("No Description");
+
+                    String[] authorsArray = authorTextField.getText().split("[,&]");
+                    DLinkedList<String> authors = new DLinkedList<>();
+                    for (String author : authorsArray) {
+                        if (!author.equals("No Author/s") && !author.isBlank()) {
+                            authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
+                        }
+                    }
+
+                    try {
+                        int noOfCopies = Integer.parseInt(totalCopiesLabelTextField.getText());
+                        if (isEditMode) { // update existing book
+                            book.setAuthors(authors);
+                            book.setTitle(titleTextField.getText());
+                            book.setDescription(descriptionTextArea.getText());
+                            book.setPublicationDate(publicationDateTextField.getText());
+                            book.setNoOfCopies(noOfCopies);
+                            bookFetcher.updateFile(book, false);
+                            JOptionPane.showMessageDialog(null, "Book Updated Successfully", "Success",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        else { // add books
+                            Book book = new Book(authors, titleTextField.getText(), descriptionTextArea.getText(),
+                                    publicationDateTextField.getText(), noOfCopies, null);
+                            bookFetcher.addBook(book);
+                            bookFetcher.updateFile(book, true);
+                            JOptionPane.showMessageDialog(null, "Book Added Successfully", "Success",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        System.out.println(this + " > Submitted Book:");
+                        System.out.println(">> title: " + titleTextField.getText());
+                        System.out.println(">> author: " + authorTextField.getText());
+                        System.out.println(">> publicationDate: " + publicationDateTextField.getText());
+                        System.out.println(">> description: " + descriptionTextArea.getText());
+                        System.out.println(">> totalCopiesLabel: " + totalCopiesLabelTextField.getText());
+
+                        // clear the fields after submission
+                        authorTextField.setText("");
+                        titleTextField.setText("");
+                        publicationDateTextField.setText("");
+                        totalCopiesLabelTextField.setText("");
+                        descriptionTextArea.setText("");
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Please enter a valid integer for the number of copies.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
+
         // ===============================================================
 
         return inputFieldsPanel;

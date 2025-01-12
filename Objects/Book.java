@@ -33,11 +33,15 @@ public class Book {
         this.title = title;
     }
 
+    public void setAuthors(DLinkedList<String> authors){
+        this.authors = authors;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setPublicatonDate(String publicationDate) {
+    public void setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
     }
 

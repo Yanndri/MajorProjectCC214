@@ -9,9 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class BookLibrary {
-    public BookLibrary(){
-        getBooks();
-    }
+
+    // public BookLibrary() {
+    //     getBooks();
+    // }
 
     public DLinkedList<Book> bookshelf = new DLinkedList<>();
     // public Login userAccounts = new Login();
@@ -96,8 +97,11 @@ public class BookLibrary {
                         }
                     }
 
-                    addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
-                            Integer.parseInt(bookDetails[3]), borrowers);
+                    Book newBook = new Book(authors, bookDetails[0], bookDetails[1], bookDetails[2],
+                    Integer.parseInt(bookDetails[3]), borrowers);
+                    if(!bookshelf.isFound(newBook)){
+                        addBook(newBook);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -116,21 +120,23 @@ public class BookLibrary {
     public void updateFile(Book newBook, boolean append) {
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append)); // Open in append or write mode based on the parameter
-    
+            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append));  
             if (append) {
                 // Append only the new book entry
-                String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
-                        newBook.getAuthors().trim(),
-                        newBook.getTitle(),
-                        newBook.getDescription(),
-                        newBook.getPublicationDate(),
-                        newBook.getTotalCopies(),
-                        newBook.getBorrowersKeys().trim());
-                writer.write(bookDetails);
-                writer.newLine();
+                if (newBook != null) {
+                    String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
+                            newBook.getAuthors().trim(),
+                            newBook.getTitle(),
+                            newBook.getDescription(),
+                            newBook.getPublicationDate(),
+                            newBook.getTotalCopies(),
+                            newBook.getBorrowersKeys().trim());
+                    writer.write(bookDetails);
+                    writer.newLine();
+                }
             } else {
-                // Overwrite the entire file with the current state of the bookshelf
+                System.out.println("Overwriting file with current bookshelf contents...");
+                // overwrite the entire file with the current state of the bookshelf
                 DNode<Book> currNode = bookshelf.head;
                 while (currNode != null) {
                     Book currBook = currNode.getItem();
@@ -142,6 +148,7 @@ public class BookLibrary {
                             currBook.getTotalCopies(),
                             currBook.getBorrowersKeys());
     
+                    System.out.println("Writing book: " + bookDetails); // Debugging
                     writer.write(bookDetails);
                     writer.newLine();
     
@@ -159,78 +166,74 @@ public class BookLibrary {
                 }
             }
         }
-    }
-    
-
-
+    }    
 
     // public void updateFile() {
-    //     BufferedWriter writer = null;
-    //     try {
-    //         writer = new BufferedWriter(new FileWriter(
-    //                 "LandingPagesGUI\\AdminAcess\\Books.txt"));
+    // BufferedWriter writer = null;
+    // try {
+    // writer = new BufferedWriter(new FileWriter(
+    // "LandingPagesGUI\\AdminAcess\\Books.txt"));
 
-    //         DNode<Book> currNode = bookshelf.head;
-    //         while (currNode != null) {
-    //             Book currBook = currNode.getItem();
-    //             String authors = currBook.getAuthors().trim();
+    // DNode<Book> currNode = bookshelf.head;
+    // while (currNode != null) {
+    // Book currBook = currNode.getItem();
+    // String authors = currBook.getAuthors().trim();
 
-    //             String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a more convenient way to do it?
-    //                     authors,
-    //                     currBook.getTitle(),
-    //                     currBook.getDescription(),
-    //                     currBook.getPublicationDate(),
-    //                     currBook.getTotalCopies(),
-    //                     currBook.getBorrowersKeys());
+    // String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a
+    // more convenient way to do it?
+    // authors,
+    // currBook.getTitle(),
+    // currBook.getDescription(),
+    // currBook.getPublicationDate(),
+    // currBook.getTotalCopies(),
+    // currBook.getBorrowersKeys());
 
-    //             writer.write(bookDetails);
-    //             writer.newLine();
+    // writer.write(bookDetails);
+    // writer.newLine();
 
-    //             currNode = currNode.getNext();
-    //         }
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     } finally {
-    //         if (writer != null) {
-    //             try {
-    //                 writer.close();
-    //             } catch (IOException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     }
+    // currNode = currNode.getNext();
+    // }
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // } finally {
+    // if (writer != null) {
+    // try {
+    // writer.close();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
+    // }
     // }
 
     public static void main(String[] args) {
-    // DLinkedList author1 = new DLinkedList();
-    // author1.addLast("Peter");
-    // author1.addLast("JK Rowling");
-    // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
+        // DLinkedList author1 = new DLinkedList();
+        // author1.addLast("Peter");
+        // author1.addLast("JK Rowling");
+        // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
 
-    // DLinkedList author2 = new DLinkedList();
-    // author2.addLast("Pete");
-    // author2.addLast("John Rowling");
-    // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
+        // DLinkedList author2 = new DLinkedList();
+        // author2.addLast("Pete");
+        // author2.addLast("John Rowling");
+        // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
 
-    BookLibrary lib = new BookLibrary();
-    //lib.getBooks();
-    Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
+        BookLibrary lib = new BookLibrary();
+        // lib.getBooks();
+        Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
 
-    System.out.println("Head Author: "+currBook.getAuthorsList().head.getItem());
-    
-    System.out.println(currBook.getAuthors());
-    //currBook.addAuthor("Test");
-    System.out.println(currBook.removeAuthor("Test"));
-    System.out.println("Borrowers: "+currBook.getBorrowersKeys()); 
-    DLinkedList<User> headBorrowers = currBook.getBorrowers();
-    User user = headBorrowers.head.getItem();
-    System.out.println("Borrower User: "+user.getFirstName());
+        System.out.println("Head Author: " + currBook.getAuthorsList().head.getItem());
 
-    System.out.println(currBook.getAuthors());
-    
+        System.out.println(currBook.getAuthors());
+        // currBook.addAuthor("Test");
+        System.out.println(currBook.removeAuthor("Test"));
+        System.out.println("Borrowers: " + currBook.getBorrowersKeys());
+        DLinkedList<User> headBorrowers = currBook.getBorrowers();
+        User user = headBorrowers.head.getItem();
+        System.out.println("Borrower User: " + user.getFirstName());
 
+        System.out.println(currBook.getAuthors());
 
-    lib.updateFile(null,false);
+        lib.updateFile(null, false);
 
     }
 
