@@ -30,6 +30,7 @@ public class MainUserPage extends CustomLayoutManager {
 
     // Constructor where frame is maximized
     public MainUserPage() {
+        GlobalVariables.setUserType("User");
         initialize(); // Initialize the components
     }
 

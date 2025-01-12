@@ -3,28 +3,35 @@ package LandingPagesGUI.GUIAdminAcess;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import DataStructures.BookLibrary;
+import DataStructures.DLinkedList;
+import DataStructures.DNode;
 import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.GlobalVariables;
+import LandingPagesGUI.GUIComponents;
+import Objects.Book;
 
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+
+// title, description, publicationDate, authors
+// private int totalCopies, borrowedCopies;
+// private MyLinkedList borrowers;
+// private QueueLinkedList requesters;
 
 // Admin Page to edit books
 public class EditBooksPage extends JPanel {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access component styles
-    JTextField searchTextField = new JTextField(); // the search text field when searching for a book
-    // title, description, publicationDate, authors
-    // private int totalCopies, borrowedCopies;
-    // private MyLinkedList borrowers;
-    // private QueueLinkedList requesters;
+
+    // Search Bar
+    GUIComponents guiComponents = new GUIComponents();
+    String searchedText; // the title of the button pressed in search suggestions
 
     public JPanel getEditBooksPagePanel() {
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(0, 20, 0, 20));
         this.setBackground(GlobalVariables.lightestColor);
 
-        // North Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        // Add here the search bar and title >>>>>>>>>>>>>>>>>
         JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 24, 0));
         this.add(northPanel, BorderLayout.NORTH);
 
@@ -37,121 +44,32 @@ public class EditBooksPage extends JPanel {
         headerLabel.setFont(new Font("Monospaced", Font.PLAIN, 32));
         headerLabel.setForeground(GlobalVariables.darkestColor);
 
-        // search bar(Search Books to Edit)
-        searchBar();
-        JPanel searchBar = layoutManager.createSearchBar(searchTextField);
-        northPanel.add(searchBar, BorderLayout.SOUTH);
-        // =============================================
+        JPanel displayPanel = new JPanel(new BorderLayout()); // panel to display the scroll bar
+        this.add(displayPanel, BorderLayout.CENTER); // set it to center of the panel
 
-        // West Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        JPanel westPanel = new JPanel(new BorderLayout());
-        this.add(westPanel, BorderLayout.WEST);
+        displayPanel.setBackground(GlobalVariables.lightestColor);
 
-        westPanel.setBackground(GlobalVariables.lightestColor);
+        guiComponents.displayPanel = displayPanel; // set the panel for guiComponents to use be this panel
 
-        JPanel inputFieldsPanel = new JPanel(); // covers the center part of the west border
-        westPanel.add(inputFieldsPanel, BorderLayout.CENTER);
+        // Add the search Bar
+        guiComponents.createSearchBar(northPanel); // pass where the search bar will be put
+        // ========================================================================
 
-        inputFieldsPanel.setBackground(GlobalVariables.lightestColor);
+        // TEMPORARY PLACEHOLDER BOOK FOR TESTING
+        BookLibrary bookFetcher = new BookLibrary(); // class that have books
+        bookFetcher.getBooks(); // get a list of books from LibraryTest (Doubly Linked List)
 
-        JPanel boxLayoutPanel = new JPanel(); // make another panel that doesnt cover the whole west border
-        inputFieldsPanel.add(boxLayoutPanel); // so the components doesnt fill the whole panel when using box layout
+        Book book = new Book();
+        DLinkedList<Book> List = null; // Store here the available books
+        List = bookFetcher.searchTitle("Harry"); // search for the title of the book that contains the keyword
+        DNode<Book> bookNode;
+        bookNode = List.head; // get the head of the list of books
+        book = bookNode.getItem(); // get the item in the book node
 
-        boxLayoutPanel.setLayout(new BoxLayout(boxLayoutPanel, BoxLayout.Y_AXIS)); // components are arranged vertically
-        boxLayoutPanel.setBackground(GlobalVariables.lightestColor);
-
-        // Title Input
-        JLabel titleLabel = new JLabel("Title");
-        createInputField(boxLayoutPanel, titleLabel); // create an input field for title
-
-        // Author Input
-        JLabel authorLabel = new JLabel("Author");
-        createInputField(boxLayoutPanel, authorLabel); // create an input field for Author
-
-        // Publication Date Input
-        JLabel publicationDateLabel = new JLabel("Publication Date");
-        createInputField(boxLayoutPanel, publicationDateLabel); // create an input field for Date
-
-        // =======================================
-
-        // Center Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        this.add(centerPanel, BorderLayout.CENTER);
-
-        centerPanel.setBackground(GlobalVariables.lightestColor);
-
-        JPanel inputAreaPanel = new JPanel(); // The West side of the Center Panel
-        centerPanel.add(inputAreaPanel, BorderLayout.WEST);
-
-        inputAreaPanel.setBackground(GlobalVariables.lightestColor);
-
-        JPanel inputDescriptionPanel = new JPanel(); // put here the description input, total copies input, etc.
-        inputAreaPanel.add(inputDescriptionPanel);
-
-        inputDescriptionPanel.setLayout(new BoxLayout(inputDescriptionPanel, BoxLayout.Y_AXIS));
-        inputDescriptionPanel.setBackground(GlobalVariables.lightestColor);
-        inputDescriptionPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
-
-        // Description Input(Text Area)
-        JLabel descriptionLabel = new JLabel("Description (Optional)");
-        inputDescriptionPanel.add(descriptionLabel);
-
-        layoutManager.labelStyleDefault(descriptionLabel); // change the style of label
-
-        JTextArea descriptionTextArea = new JTextArea();
-        layoutManager.textareaStyleDefault(descriptionTextArea); // change the style of the text Area
-
-        JScrollPane scrollPane = new JScrollPane(descriptionTextArea); // add a scroll bar for text area
-        inputDescriptionPanel.add(scrollPane);
-
-        scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 9));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-        // Total Copies Input
-        JLabel totalCopiesLabel = new JLabel("Total Copies");
-        createInputField(inputDescriptionPanel, totalCopiesLabel);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
-        inputDescriptionPanel.add(buttonPanel);
-
-        buttonPanel.setBackground(GlobalVariables.lightestColor);
-
-        // Submit Button (when user is done with their inputs)
-        JButton submitButton = new JButton("Submit");
-        buttonPanel.add(submitButton);
-
-        layoutManager.buttonStyleDefault(submitButton); // change the style of button
-        // ===============================================================
+        // instantiate the input fields
+        displayPanel.add(guiComponents.instantiateInputFields(book), BorderLayout.CENTER);
 
         return this;
     }
 
-    // The search bar for searching books
-    private void searchBar() {
-        searchTextField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
-            @Override
-            public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
-                // change border color
-                System.out.println("sadsa");
-                searchTextField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) { // When the textfield lost focus
-                // get rid of border
-                searchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-            }
-        });
-    }
-
-    // create an input field with a label and it's text field
-    private void createInputField(JPanel panel, JLabel label) {
-        panel.add(label);
-
-        JTextField textField = new JTextField();
-        panel.add(textField);
-
-        layoutManager.labelStyleDefault(label); // change the style of label
-        layoutManager.textfieldStyleDefault(textField); // changes text field style(lol)
-    }
 }

@@ -32,6 +32,7 @@ public class MainAdminPage extends CustomLayoutManager {
     // =================================
 
     public MainAdminPage() {
+        GlobalVariables.setUserType("Admin");
         initialize();
     }
 

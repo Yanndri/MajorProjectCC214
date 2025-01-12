@@ -128,7 +128,7 @@ public class CustomLayoutManager {
         return searchBar;
     }
 
-    // Create an input field,
+    // Create an input field, parameter panel to where to store the input field
     // has parameter JLabel to customize what type of input field(ex: username)
     public JTextField createInputField(JPanel panel, JLabel label) {
         System.out.println(this + " > Created an Input Field for " + label.getText());
