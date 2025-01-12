@@ -29,6 +29,7 @@ public class GUIComponents {
 
     // Panels >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     public JPanel displayPanel = new JPanel(); // What panel is displayed at the center
+    public JPanel buttonPanel = new JPanel(); // display here the buttons for input
     JPanel displaySearch = new JPanel(); // put here the available books from search bar
 
     // Returns the panel that should be displayed at the center
@@ -123,7 +124,6 @@ public class GUIComponents {
 
     // Update ScrollBar (Update the Available Books based on the search)
     private void updateScrollBar() {
-        System.out.println("SCROLL BAR UPDATED");
         keyword = searchTextField.getText(); // get the text inside searchTextField / the Search Bar
         searchFilter = searchComboBox.getSelectedItem().toString(); // get what search filter is used
         displayPanel(instantiateScrollBar()); // display the search suggestions
@@ -195,10 +195,10 @@ public class GUIComponents {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Book Panel displayed");
-
                 searchedText = book.getTitle(); // get the text of the button
                 searchTextField.setText(searchedText); // set the text field of the search bar the clicked button
+
+                System.out.println("Display Book " + book.getTitle());
 
                 if (GlobalVariables.userType.equals("Admin")) // Admin is editing books
                     displayPanel(instantiateInputFields(book)); // Display Panel for input fields
@@ -264,17 +264,12 @@ public class GUIComponents {
     // for admin inputting data on a book (For Admins)
     public JPanel instantiateInputFields(Book book) {
         // INPUT FIELDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        JPanel inputFieldsPanel = new JPanel(new BorderLayout());
+        JPanel inputFieldsPanel = new JPanel(new GridLayout(1, 2, 0, 0));
         displayPanel.add(inputFieldsPanel, BorderLayout.CENTER);
 
-        // West Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        JPanel westPanel = new JPanel(new BorderLayout());
-        inputFieldsPanel.add(westPanel, BorderLayout.WEST);
-
-        westPanel.setBackground(GlobalVariables.lightestColor);
-
+        // 1st Column >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel inputFields = new JPanel(); // Add here the Title, Author, Publication Date Input Fields
-        westPanel.add(inputFields, BorderLayout.CENTER); // covers the center part of the west border
+        inputFieldsPanel.add(inputFields, BorderLayout.CENTER); // covers the center part of the west border
 
         inputFields.setLayout(new BoxLayout(inputFields, BoxLayout.Y_AXIS)); // components are arranged vertically
         inputFields.setBackground(GlobalVariables.lightestColor);
@@ -282,36 +277,26 @@ public class GUIComponents {
         // Title Input
         JLabel titleLabel = new JLabel("Title");
         JTextField titleTextField = layoutManager.createInputField(inputFields, titleLabel); // input field for title
-
         if (book != null) // check if there is no books passed(for add books)
             titleTextField.setText(book.getTitle());
 
         // Author Input
         JLabel authorLabel = new JLabel("Author");
         JTextField authorTextField = layoutManager.createInputField(inputFields, authorLabel);
-
         if (book != null) // check if there is no books passed(for add books)
             authorTextField.setText(book.getAuthors());
 
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
         JTextField publicationDateTextField = layoutManager.createInputField(inputFields, publicationDateLabel);
-
         if (book != null) // check if there is no books passed(for add books)
             publicationDateTextField.setText(book.getPublicationDate());
 
-        // =======================================
-
-        // Center of the Center Panel >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        // 2nd Column >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel innerCenterPanel = new JPanel(new BorderLayout());
         inputFieldsPanel.add(innerCenterPanel, BorderLayout.CENTER);
 
         innerCenterPanel.setBackground(GlobalVariables.lightestColor);
-
-        JPanel inputAreaPanel = new JPanel(); // The West side of the Center Panel
-        innerCenterPanel.add(inputAreaPanel, BorderLayout.WEST);
-
-        inputAreaPanel.setBackground(GlobalVariables.lightestColor);
 
         JPanel inputDescriptionPanel = new JPanel(); // put here the description input, total copies input, etc.
         innerCenterPanel.add(inputDescriptionPanel, BorderLayout.WEST);
@@ -319,6 +304,12 @@ public class GUIComponents {
         inputDescriptionPanel.setLayout(new BoxLayout(inputDescriptionPanel, BoxLayout.Y_AXIS));
         inputDescriptionPanel.setBackground(GlobalVariables.lightestColor);
         inputDescriptionPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
+
+        // Total Copies Input
+        JLabel totalCopiesLabel = new JLabel("Total Copies");
+        JTextField totalCopiesLabelTextField = layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
+        if (book != null) // check if there is no books passed(for add books)
+            totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
 
         // Description Input(Text Area)
         JLabel descriptionLabel = new JLabel("Description (Optional)");
@@ -336,21 +327,31 @@ public class GUIComponents {
         inputDescriptionPanel.add(scrollPane);
 
         layoutManager.scrollPaneStyleDefault(scrollPane);
-        scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 9));
+        scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 2));
 
-        // Total Copies Input
-        JLabel totalCopiesLabel = new JLabel("Total Copies");
-        JTextField totalCopiesLabelTextField = layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
-
-        if (book != null) // check if there is no books passed(for add books)
-            totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
-
-        // Submit Button (when user is done with their inputs)
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
+        // put in this panel the buttons
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
         inputDescriptionPanel.add(buttonPanel);
 
         buttonPanel.setBackground(GlobalVariables.lightestColor);
 
+        if (book != null) { // Remove button only shows when a book is passed
+            // Remove Button (when user wants to delete the book)
+            JButton removeButton = new JButton("Remove");
+            buttonPanel.add(removeButton);
+
+            layoutManager.buttonStyleDefault(removeButton); // change the style of button
+
+            removeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println(this + " > Removed Book:");
+                    System.out.println(">> title: " + book.getTitle());
+                }
+            });
+        }
+
+        // Submit Button (when user is done with their inputs)
         JButton submitButton = new JButton("Submit");
         buttonPanel.add(submitButton);
 
@@ -359,12 +360,12 @@ public class GUIComponents {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(this + " > Submitted Edit:");
-                System.out.println(">> New title: " + titleTextField.getText());
-                System.out.println(">> New author: " + authorTextField.getText());
-                System.out.println(">> New publicationDate: " + publicationDateTextField.getText());
-                System.out.println(">> New description: " + descriptionTextArea.getText());
-                System.out.println(">> New totalCopiesLabel: " + totalCopiesLabelTextField.getText());
+                System.out.println(this + " > Submitted Book:");
+                System.out.println(">> title: " + titleTextField.getText());
+                System.out.println(">> author: " + authorTextField.getText());
+                System.out.println(">> publicationDate: " + publicationDateTextField.getText());
+                System.out.println(">> description: " + descriptionTextArea.getText());
+                System.out.println(">> totalCopiesLabel: " + totalCopiesLabelTextField.getText());
             }
         });
         // ===============================================================

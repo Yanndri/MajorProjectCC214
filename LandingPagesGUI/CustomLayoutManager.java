@@ -156,20 +156,22 @@ public class CustomLayoutManager {
     public void textfieldStyleDefault(JTextField textField) {
         textField.setHorizontalAlignment(SwingConstants.CENTER);
         textField.setPreferredSize(new Dimension(GlobalVariables.width / 3, 24));
-        textField.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        textField.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         textField.setForeground(GlobalVariables.darkestColor);
         textField.setCaretColor(GlobalVariables.darkestColor);
+        textField.setSelectionColor(GlobalVariables.lighterColor);
         textField.addFocusListener(new FocusAdapter() { // to check for any events related to focus
             @Override
             public void focusGained(FocusEvent e) { // When the textfield gains focus(the caret is visible)
                 // change border color
                 textField.setBorder(BorderFactory.createLineBorder(GlobalVariables.mediumColor, 1));
+
             }
 
             @Override
             public void focusLost(FocusEvent e) { // When the textfield lost focus
                 // get rid of border
-                textField.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 5));
+                textField.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             }
         });
     }
@@ -181,7 +183,7 @@ public class CustomLayoutManager {
         textArea.setWrapStyleWord(true); // text wraps by word
         textArea.setCaretColor(GlobalVariables.darkestColor); // change the color of the caret
         textArea.setForeground(GlobalVariables.darkestColor);
-        textArea.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 10));
 
         textArea.addFocusListener(new FocusAdapter() { // to check for any events related to focus
             @Override
