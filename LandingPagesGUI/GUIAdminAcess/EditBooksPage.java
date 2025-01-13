@@ -57,7 +57,6 @@ public class EditBooksPage extends JPanel {
 
         // TEMPORARY PLACEHOLDER BOOK FOR TESTING
         BookLibrary bookFetcher = new BookLibrary(); // class that have books
-        bookFetcher.getBooks(); // get a list of books from LibraryTest (Doubly Linked List)
 
         Book book = new Book();
         DLinkedList<Book> List = null; // Store here the available books

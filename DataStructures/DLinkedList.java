@@ -61,21 +61,35 @@ public class DLinkedList<B> {
 
 	// delete
 	public void deleteFront() {
-		DNode<B> curr = head;
-		head = head.getNext();
-		curr.setNext(null);
+		if (count == 1)
+			head = tail = null;
+		else if (!isEmpty()) {
+			DNode<B> curr = head;
+			head = head.getNext();
+			curr.setNext(null);
+		}
 		count--;
 	}
 
 	public void deleteLast() {
-		DNode<B> curr = tail;
-		tail = tail.getPrev();
-		curr.setPrev(null);
+
+		if (count == 1)
+			head = tail = null;
+		else if (!isEmpty()) {
+			DNode<B> curr = tail;
+			tail = tail.getPrev();
+			tail.setNext(null);
+			curr.setPrev(null);
+		}
+
 		count--;
 	}
 
 	public void deleteItemAt(int pos) {
 		DNode<B> curr;
+
+		if(pos > count || pos < 1)
+			return;
 		if (!isEmpty()) {
 			if (pos == 1) {
 				deleteFront();
