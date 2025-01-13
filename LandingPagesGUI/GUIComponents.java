@@ -19,6 +19,8 @@ import javax.swing.event.DocumentListener;
 public class GUIComponents {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
 
+    private boolean editMode = false;
+
     // Search Bar
     JTextField searchTextField = new JTextField(""); // the search Text Field
     String searchedText; // the title of the button pressed in search suggestions
@@ -274,6 +276,11 @@ public class GUIComponents {
 
     // for admin inputting data on a book (For Admins)
     public JPanel instantiateInputFields(Book book) {
+
+        if(book != null)
+            editMode = true;
+        else
+            editMode = false;
         // INPUT FIELDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         JPanel inputFieldsPanel = new JPanel(new GridLayout(1, 2, 0, 0));
         displayPanel.add(inputFieldsPanel, BorderLayout.CENTER);
