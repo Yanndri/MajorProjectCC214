@@ -7,6 +7,8 @@ import Objects.Book; // NOTE
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.*;
@@ -109,6 +111,15 @@ public class GUIComponents {
                 searchTextField.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             }
         });
+
+         // Ensure the searchTextField gains focus when the searchBarPanel is displayed
+    searchBarPanel.addComponentListener(new ComponentAdapter() {
+        @Override
+        public void componentShown(ComponentEvent e) {
+            // Request focus for the searchTextField
+            searchTextField.requestFocusInWindow();
+        }
+    });
 
         return searchBar;
     }
@@ -277,21 +288,15 @@ public class GUIComponents {
         // Title Input
         JLabel titleLabel = new JLabel("Title");
         JTextField titleTextField = layoutManager.createInputField(inputFields, titleLabel); // input field for title
-        if (book != null) // check if there is no books passed(for add books)
-            titleTextField.setText(book.getTitle());
-
+      
         // Author Input
         JLabel authorLabel = new JLabel("Author");
         JTextField authorTextField = layoutManager.createInputField(inputFields, authorLabel);
-        if (book != null) // check if there is no books passed(for add books)
-            authorTextField.setText(book.getAuthors());
 
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
         JTextField publicationDateTextField = layoutManager.createInputField(inputFields, publicationDateLabel);
-        if (book != null) // check if there is no books passed(for add books)
-            publicationDateTextField.setText(book.getPublicationDate());
-
+    
         // 2nd Column >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel innerCenterPanel = new JPanel(new BorderLayout());
         inputFieldsPanel.add(innerCenterPanel, BorderLayout.CENTER);
@@ -308,8 +313,6 @@ public class GUIComponents {
         // Total Copies Input
         JLabel totalCopiesLabel = new JLabel("Total Copies");
         JTextField totalCopiesLabelTextField = layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
-        if (book != null) // check if there is no books passed(for add books)
-            totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
 
         // Description Input(Text Area)
         JLabel descriptionLabel = new JLabel("Description (Optional)");
@@ -320,14 +323,20 @@ public class GUIComponents {
         JTextArea descriptionTextArea = new JTextArea();
         layoutManager.textareaStyleDefault(descriptionTextArea); // change the style of the text Area
 
-        if (book != null) // check if there is no books passed(for add books)
-            descriptionTextArea.setText(book.getDescription());
-
         JScrollPane scrollPane = new JScrollPane(descriptionTextArea); // add a scroll bar for text area
         inputDescriptionPanel.add(scrollPane);
 
         layoutManager.scrollPaneStyleDefault(scrollPane);
         scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 2));
+
+        //Adding text to fields
+        if (book != null) {// check if there is no books passed(for add books)
+            titleTextField.setText(book.getTitle());
+            authorTextField.setText(book.getAuthors());
+            publicationDateTextField.setText(book.getPublicationDate());
+            totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
+            descriptionTextArea.setText(book.getDescription());
+        }
 
         // put in this panel the buttons
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
