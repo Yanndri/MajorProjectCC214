@@ -61,7 +61,7 @@ public class EditBooksPage extends JPanel {
 
         Book book = new Book();
         DLinkedList<Book> List = null; // Store here the available books
-        List = bookFetcher.searchTitle(""); // search for the title of the book that contains the keyword
+        List = bookFetcher.searchTitle("Harry "); // search for the title of the book that contains the keyword
         DNode<Book> bookNode;
         bookNode = List.head; // get the head of the list of books
         book = bookNode.getItem(); // get the item in the book node

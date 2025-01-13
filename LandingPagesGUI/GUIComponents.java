@@ -20,7 +20,7 @@ public class GUIComponents {
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
 
     // Search Bar
-    JTextField searchTextField; // the search Text Field
+    JTextField searchTextField = new JTextField(""); // the search Text Field
     String searchedText; // the title of the button pressed in search suggestions
     String keyword; // get the text in the Search Bar(text field)
 
@@ -112,14 +112,14 @@ public class GUIComponents {
             }
         });
 
-         // Ensure the searchTextField gains focus when the searchBarPanel is displayed
-    searchBarPanel.addComponentListener(new ComponentAdapter() {
-        @Override
-        public void componentShown(ComponentEvent e) {
-            // Request focus for the searchTextField
-            searchTextField.requestFocusInWindow();
-        }
-    });
+        // Ensure the searchTextField gains focus when the searchBarPanel is displayed
+        searchBarPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                // Request focus for the searchTextField
+                searchTextField.requestFocusInWindow();
+            }
+        });
 
         return searchBar;
     }
@@ -288,7 +288,7 @@ public class GUIComponents {
         // Title Input
         JLabel titleLabel = new JLabel("Title");
         JTextField titleTextField = layoutManager.createInputField(inputFields, titleLabel); // input field for title
-      
+
         // Author Input
         JLabel authorLabel = new JLabel("Author");
         JTextField authorTextField = layoutManager.createInputField(inputFields, authorLabel);
@@ -296,7 +296,7 @@ public class GUIComponents {
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
         JTextField publicationDateTextField = layoutManager.createInputField(inputFields, publicationDateLabel);
-    
+
         // 2nd Column >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel innerCenterPanel = new JPanel(new BorderLayout());
         inputFieldsPanel.add(innerCenterPanel, BorderLayout.CENTER);
@@ -329,10 +329,16 @@ public class GUIComponents {
         layoutManager.scrollPaneStyleDefault(scrollPane);
         scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 2));
 
-        //Adding text to fields
-        if (book != null) {// check if there is no books passed(for add books)
+        // Adding text to fields
+        if (searchTextField.getText().isBlank()) {
+            titleTextField.setText("");
+            authorTextField.setText("");
+            publicationDateTextField.setText("");
+            totalCopiesLabelTextField.setText("");
+            descriptionTextArea.setText("");
+        } else if (book != null) {// check if there is no books passed(for add books)
             titleTextField.setText(book.getTitle());
-            authorTextField.setText(book.getAuthors());
+            authorTextField.setText(book.getAuthors().toString());
             publicationDateTextField.setText(book.getPublicationDate());
             totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
             descriptionTextArea.setText(book.getDescription());
@@ -354,8 +360,30 @@ public class GUIComponents {
             removeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println(this + " > Removed Book:");
-                    System.out.println(">> title: " + book.getTitle());
+                    
+                    if (book != null) {
+                        String title = book.getTitle();
+                        int result = JOptionPane.showConfirmDialog(null,
+                                "Are you sure to remove book " + title + " ? This action cannot be undone.",
+                                "Book Removed", JOptionPane.OK_CANCEL_OPTION);
+                        if (result == 0) {
+                            System.out.println("Removing book: " + book.getTitle());
+                            if (new BookLibrary().removeBook(book)) {
+                                searchTextField.setText("");
+                                titleTextField.setText("");
+                                authorTextField.setText("");
+                                publicationDateTextField.setText("");
+                                totalCopiesLabelTextField.setText("");
+                                descriptionTextArea.setText("");
+                                JOptionPane.showMessageDialog(null, "The book " + title + " is removed successfully.",
+                                        "Book Removed", JOptionPane.OK_OPTION);
+                                System.out.println(this + " > Removed Book:");
+                                System.out.println(">> title: " + book.getTitle());
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please select a book first.", "Book Removal", JOptionPane.OK_OPTION);
+                    }
                 }
             });
         }

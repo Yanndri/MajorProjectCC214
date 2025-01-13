@@ -1,5 +1,7 @@
 package Objects;
 
+import java.util.Objects;
+
 import DataStructures.DLinkedList;
 import DataStructures.DNode;
 import DataStructures.QueueLinkedList;
@@ -22,6 +24,10 @@ public class Book {
         this.noOfCopies = noOfCopies;
         this.totalCopies = noOfCopies; // Set the Maximun copies
         this.borrowers = borrowers;
+    }
+
+    public Book(DLinkedList<String> authors, String title, String description, String publicationDate) {
+        this(authors, title, description, publicationDate, 0, null);
     }
 
     public Book() {
@@ -71,11 +77,12 @@ public class Book {
     }
 
     // getters
-    public String getAuthors() {
-        if (authors == null || authors.isEmpty()) {
-            return "\tNo authors";
-        } else
-            return authors.toString();
+    public DLinkedList<String> getAuthors() {
+        // if (authors == null || authors.isEmpty()) {
+        // return "\tNo authors";
+        // } else
+        // return authors.toString();
+        return authors;
     }
 
     public DLinkedList<String> getAuthorsList() {
@@ -162,6 +169,23 @@ public class Book {
                 + getTotalCopies());
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true; // Check if both references are the same
+        if (obj == null || getClass() != obj.getClass())
+            return false; // Check if the object is of the same type
+
+        Book book = (Book) obj;
+
+        // Compare only the relevant fields (exclude number of borrowers or other
+        // fields)
+        return Objects.equals(authors, book.authors) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(description, book.description) &&
+                Objects.equals(publicationDate, book.publicationDate);
     }
 
 }

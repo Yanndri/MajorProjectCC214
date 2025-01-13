@@ -150,36 +150,37 @@ public class DLinkedList<B> {
 	public Object getItemAt(int pos) {
 		if (!isEmpty()) {
 			if (pos >= 1 && pos <= count) {
-				if (head == tail && pos == 1) { 
+				if (head == tail && pos == 1) {
 					return head.getItem();
-				} else if (pos == count) { 
+				} else if (pos == count) {
 					return tail.getItem();
 				} else { // Middle nodes
 					DNode<B> curr = head;
 					for (int i = 1; i < pos; i++) {
 						curr = curr.getNext();
 					}
-					return curr.getItem(); 
+					return curr.getItem();
 				}
 			}
 		}
 		return null; // invalid position or empty list
 	}
-	
 
 	// display
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		DNode<B> p = head;
-	
+
 		while (p != null) {
 			sb.append(p.getItem());
 			if (p.getNext() != null) {
-				if (p.getNext().getNext() == null) { // if next node is tial 
-					sb.append(" & ");
-				} else {
-					sb.append(", ");
+				if (count > 1) {
+					if (p.getNext().getNext() == null) { // if next node is tial
+						sb.append(" & ");
+					} else {
+						sb.append(", ");
+					}
 				}
 			}
 			p = p.getNext();
@@ -197,25 +198,25 @@ public class DLinkedList<B> {
 	}
 
 	public static void main(String[] args) {
-		
-		 DLinkedList<Object> list = new DLinkedList<>();
-		 list.addFront(6);
-		 list.addFront(7);
-		 list.addLast(80);
-		 list.addFront(420);
-		 System.out.println("COUNT: " + list.count);
-		 list.insertAt(69, 3);
-		 list.insertAt(75, 2);
-		 System.out.println("COUNT: " + list.count);
-		 System.out.println("List contains:" + list);
-		 System.out.println();
-		 list.deleteItemAt(3);
-		 System.out.println("List contains:" + list);
-		 System.out.println("POST COUNT: " + list.count);
-		 System.out.println("ITEM AT: "+list.getItemAt(3));
-		 System.out.println("IS FOUND: "+list.isFound(75));
-		 System.out.println("List in reverse contains:" + list.reverseToString());
-		
+
+		DLinkedList<Object> list = new DLinkedList<>();
+		list.addFront(6);
+		list.addFront(7);
+		list.addLast(80);
+		list.addFront(420);
+		System.out.println("COUNT: " + list.count);
+		list.insertAt(69, 3);
+		list.insertAt(75, 2);
+		System.out.println("COUNT: " + list.count);
+		System.out.println("List contains:" + list);
+		System.out.println();
+		list.deleteItemAt(3);
+		System.out.println("List contains:" + list);
+		System.out.println("POST COUNT: " + list.count);
+		System.out.println("ITEM AT: " + list.getItemAt(3));
+		System.out.println("IS FOUND: " + list.isFound(75));
+		System.out.println("List in reverse contains:" + list.reverseToString());
+
 	}
 } // end of DLinkedList class & Start of DNode class
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
