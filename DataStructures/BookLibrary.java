@@ -174,11 +174,13 @@ public class BookLibrary {
             if (isBookFound(bookToRemove)) {
             System.out.println("working1");
             int pos = getBookPosition(bookToRemove);
-            System.out.println("working2");
+            System.out.println("Book Position: " + pos);
+            System.out.println("Book title found: " + bookshelf.getItemAt(pos));
             bookshelf.deleteItemAt(pos);
             System.out.println("working3");
             updateFile(null, false);
             System.out.println("working4");
+            // System.out.print(bookshelf.toString());
             return true;
         }
 
@@ -191,7 +193,7 @@ public class BookLibrary {
         DNode<Book> p = bookshelf.head;
         System.out.println(book.getTitle());
         while (p != null) {
-            if(book.equals((Book) p.getItem()))
+            if(book.getTitle().equals(p.getItem().getTitle()))
                 return true;
             p = p.getNext();
         }
@@ -205,7 +207,7 @@ public class BookLibrary {
             DNode<Book> p = bookshelf.head;
 
             while (p != null) {
-                if (book.equals((Book) p.getItem()))
+                if (book.getTitle().equals(p.getItem().getTitle()))
                     return bookshelf.getItemPosition((Book) p.getItem());
                 p = p.getNext();
             }

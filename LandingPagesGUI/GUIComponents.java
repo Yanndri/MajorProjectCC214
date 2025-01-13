@@ -375,8 +375,8 @@ public class GUIComponents {
                                 publicationDateTextField.setText("");
                                 totalCopiesLabelTextField.setText("");
                                 descriptionTextArea.setText("");
-                                JOptionPane.showMessageDialog(null, "The book " + title + " is removed successfully.",
-                                        "Book Removed", JOptionPane.OK_OPTION);
+                                JOptionPane.showMessageDialog(null, "The book ''" + title + "'' is removed successfully.",
+                                        "Book Removed", JOptionPane.INFORMATION_MESSAGE);
                                 System.out.println(this + " > Removed Book:");
                                 System.out.println(">> title: " + book.getTitle());
                             }
