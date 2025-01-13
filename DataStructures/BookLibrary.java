@@ -96,8 +96,11 @@ public class BookLibrary {
                         }
                     }
 
-                    addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
-                            Integer.parseInt(bookDetails[3]), borrowers);
+                    Book newBook = new Book(authors, bookDetails[0], bookDetails[1], bookDetails[2],
+                    Integer.parseInt(bookDetails[3]), borrowers);
+                    if(!bookshelf.isFound(newBook)){
+                        addBook(newBook);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -116,13 +119,7 @@ public class BookLibrary {
     public void updateFile(Book newBook, boolean append) {
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append)); // Open in
-                                                                                                           // append or
-                                                                                                           // write mode
-                                                                                                           // based on
-                                                                                                           // the
-                                                                                                           // parameter
-
+            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append));  
             if (append) {
                 // Append only the new book entry
                 String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
@@ -135,7 +132,8 @@ public class BookLibrary {
                 writer.write(bookDetails);
                 writer.newLine();
             } else {
-                // Overwrite the entire file with the current state of the bookshelf
+                System.out.println("Overwriting file with current bookshelf contents...");
+                // overwrite the entire file with the current state of the bookshelf
                 DNode<Book> currNode = bookshelf.head;
                 while (currNode != null) {
                     Book currBook = currNode.getItem();
@@ -146,7 +144,8 @@ public class BookLibrary {
                             currBook.getPublicationDate(),
                             currBook.getTotalCopies(),
                             currBook.getBorrowersKeys());
-
+    
+                    System.out.println("Writing book: " + bookDetails); // Debugging
                     writer.write(bookDetails);
                     writer.newLine();
 

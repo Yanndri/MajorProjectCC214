@@ -1,17 +1,15 @@
 package LandingPagesGUI.GUIAdminAcess;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import DataStructures.BookLibrary;
 import DataStructures.DLinkedList;
 import DataStructures.DNode;
 import LandingPagesGUI.CustomLayoutManager;
-import LandingPagesGUI.GlobalVariables;
 import LandingPagesGUI.GUIComponents;
+import LandingPagesGUI.GlobalVariables;
 import Objects.Book;
-
 import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 // title, description, publicationDate, authors
 // private int totalCopies, borrowedCopies;
@@ -66,7 +64,7 @@ public class EditBooksPage extends JPanel {
         book = bookNode.getItem(); // get the item in the book node
 
         // instantiate the input fields
-        JPanel inputFields = guiComponents.instantiateInputFields(book);
+        JPanel inputFields = guiComponents.instantiateInputFields(null);
         displayPanel.add(inputFields, BorderLayout.CENTER);
 
         return this;

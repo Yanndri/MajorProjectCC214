@@ -91,29 +91,38 @@ public class DLinkedList<B> {
 		if(pos > count || pos < 1)
 			return;
 		if (!isEmpty()) {
+			System.out.println("Deleting item at position: " + pos);
 			if (pos == 1) {
 				deleteFront();
 			} else if (pos == count) {
 				deleteLast();
 			} else {
-				if (pos <= count / 2) { // position is lesser or equal (near head)
+				if (pos <= count / 2) { // position is closer to head
 					curr = head;
 					for (int i = 1; i < pos; i++) {
 						curr = curr.getNext();
-						System.out.println("Curr Item: " + curr.item);
 					}
-				} else { // position is greater (near tail)
+				} else { // position is closer to tail
 					curr = tail;
 					for (int i = count; i > pos; i--) {
 						curr = curr.getPrev();
 					}
 				}
+				System.out.println("Deleting node: " + curr.getItem());
 				curr.getPrev().setNext(curr.getNext());
 				curr.getNext().setPrev(curr.getPrev());
+	
+				// check if the list is empty after deletion
+				if (count == 1) {
+					head = null;
+					tail = null;
+				}
 				count--;
+				System.out.println("DELETION DELETED (DLINK): " + curr.getItem()); // checks if the program passes here
 			}
+			System.out.println("Bookshelf after deletion: " + this); // Debugging
 		}
-	}
+	}	
 
 	public boolean isFound(B item) {
 		DNode<B> curr;
@@ -147,6 +156,7 @@ public class DLinkedList<B> {
 				int pos = 1;
 				while (curr != null) {
 					if (curr.getItem().equals(item)) {
+						System.out.println("POSITION FOUND");
 						return pos;
 					}
 					curr = curr.getNext();
@@ -154,6 +164,7 @@ public class DLinkedList<B> {
 				}
 			}
 		}
+		System.out.println("POSITION NOT FOUND");
 		return -1;
 	}
 
@@ -223,6 +234,7 @@ public class DLinkedList<B> {
 		list.insertAt(75, 2);
 		System.out.println("COUNT: " + list.count);
 		System.out.println("List contains:" + list);
+		 System.out.println("ITEM POSITION: "+list.getItemPosition(80));
 		System.out.println();
 		list.deleteItemAt(3);
 		System.out.println("List contains:" + list);
@@ -230,6 +242,7 @@ public class DLinkedList<B> {
 		System.out.println("ITEM AT: " + list.getItemAt(3));
 		System.out.println("IS FOUND: " + list.isFound(75));
 		System.out.println("List in reverse contains:" + list.reverseToString());
+
 
 	}
 } // end of DLinkedList class & Start of DNode class
