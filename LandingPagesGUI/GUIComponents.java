@@ -18,8 +18,6 @@ import javax.swing.event.DocumentListener;
 
 public class GUIComponents {
 
-    BookLibrary bookFetcher = new BookLibrary(); // class that have books
-
     private boolean isEditMode = false; // toggles if Book is in Edit mode
 
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
@@ -280,11 +278,12 @@ public class GUIComponents {
 
     // for admin inputting data on a book (For Admins)
     public JPanel instantiateInputFields(Book book) {
+        BookLibrary bookFetcher = new BookLibrary(); // class that have books
 
         if (book != null) {
-            isEditMode = true;
+            isEditMode = true;// Edits details for book
         } else {
-            isEditMode = false;
+            isEditMode = false;// adds book to book txtfile
         }
 
         // INPUT FIELDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -349,9 +348,9 @@ public class GUIComponents {
             publicationDateTextField.setText("");
             totalCopiesLabelTextField.setText("");
             descriptionTextArea.setText("");
-        } else if (book != null) {// check if there is no books passed(for add books)
+        } else if (isEditMode) {// check if there is no books passed(for add books)
             titleTextField.setText(book.getTitle());
-            authorTextField.setText(book.getAuthors().toString());
+            authorTextField.setText(book.getAuthors());
             publicationDateTextField.setText(book.getPublicationDate());
             totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
             descriptionTextArea.setText(book.getDescription());
@@ -373,7 +372,7 @@ public class GUIComponents {
             removeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
+
                     if (book != null) {
                         String title = book.getTitle();
                         int result = JOptionPane.showConfirmDialog(null,
@@ -388,18 +387,20 @@ public class GUIComponents {
                                 publicationDateTextField.setText("");
                                 totalCopiesLabelTextField.setText("");
                                 descriptionTextArea.setText("");
-                                JOptionPane.showMessageDialog(null, "The book ''" + title + "'' is removed successfully.",
+                                JOptionPane.showMessageDialog(null,
+                                        "The book ''" + title + "'' is removed successfully!",
                                         "Book Removed", JOptionPane.INFORMATION_MESSAGE);
                                 System.out.println(this + " > Removed Book:");
                                 System.out.println(">> title: " + book.getTitle());
                             }
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Please select a book first.", "Book Removal", JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, "Please select a book first.", "Book Removal",
+                                JOptionPane.OK_OPTION);
                     }
                 }
             });
-                            
+
         }
 
         // Submit Button (when user is done with their inputs)
@@ -411,7 +412,6 @@ public class GUIComponents {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bookFetcher.getBooks(); // fetches book
 
                 if (authorTextField.getText().isBlank() || titleTextField.getText().isBlank()
                         || publicationDateTextField.getText().isBlank()
@@ -434,14 +434,20 @@ public class GUIComponents {
                     try {
                         int noOfCopies = Integer.parseInt(totalCopiesLabelTextField.getText());
                         if (isEditMode) { // update existing book
-                            book.setAuthors(authors);
-                            book.setTitle(titleTextField.getText());
-                            book.setDescription(descriptionTextArea.getText());
-                            book.setPublicationDate(publicationDateTextField.getText());
-                            book.setNoOfCopies(noOfCopies);
-                            bookFetcher.updateFile(book, false);
-                            JOptionPane.showMessageDialog(null, "Book Updated Successfully", "Success",
-                                    JOptionPane.INFORMATION_MESSAGE);
+                            System.out.println("old version of book: " + book);
+                            System.out.println("Number of copies:" + noOfCopies);
+                            Book newBook = new Book();
+                            newBook.setAuthors(authors);
+                            newBook.setTitle(titleTextField.getText());
+                            newBook.setDescription(descriptionTextArea.getText());
+                            newBook.setPublicationDate(publicationDateTextField.getText());
+                            newBook.setTotalCopies(noOfCopies);
+                            newBook.setBorrowersList(book.getBorrowersList());
+                            System.out.println("new version of book: " + newBook);
+                            System.out.println(bookFetcher.isBookFound(book));
+                            if (bookFetcher.updateBookDetails(newBook, book))
+                                JOptionPane.showMessageDialog(null, "Book updated successfully!", "Book Details Update",
+                                        JOptionPane.INFORMATION_MESSAGE);
                         }
 
                         else { // add books
@@ -449,7 +455,7 @@ public class GUIComponents {
                                     publicationDateTextField.getText(), noOfCopies, null);
                             bookFetcher.addBook(book);
                             bookFetcher.updateFile(book, true);
-                            JOptionPane.showMessageDialog(null, "Book Added Successfully", "Success",
+                            JOptionPane.showMessageDialog(null, "Book added successfully!", "Add Book to Library",
                                     JOptionPane.INFORMATION_MESSAGE);
                         }
 

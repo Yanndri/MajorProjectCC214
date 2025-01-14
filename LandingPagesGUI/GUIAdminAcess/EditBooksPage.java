@@ -53,15 +53,15 @@ public class EditBooksPage extends JPanel {
         guiComponents.createSearchBar(northPanel); // pass where the search bar will be put
         // ========================================================================
 
-        // TEMPORARY PLACEHOLDER BOOK FOR TESTING
-        BookLibrary bookFetcher = new BookLibrary(); // class that have books
+        // // TEMPORARY PLACEHOLDER BOOK FOR TESTING
+        // BookLibrary bookFetcher = new BookLibrary(); // class that have books
 
-        Book book = new Book();
-        DLinkedList<Book> List = null; // Store here the available books
-        List = bookFetcher.searchTitle("Harry "); // search for the title of the book that contains the keyword
-        DNode<Book> bookNode;
-        bookNode = List.head; // get the head of the list of books
-        book = bookNode.getItem(); // get the item in the book node
+        // Book book = new Book();
+        // DLinkedList<Book> List = null; // Store here the available books
+        // List = bookFetcher.searchTitle("Harry "); // search for the title of the book that contains the keyword
+        // DNode<Book> bookNode;
+        // bookNode = List.head; // get the head of the list of books
+        // book = bookNode.getItem(); // get the item in the book node
 
         // instantiate the input fields
         JPanel inputFields = guiComponents.instantiateInputFields(null);

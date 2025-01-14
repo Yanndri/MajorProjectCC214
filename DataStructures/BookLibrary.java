@@ -51,7 +51,7 @@ public class BookLibrary {
 
         while (temp != null) {
             Book currBook = temp.getItem(); // Item is now a Book, no need for casting
-            if (currBook.getAuthors().toString().toLowerCase().contains(author.toLowerCase())) {
+            if (currBook.getAuthors().toLowerCase().contains(author.toLowerCase())) {
                 results.addLast(currBook); // add Book to results
             }
             temp = temp.getNext();
@@ -97,8 +97,8 @@ public class BookLibrary {
                     }
 
                     Book newBook = new Book(authors, bookDetails[0], bookDetails[1], bookDetails[2],
-                    Integer.parseInt(bookDetails[3]), borrowers);
-                    if(!bookshelf.isFound(newBook)){
+                            Integer.parseInt(bookDetails[3]), borrowers);
+                    if (!bookshelf.isFound(newBook)) {
                         addBook(newBook);
                     }
                 }
@@ -117,13 +117,14 @@ public class BookLibrary {
     }
 
     public void updateFile(Book newBook, boolean append) {
+        // System.out.println("Bookshelf: " + bookshelf);
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append));  
+            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append));
             if (append) {
                 // Append only the new book entry
                 String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
-                        newBook.getAuthors().toString().trim(),
+                        newBook.getAuthors().trim(),
                         newBook.getTitle(),
                         newBook.getDescription(),
                         newBook.getPublicationDate(),
@@ -138,13 +139,13 @@ public class BookLibrary {
                 while (currNode != null) {
                     Book currBook = currNode.getItem();
                     String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
-                            currBook.getAuthors().toString().trim(),
+                            currBook.getAuthors().trim(),
                             currBook.getTitle(),
                             currBook.getDescription(),
                             currBook.getPublicationDate(),
                             currBook.getTotalCopies(),
                             currBook.getBorrowersKeys());
-    
+
                     System.out.println("Writing book: " + bookDetails); // Debugging
                     writer.write(bookDetails);
                     writer.newLine();
@@ -170,20 +171,37 @@ public class BookLibrary {
         if (bookToRemove == null)
             return false;
 
-            if (isBookFound(bookToRemove)) {
-            System.out.println("working1");
+        if (isBookFound(bookToRemove)) {
+
             int pos = getBookPosition(bookToRemove);
+
             System.out.println("Book Position: " + pos);
             System.out.println("Book title found: " + bookshelf.getItemAt(pos));
+
             bookshelf.deleteItemAt(pos);
-            System.out.println("working3");
             updateFile(null, false);
-            System.out.println("working4");
             // System.out.print(bookshelf.toString());
             return true;
         }
 
-        System.out.println("working5");
+        return false;
+    }
+
+    public boolean updateBookDetails(Book newBook, Book oldBook){
+        
+        if(newBook == null || oldBook == null){
+            return false;}
+
+        if(isBookFound(oldBook)){
+
+            int pos = getBookPosition(oldBook);
+
+            removeBook(oldBook);
+            bookshelf.insertAt(newBook, pos);
+            updateFile(null, false);
+            return true;
+        }
+
         return false;
     }
 
@@ -191,8 +209,9 @@ public class BookLibrary {
 
         DNode<Book> p = bookshelf.head;
         System.out.println(book.getTitle());
+        System.out.println("Bookshelf" + bookshelf);
         while (p != null) {
-            if(book.getTitle().equals(p.getItem().getTitle()))
+            if (book.equals(p.getItem()))
                 return true;
             p = p.getNext();
         }
@@ -206,7 +225,7 @@ public class BookLibrary {
             DNode<Book> p = bookshelf.head;
 
             while (p != null) {
-                if (book.getTitle().equals(p.getItem().getTitle()))
+                if (book.equals(p.getItem()))
                     return bookshelf.getItemPosition((Book) p.getItem());
                 p = p.getNext();
             }
