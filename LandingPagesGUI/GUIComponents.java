@@ -7,6 +7,8 @@ import Objects.Book; // NOTE
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.*;
@@ -15,10 +17,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class GUIComponents {
+
+    private boolean isEditMode = false; // toggles if Book is in Edit mode
+
     CustomLayoutManager layoutManager = new CustomLayoutManager(); // used here to access the button style methods
 
     // Search Bar
-    JTextField searchTextField; // the search Text Field
+    JTextField searchTextField = new JTextField(""); // the search Text Field
     String searchedText; // the title of the button pressed in search suggestions
     String keyword; // get the text in the Search Bar(text field)
 
@@ -110,6 +115,15 @@ public class GUIComponents {
             }
         });
 
+        // Ensure the searchTextField gains focus when the searchBarPanel is displayed
+        searchBarPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                // Request focus for the searchTextField
+                searchTextField.requestFocusInWindow();
+            }
+        });
+
         return searchBar;
     }
 
@@ -155,7 +169,8 @@ public class GUIComponents {
     // Add the components of the scroll bar -- SEARCH RESULTS
     private void availableBooks(JPanel scrollBarPanel) {
         BookLibrary bookFetcher = new BookLibrary(); // class that have books
-        bookFetcher.getBooks(); // get a list of books from LibraryTest (Doubly Linked List)
+        bookFetcher.getBooks(); // get a list of books from LibraryTest (Doubly
+        // Linked List)
 
         DLinkedList<Book> List = null; // Store here the available books
         if (keyword.equals("")) {// if there is no text in textfield(no keywords)
@@ -263,6 +278,14 @@ public class GUIComponents {
 
     // for admin inputting data on a book (For Admins)
     public JPanel instantiateInputFields(Book book) {
+        BookLibrary bookFetcher = new BookLibrary(); // class that have books
+
+        if (book != null) {
+            isEditMode = true;// Edits details for book
+        } else {
+            isEditMode = false;// adds book to book txtfile
+        }
+
         // INPUT FIELDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         JPanel inputFieldsPanel = new JPanel(new GridLayout(1, 2, 0, 0));
         displayPanel.add(inputFieldsPanel, BorderLayout.CENTER);
@@ -277,20 +300,14 @@ public class GUIComponents {
         // Title Input
         JLabel titleLabel = new JLabel("Title");
         JTextField titleTextField = layoutManager.createInputField(inputFields, titleLabel); // input field for title
-        if (book != null) // check if there is no books passed(for add books)
-            titleTextField.setText(book.getTitle());
 
         // Author Input
         JLabel authorLabel = new JLabel("Author");
         JTextField authorTextField = layoutManager.createInputField(inputFields, authorLabel);
-        if (book != null) // check if there is no books passed(for add books)
-            authorTextField.setText(book.getAuthors());
 
         // Publication Date Input
         JLabel publicationDateLabel = new JLabel("Publication Date");
         JTextField publicationDateTextField = layoutManager.createInputField(inputFields, publicationDateLabel);
-        if (book != null) // check if there is no books passed(for add books)
-            publicationDateTextField.setText(book.getPublicationDate());
 
         // 2nd Column >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         JPanel innerCenterPanel = new JPanel(new BorderLayout());
@@ -308,8 +325,6 @@ public class GUIComponents {
         // Total Copies Input
         JLabel totalCopiesLabel = new JLabel("Total Copies");
         JTextField totalCopiesLabelTextField = layoutManager.createInputField(inputDescriptionPanel, totalCopiesLabel);
-        if (book != null) // check if there is no books passed(for add books)
-            totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
 
         // Description Input(Text Area)
         JLabel descriptionLabel = new JLabel("Description (Optional)");
@@ -320,14 +335,26 @@ public class GUIComponents {
         JTextArea descriptionTextArea = new JTextArea();
         layoutManager.textareaStyleDefault(descriptionTextArea); // change the style of the text Area
 
-        if (book != null) // check if there is no books passed(for add books)
-            descriptionTextArea.setText(book.getDescription());
-
         JScrollPane scrollPane = new JScrollPane(descriptionTextArea); // add a scroll bar for text area
         inputDescriptionPanel.add(scrollPane);
 
         layoutManager.scrollPaneStyleDefault(scrollPane);
         scrollPane.setPreferredSize(new Dimension(GlobalVariables.width / 3, GlobalVariables.height / 2));
+
+        // Adding text to fields
+        if (searchTextField.getText().isBlank()) {
+            titleTextField.setText("");
+            authorTextField.setText("");
+            publicationDateTextField.setText("");
+            totalCopiesLabelTextField.setText("");
+            descriptionTextArea.setText("");
+        } else if (isEditMode) {// check if there is no books passed(for add books)
+            titleTextField.setText(book.getTitle());
+            authorTextField.setText(book.getAuthors());
+            publicationDateTextField.setText(book.getPublicationDate());
+            totalCopiesLabelTextField.setText(book.getTotalCopies() + "");
+            descriptionTextArea.setText(book.getDescription());
+        }
 
         // put in this panel the buttons
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // FlowLayout that aligns to the right
@@ -335,7 +362,7 @@ public class GUIComponents {
 
         buttonPanel.setBackground(GlobalVariables.lightestColor);
 
-        if (book != null) { // Remove button only shows when a book is passed
+        if (isEditMode) { // Remove button only shows when a book is passed
             // Remove Button (when user wants to delete the book)
             JButton removeButton = new JButton("Remove");
             buttonPanel.add(removeButton);
@@ -345,10 +372,35 @@ public class GUIComponents {
             removeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println(this + " > Removed Book:");
-                    System.out.println(">> title: " + book.getTitle());
+
+                    if (book != null) {
+                        String title = book.getTitle();
+                        int result = JOptionPane.showConfirmDialog(null,
+                                "Are you sure to remove book " + title + " ? This action cannot be undone.",
+                                "Book Removed", JOptionPane.OK_CANCEL_OPTION);
+                        if (result == 0) {
+                            System.out.println("Removing book: " + book.getTitle());
+                            if (new BookLibrary().removeBook(book)) {
+                                searchTextField.setText("");
+                                titleTextField.setText("");
+                                authorTextField.setText("");
+                                publicationDateTextField.setText("");
+                                totalCopiesLabelTextField.setText("");
+                                descriptionTextArea.setText("");
+                                JOptionPane.showMessageDialog(null,
+                                        "The book ''" + title + "'' is removed successfully!",
+                                        "Book Removed", JOptionPane.INFORMATION_MESSAGE);
+                                System.out.println(this + " > Removed Book:");
+                                System.out.println(">> title: " + book.getTitle());
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Please select a book first.", "Book Removal",
+                                JOptionPane.OK_OPTION);
+                    }
                 }
             });
+
         }
 
         // Submit Button (when user is done with their inputs)
@@ -360,14 +412,75 @@ public class GUIComponents {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(this + " > Submitted Book:");
-                System.out.println(">> title: " + titleTextField.getText());
-                System.out.println(">> author: " + authorTextField.getText());
-                System.out.println(">> publicationDate: " + publicationDateTextField.getText());
-                System.out.println(">> description: " + descriptionTextArea.getText());
-                System.out.println(">> totalCopiesLabel: " + totalCopiesLabelTextField.getText());
+
+                if (authorTextField.getText().isBlank() || titleTextField.getText().isBlank()
+                        || publicationDateTextField.getText().isBlank()
+                        || totalCopiesLabelTextField.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error",
+                            JOptionPane.ERROR_MESSAGE); // check if the fields are empty/blank
+
+                } else {
+                    if (descriptionTextArea.getText().isBlank())
+                        descriptionTextArea.setText("No Description");
+
+                    String[] authorsArray = authorTextField.getText().split("[,&]");
+                    DLinkedList<String> authors = new DLinkedList<>();
+                    for (String author : authorsArray) {
+                        if (!author.equals("No Author/s") && !author.isBlank()) {
+                            authors.addLast(author.trim()); // trim to delete the leading and trailing white spaces
+                        }
+                    }
+
+                    try {
+                        int noOfCopies = Integer.parseInt(totalCopiesLabelTextField.getText());
+                        if (isEditMode) { // update existing book
+                            System.out.println("old version of book: " + book);
+                            System.out.println("Number of copies:" + noOfCopies);
+                            Book newBook = new Book();
+                            newBook.setAuthors(authors);
+                            newBook.setTitle(titleTextField.getText());
+                            newBook.setDescription(descriptionTextArea.getText());
+                            newBook.setPublicationDate(publicationDateTextField.getText());
+                            newBook.setTotalCopies(noOfCopies);
+                            newBook.setBorrowersList(book.getBorrowersList());
+                            System.out.println("new version of book: " + newBook);
+                            System.out.println(bookFetcher.isBookFound(book));
+                            if (bookFetcher.updateBookDetails(newBook, book))
+                                JOptionPane.showMessageDialog(null, "Book updated successfully!", "Book Details Update",
+                                        JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        else { // add books
+                            Book book = new Book(authors, titleTextField.getText(), descriptionTextArea.getText(),
+                                    publicationDateTextField.getText(), noOfCopies, null);
+                            bookFetcher.addBook(book);
+                            bookFetcher.updateFile(book, true);
+                            JOptionPane.showMessageDialog(null, "Book added successfully!", "Add Book to Library",
+                                    JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        System.out.println(this + " > Submitted Book:");
+                        System.out.println(">> title: " + titleTextField.getText());
+                        System.out.println(">> author: " + authorTextField.getText());
+                        System.out.println(">> publicationDate: " + publicationDateTextField.getText());
+                        System.out.println(">> description: " + descriptionTextArea.getText());
+                        System.out.println(">> totalCopiesLabel: " + totalCopiesLabelTextField.getText());
+
+                        // clear the fields after submission
+                        authorTextField.setText("");
+                        titleTextField.setText("");
+                        publicationDateTextField.setText("");
+                        totalCopiesLabelTextField.setText("");
+                        descriptionTextArea.setText("");
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Please enter a valid integer for the number of copies.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
+
         // ===============================================================
 
         return inputFieldsPanel;

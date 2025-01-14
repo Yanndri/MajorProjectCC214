@@ -116,7 +116,6 @@ public class MainUserPage extends CustomLayoutManager {
                     setActivePage(searchBooksPagePanel);
                     mainPanel.revalidate(); // inform the layout manager that something has changed in the mainPanel
                     mainPanel.repaint(); // repaints the mainPanel, causing it to redraw itself.
-
                 }
             }
         });
@@ -143,7 +142,7 @@ public class MainUserPage extends CustomLayoutManager {
         SingleActionListener(borrowBookButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel borrowerPanel = Borrower.createBorrowerPanel(); // Get the panel from Borrower class
+                JPanel borrowerPanel = BorrowBooksPage.createBorrowerPanel(); // Get the panel from Borrower class
                 if (currentPanel != borrowerPanel) {
                     buttonToggledOn(borrowBookButton);
                     buttonToggledOff(homePageButton);

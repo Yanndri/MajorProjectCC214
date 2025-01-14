@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class BookLibrary {
-    public BookLibrary(){
+    public BookLibrary() {
         getBooks();
     }
 
@@ -96,8 +96,11 @@ public class BookLibrary {
                         }
                     }
 
-                    addBook(authors, bookDetails[0], bookDetails[1], bookDetails[2],
+                    Book newBook = new Book(authors, bookDetails[0], bookDetails[1], bookDetails[2],
                             Integer.parseInt(bookDetails[3]), borrowers);
+                    if (!bookshelf.isFound(newBook)) {
+                        addBook(newBook);
+                    }
                 }
             }
         } catch (IOException e) {
@@ -114,10 +117,10 @@ public class BookLibrary {
     }
 
     public void updateFile(Book newBook, boolean append) {
+        // System.out.println("Bookshelf: " + bookshelf);
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append)); // Open in append or write mode based on the parameter
-    
+            writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append));
             if (append) {
                 // Append only the new book entry
                 String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
@@ -130,7 +133,8 @@ public class BookLibrary {
                 writer.write(bookDetails);
                 writer.newLine();
             } else {
-                // Overwrite the entire file with the current state of the bookshelf
+                System.out.println("Overwriting file with current bookshelf contents...");
+                // overwrite the entire file with the current state of the bookshelf
                 DNode<Book> currNode = bookshelf.head;
                 while (currNode != null) {
                     Book currBook = currNode.getItem();
@@ -141,10 +145,11 @@ public class BookLibrary {
                             currBook.getPublicationDate(),
                             currBook.getTotalCopies(),
                             currBook.getBorrowersKeys());
-    
+
+                    System.out.println("Writing book: " + bookDetails); // Debugging
                     writer.write(bookDetails);
                     writer.newLine();
-    
+
                     currNode = currNode.getNext();
                 }
             }
@@ -160,77 +165,140 @@ public class BookLibrary {
             }
         }
     }
-    
 
+    public boolean removeBook(Book bookToRemove) {
 
+        if (bookToRemove == null)
+            return false;
+
+        if (isBookFound(bookToRemove)) {
+
+            int pos = getBookPosition(bookToRemove);
+
+            System.out.println("Book Position: " + pos);
+            System.out.println("Book title found: " + bookshelf.getItemAt(pos));
+
+            bookshelf.deleteItemAt(pos);
+            updateFile(null, false);
+            // System.out.print(bookshelf.toString());
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateBookDetails(Book newBook, Book oldBook){
+        
+        if(newBook == null || oldBook == null){
+            return false;}
+
+        if(isBookFound(oldBook)){
+
+            int pos = getBookPosition(oldBook);
+
+            removeBook(oldBook);
+            bookshelf.insertAt(newBook, pos);
+            updateFile(null, false);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isBookFound(Book book) {
+
+        DNode<Book> p = bookshelf.head;
+        System.out.println(book.getTitle());
+        System.out.println("Bookshelf" + bookshelf);
+        while (p != null) {
+            if (book.equals(p.getItem()))
+                return true;
+            p = p.getNext();
+        }
+
+        return false;
+    }
+
+    public int getBookPosition(Book book) {
+        if (isBookFound(book)) {
+
+            DNode<Book> p = bookshelf.head;
+
+            while (p != null) {
+                if (book.equals(p.getItem()))
+                    return bookshelf.getItemPosition((Book) p.getItem());
+                p = p.getNext();
+            }
+        }
+        return 0;
+    }
 
     // public void updateFile() {
-    //     BufferedWriter writer = null;
-    //     try {
-    //         writer = new BufferedWriter(new FileWriter(
-    //                 "LandingPagesGUI\\AdminAcess\\Books.txt"));
+    // BufferedWriter writer = null;
+    // try {
+    // writer = new BufferedWriter(new FileWriter(
+    // "LandingPagesGUI\\AdminAcess\\Books.txt"));
 
-    //         DNode<Book> currNode = bookshelf.head;
-    //         while (currNode != null) {
-    //             Book currBook = currNode.getItem();
-    //             String authors = currBook.getAuthors().trim();
+    // DNode<Book> currNode = bookshelf.head;
+    // while (currNode != null) {
+    // Book currBook = currNode.getItem();
+    // String authors = currBook.getAuthors().trim();
 
-    //             String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a more convenient way to do it?
-    //                     authors,
-    //                     currBook.getTitle(),
-    //                     currBook.getDescription(),
-    //                     currBook.getPublicationDate(),
-    //                     currBook.getTotalCopies(),
-    //                     currBook.getBorrowersKeys());
+    // String bookDetails = String.format("%s : %s//%s//%s//%d : %s", // there was a
+    // more convenient way to do it?
+    // authors,
+    // currBook.getTitle(),
+    // currBook.getDescription(),
+    // currBook.getPublicationDate(),
+    // currBook.getTotalCopies(),
+    // currBook.getBorrowersKeys());
 
-    //             writer.write(bookDetails);
-    //             writer.newLine();
+    // writer.write(bookDetails);
+    // writer.newLine();
 
-    //             currNode = currNode.getNext();
-    //         }
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     } finally {
-    //         if (writer != null) {
-    //             try {
-    //                 writer.close();
-    //             } catch (IOException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-    //     }
+    // currNode = currNode.getNext();
+    // }
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // } finally {
+    // if (writer != null) {
+    // try {
+    // writer.close();
+    // } catch (IOException e) {
+    // e.printStackTrace();
+    // }
+    // }
+    // }
     // }
 
     public static void main(String[] args) {
-    // DLinkedList author1 = new DLinkedList();
-    // author1.addLast("Peter");
-    // author1.addLast("JK Rowling");
-    // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
+        // DLinkedList author1 = new DLinkedList();
+        // author1.addLast("Peter");
+        // author1.addLast("JK Rowling");
+        // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
 
-    // DLinkedList author2 = new DLinkedList();
-    // author2.addLast("Pete");
-    // author2.addLast("John Rowling");
-    // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
+        // DLinkedList author2 = new DLinkedList();
+        // author2.addLast("Pete");
+        // author2.addLast("John Rowling");
+        // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
 
-    BookLibrary lib = new BookLibrary();
-    //lib.getBooks();
-    Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
+        BookLibrary lib = new BookLibrary();
+        // lib.getBooks();
+        Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
 
-    System.out.println("Head Author: "+currBook.getAuthorsList().head.getItem());
-    
-    System.out.println(currBook.getAuthors());
-    //currBook.addAuthor("Test");
-    System.out.println(currBook.removeAuthor("Test"));
-    System.out.println("Borrowers: "+currBook.getBorrowersKeys()); 
-    DLinkedList<User> headBorrowers = currBook.getBorrowers();
-    User user = headBorrowers.head.getItem();
-    System.out.println("Borrower User: "+user.getFirstName());
+        System.out.println("Head Author: " + currBook.getAuthorsList().head.getItem());
 
-    System.out.println(currBook.getAuthors());
-    
+        System.out.println(currBook.getAuthors());
+        // currBook.addAuthor("Test");
+        System.out.println(currBook.removeAuthor("Test"));
+        System.out.println("Borrowers: " + currBook.getBorrowersKeys());
+        DLinkedList<User> headBorrowers = currBook.getBorrowers();
+        User user = headBorrowers.head.getItem();
+        System.out.println("Borrower User: " + user.getFirstName());
 
+        System.out.println(currBook.getAuthors());
 
-    lib.updateFile(null,false);
+        lib.updateFile(null, false);
 
     }
 

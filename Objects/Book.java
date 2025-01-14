@@ -1,5 +1,7 @@
 package Objects;
 
+import java.util.Objects;
+
 import DataStructures.DLinkedList;
 import DataStructures.DNode;
 import DataStructures.QueueLinkedList;
@@ -11,7 +13,7 @@ public class Book {
     private QueueLinkedList requesters;
     private DLinkedList<String> authors;
     private DLinkedList<Integer> borrowers;
-    private final int totalCopies; // Max copies
+    private int totalCopies; // Max copies
 
     public Book(DLinkedList<String> authors, String title, String description, String publicationDate, int noOfCopies,
             DLinkedList<Integer> borrowers) {
@@ -24,6 +26,10 @@ public class Book {
         this.borrowers = borrowers;
     }
 
+    public Book(DLinkedList<String> authors, String title, String description, String publicationDate) {
+        this(authors, title, description, publicationDate, 0, null);
+    }
+
     public Book() {
         this(null, null, null, null, 0, null);
     }
@@ -33,11 +39,15 @@ public class Book {
         this.title = title;
     }
 
+    public void setAuthors(DLinkedList<String> authors){
+        this.authors = authors;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setPublicatonDate(String publicationDate) {
+    public void setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
     }
 
@@ -70,12 +80,20 @@ public class Book {
         }
     }
 
+    public void setTotalCopies(int totalCopies){
+        this.totalCopies = totalCopies;
+    }
+
+    public void setBorrowersList(DLinkedList<Integer> borrowers){
+        this.borrowers = borrowers;
+    }
+
     // getters
     public String getAuthors() {
         if (authors == null || authors.isEmpty()) {
-            return "\tNo authors";
+        return "\tNo authors";
         } else
-            return authors.toString();
+        return authors.toString();
     }
 
     public DLinkedList<String> getAuthorsList() {
@@ -108,6 +126,10 @@ public class Book {
             }
             return borrowersList;
         }
+    }
+
+    public DLinkedList<Integer> getBorrowersList(){
+        return borrowers;
     }
 
     public String getBorrowersKeys() {
@@ -162,6 +184,33 @@ public class Book {
                 + getTotalCopies());
 
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true; // Check if both references are the same
+        if (obj == null || getClass() != obj.getClass())
+            return false; // Check if the object is of the same type
+
+        Book book = (Book) obj;
+
+        // Compare only the relevant fields (exclude number of borrowers or other
+        // fields)
+
+        // System.out.println("Start of compare: " + authors + " " + book.authors);
+        // System.out.println(Objects.equals(authors, book.authors));
+        // System.out.println(title + " " + book.title);
+        // System.out.println(Objects.equals(title, book.title));
+        // System.out.println(description + " " + book.description);
+        // System.out.println(Objects.equals(description, book.description));
+        // System.out.println(publicationDate + " " + book.publicationDate);
+        // System.out.println(Objects.equals(publicationDate, book.publicationDate));
+
+        return Objects.equals(getAuthors(), book.getAuthors()) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(description, book.description) &&
+                Objects.equals(publicationDate, book.publicationDate);
     }
 
 }
