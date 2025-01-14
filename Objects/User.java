@@ -1,5 +1,7 @@
 package Objects;
 
+import DataStructures.Node;
+import DataStructures.QueueLinkedList;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -8,9 +10,10 @@ public class User {
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
     int key;
     LocalDate dob;
+    QueueLinkedList borrowedBooks;
 
     public User(String firstName, String lastName, String middleName, LocalDate dob, String address, String gender,
-            String phoneNumber, String identifier, String password, int key) {
+            String phoneNumber, String identifier, String password, int key, QueueLinkedList borrowedBooks) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -21,11 +24,15 @@ public class User {
         this.identifier = identifier;
         this.password = password;
         this.key = key;
+<<<<<<< Updated upstream
         // this.borrowedBooks = borrowedBooks;
+=======
+        this.borrowedBooks = borrowedBooks;
+>>>>>>> Stashed changes
     }
 
     public User() {
-        this(null, null, null, null, null, null, null, null, null, 0);
+        this(null, null, null, null, null, null, null, null, null, 0, null);
     }
 
     // setters
@@ -126,6 +133,7 @@ public class User {
         return key;
     }
 
+<<<<<<< Updated upstream
     // public String getBorrowedBooks() {
     //     StringBuilder sb = new StringBuilder();
     //     DNode<Book> currNode;
@@ -140,4 +148,33 @@ public class User {
     //     return sb.toString();
 
     // }
+=======
+    public void addBorrowedBook(Book book) {
+        if (book != null) {
+            if (borrowedBooks == null)
+                borrowedBooks = new QueueLinkedList();
+            borrowedBooks.enqueue(book);
+        }
+    }
+
+    public String getBorrowedBooks() {
+        if(borrowedBooks != null){
+        StringBuilder sb = new StringBuilder();
+        Node currNode;
+        for (currNode = borrowedBooks.head; currNode != null; currNode = currNode.getLink()) {
+            sb.append(currNode.getItem().toString()).append(", ");
+            if (currNode.getLink() == borrowedBooks.tail) {
+                sb.append("& ");
+                Book currBook = (Book) currNode.getItem();
+                sb.append(currBook.getTitle());
+                break;
+            }
+        }
+        return sb.toString();
+    }
+        else{
+            return "No Borrowed Book/s";
+        }
+    }
+>>>>>>> Stashed changes
 }

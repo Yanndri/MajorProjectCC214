@@ -1,11 +1,10 @@
 package LandingPagesGUI.GUIUserAccess;
 
-import javax.swing.*;
-
 import LandingPagesGUI.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 // Here you can find the taskbar, and the mainPanel that displays the pages
 public class MainUserPage extends CustomLayoutManager {
@@ -18,6 +17,10 @@ public class MainUserPage extends CustomLayoutManager {
     HomePage homePage = new HomePage();
     SearchBooksPage searchBooksPage = new SearchBooksPage();
     BorrowedBooksPage borrowedBooksPage = new BorrowedBooksPage();
+<<<<<<< Updated upstream
+=======
+    BorrowPageTest borrowBooksPage = new BorrowPageTest();
+>>>>>>> Stashed changes
     TimeFrame clock = new TimeFrame();
     // ==============================
 
@@ -25,6 +28,10 @@ public class MainUserPage extends CustomLayoutManager {
     JPanel homePagePanel = homePage.getHomePagePanel();
     JPanel searchBooksPagePanel = searchBooksPage.getSearchBooksPage();
     JPanel borrowedBooksPagePanel = borrowedBooksPage.getBorrowedBooksPage();
+<<<<<<< Updated upstream
+=======
+    JPanel borrower = borrowBooksPage.getBorrowedBooksPageTest();
+>>>>>>> Stashed changes
     JPanel clockPanel = clock.getTimeFramePanel();
     // =================================
 
@@ -107,6 +114,7 @@ public class MainUserPage extends CustomLayoutManager {
         SingleActionListener(searchBooksButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                GUIComponents.isBorrowMode = false;
                 if (currentPanel != searchBooksPagePanel) {// exit if the button is on already
                     buttonToggledOn(searchBooksButton);
                     buttonToggledOff(homePageButton);
@@ -143,8 +151,13 @@ public class MainUserPage extends CustomLayoutManager {
         SingleActionListener(borrowBookButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+<<<<<<< Updated upstream
                 JPanel borrowerPanel = Borrower.createBorrowerPanel(); // Get the panel from Borrower class
                 if (currentPanel != borrowerPanel) {
+=======
+                GUIComponents.isBorrowMode = true;
+                if (currentPanel != borrower) {
+>>>>>>> Stashed changes
                     buttonToggledOn(borrowBookButton);
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(searchBooksButton);

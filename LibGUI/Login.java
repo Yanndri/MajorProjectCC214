@@ -1,6 +1,7 @@
 package LibGUI;
 
 import DataStructures.Node;
+import DataStructures.QueueLinkedList;
 import Objects.User;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -67,11 +68,25 @@ public class Login {
                     new FileReader("LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split("//");
-                System.out.println(line);
+                String[] separator = line.split(":", 2);
+
+                String[] userDetails = separator[0].split("//");
+                String[] booksArr = separator[1].split("[,&]");
+
+                QueueLinkedList borrowedBooks = new QueueLinkedList();
+                for (String book : booksArr) {
+                    if (!book.equals("No Borrowed Book/s") && !book.isBlank()) {
+                        borrowedBooks.enqueue(book.trim());
+                    }
+                }
+
                 User user = new User(userDetails[0], userDetails[1], userDetails[2], LocalDate.parse(userDetails[3]),
                         userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
+<<<<<<< Updated upstream
                         0);
+=======
+                        encrypt(userDetails[7]), borrowedBooks);
+>>>>>>> Stashed changes
                 storeAccount(user);
             }
         } catch (IOException e) {
