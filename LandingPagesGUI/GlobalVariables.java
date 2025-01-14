@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 // Where variables that needs to be accessed globally
 public class GlobalVariables {
     // User Information
-    public static String username = "Ryan Andrie";
+    public static String username = "Hubert Blaine Wolfeschlegelsteinhausenbergerdorff Sr";
     public static String userType = "User"; // checks wether it's an admin or user
 
     // canvas size
