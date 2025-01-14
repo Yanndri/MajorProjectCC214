@@ -18,6 +18,7 @@ public class MainUserPage extends CustomLayoutManager {
     HomePage homePage = new HomePage();
     SearchBooksPage searchBooksPage = new SearchBooksPage();
     BorrowedBooksPage borrowedBooksPage = new BorrowedBooksPage();
+    BorrowBooksPage borrowBooksPage = new BorrowBooksPage();
     TimeFrame clock = new TimeFrame();
     // ==============================
 
@@ -25,6 +26,7 @@ public class MainUserPage extends CustomLayoutManager {
     JPanel homePagePanel = homePage.getHomePagePanel();
     JPanel searchBooksPagePanel = searchBooksPage.getSearchBooksPage();
     JPanel borrowedBooksPagePanel = borrowedBooksPage.getBorrowedBooksPage();
+    JPanel borrower = borrowBooksPage.createBorrowerPanel();
     JPanel clockPanel = clock.getTimeFramePanel();
     // =================================
 
@@ -142,14 +144,13 @@ public class MainUserPage extends CustomLayoutManager {
         SingleActionListener(borrowBookButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel borrowerPanel = BorrowBooksPage.createBorrowerPanel(); // Get the panel from Borrower class
-                if (currentPanel != borrowerPanel) {
+                if (currentPanel != borrower) {
                     buttonToggledOn(borrowBookButton);
                     buttonToggledOff(homePageButton);
                     buttonToggledOff(searchBooksButton);
                     buttonToggledOff(borrowedBooksButton);
                     mainPanel.remove(currentPanel);
-                    setActivePage(borrowerPanel); // Set Borrower panel as active panel
+                    setActivePage(borrower); // Set Borrower panel as active panel
                     mainPanel.revalidate();
                     mainPanel.repaint();
                 }
