@@ -137,7 +137,7 @@ public class CustomLayoutManager {
         JTextField textField = new JTextField();
         panel.add(textField);
 
-        labelStyleDefault(label); // change the style of label
+        labelStyleDefaultTopMargin(label); // change the style of label
         textfieldStyleDefault(textField); // changes text field style(lol)
 
         return textField;
@@ -146,6 +146,12 @@ public class CustomLayoutManager {
     // LABEL STYLES
     // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     public void labelStyleDefault(JLabel label) {
+        label.setForeground(GlobalVariables.mediumColor);
+        label.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+    }
+
+    public void labelStyleDefaultTopMargin(JLabel label) {
         label.setForeground(GlobalVariables.mediumColor);
         label.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
         label.setBorder(BorderFactory.createEmptyBorder(20, 5, 0, 5));
@@ -207,6 +213,23 @@ public class CustomLayoutManager {
         comboBox.setFont(new Font("Monospaced", Font.BOLD, 14));
         comboBox.setForeground(GlobalVariables.lightestColor);
 
+        // Arrow Button style
+        comboBox.setUI(new BasicComboBoxUI() {
+            @Override
+            protected JButton createArrowButton() {
+                JButton arrowButton = super.createArrowButton(); // create a new arrow button
+                arrowButton.setBorder(BorderFactory.createEmptyBorder()); // remove the focus border
+                return arrowButton; // replace the arrow button with this arrow button
+            }
+        });
+    }
+
+    public void comboBoxStyleLighter(JComboBox<String> comboBox) {
+        comboBox.setBackground(GlobalVariables.lighterColor);
+        comboBox.setFont(new Font("Monospaced", Font.BOLD, 14));
+        comboBox.setForeground(GlobalVariables.darkestColor);
+
+        // Arrow Button style
         comboBox.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
