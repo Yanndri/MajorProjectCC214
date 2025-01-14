@@ -12,6 +12,7 @@ import LandingPagesGUI.CustomLayoutManager;
 import LandingPagesGUI.GlobalVariables;
 
 public class BorrowBooksPage extends JPanel {
+
     public JPanel createBorrowerPanel() {
         CustomLayoutManager layoutManager = new CustomLayoutManager();
         // Define the date-time formatter

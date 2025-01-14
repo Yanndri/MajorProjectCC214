@@ -135,8 +135,8 @@ public class signinPanel extends JPanel {
         } else {
             if (role.equals("User")) {
                 if (accounts.checkAccountCredentials(username, password)) {
-                    GlobalVariables.username = username;
-                    new MainUserPage();
+                    // GlobalVariables.username = username;
+                    new MainUserPage(accounts.getUserAccount(username, password));
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(signinPanel.this);
                     if (frame != null) {
                         frame.dispose();
