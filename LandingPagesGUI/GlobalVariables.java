@@ -1,11 +1,13 @@
 package LandingPagesGUI;
 
+import Objects.User;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
 // Where variables that needs to be accessed globally
 public class GlobalVariables {
     // User Information
+    public static User currentUser = null; // place holder for user 
     public static String username = "Uvuvwevwevwe onyetenyevwe ugwemubwem ossas";
     public static String userType = "User"; // checks wether it's an admin or user
 

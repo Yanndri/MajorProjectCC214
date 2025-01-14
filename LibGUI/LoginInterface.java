@@ -9,7 +9,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -130,7 +129,7 @@ public class LoginInterface extends JFrame {
         userButton.setMaximumSize(new Dimension(110, 100));
         userButton.setFocusable(false);
         userButton.setText("User Login");
-        userButton.addActionListener(e -> switchToSigninPanel("User"));
+        userButton.addActionListener(e -> switchToSigninPanel("User")); // enter Login
         userButton.setVerticalTextPosition(JLabel.BOTTOM);
         userButton.setHorizontalTextPosition(JLabel.CENTER);
 
@@ -149,7 +148,7 @@ public class LoginInterface extends JFrame {
         signupButton = new JButton("Sign Up");
         signupButton.setPreferredSize(new Dimension(230, 25));
         signupButton.setFocusable(false);
-        signupButton.addActionListener(e -> switchToSignupPanel());
+        signupButton.addActionListener(e -> switchToSignupPanel()); // enter signUpPanel 
 
         // hover highlight
         signupButton.addMouseListener(new java.awt.event.MouseAdapter() {
