@@ -1,5 +1,8 @@
 package LibGUI;
 
+import LandingPagesGUI.GUIAdminAcess.MainAdminPage;
+import LandingPagesGUI.GUIUserAccess.MainUserPage;
+import LandingPagesGUI.GlobalVariables;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,10 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-
-import LandingPagesGUI.GlobalVariables;
-import LandingPagesGUI.GUIAdminAcess.MainAdminPage;
-import LandingPagesGUI.GUIUserAccess.MainUserPage;
 
 public class signinPanel extends JPanel {
 
@@ -135,7 +134,9 @@ public class signinPanel extends JPanel {
         } else {
             if (role.equals("User")) {
                 if (accounts.checkAccountCredentials(username, password)) {
-                    GlobalVariables.username = username;
+                    GlobalVariables.currentUser = accounts.accounts.getUser(accounts.encrypt(username));
+                    GlobalVariables.username = GlobalVariables.currentUser.getIdentifier();
+                    //GlobalVariables.username = username;
                     new MainUserPage();
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(signinPanel.this);
                     if (frame != null) {

@@ -1,22 +1,21 @@
 package Objects;
 
-import java.util.Objects;
-
 import DataStructures.DLinkedList;
-import DataStructures.DNode;
+import DataStructures.Node;
 import DataStructures.QueueLinkedList;
 import LibGUI.Login;
+import java.util.Objects;
 
 public class Book {
     private String title, description, publicationDate;
-    private int noOfCopies, borrowedCopies;
-    private QueueLinkedList requesters;
+    private int noOfCopies, bookId;
     private DLinkedList<String> authors;
-    private DLinkedList<Integer> borrowers;
+    private QueueLinkedList borrowers, requesters;
     private int totalCopies; // Max copies
 
-    public Book(DLinkedList<String> authors, String title, String description, String publicationDate, int noOfCopies,
-            DLinkedList<Integer> borrowers) {
+    public Book(int bookId, DLinkedList<String> authors, String title, String description, String publicationDate, int noOfCopies,
+            QueueLinkedList borrowers, QueueLinkedList requesters) {
+        this.bookId = bookId;        
         this.authors = authors;
         this.title = title;
         this.description = description;
@@ -24,14 +23,15 @@ public class Book {
         this.noOfCopies = noOfCopies;
         this.totalCopies = noOfCopies; // Set the Maximun copies
         this.borrowers = borrowers;
+        this.requesters = requesters;
     }
 
     public Book(DLinkedList<String> authors, String title, String description, String publicationDate) {
-        this(authors, title, description, publicationDate, 0, null);
+        this(0, authors, title, description, publicationDate, 0, null, null);
     }
 
     public Book() {
-        this(null, null, null, null, 0, null);
+        this(0, null, null, null, null, 0, null, null);
     }
 
     // setters
@@ -84,11 +84,15 @@ public class Book {
         this.totalCopies = totalCopies;
     }
 
-    public void setBorrowersList(DLinkedList<Integer> borrowers){
+    public void setBorrowersList(QueueLinkedList borrowers){
         this.borrowers = borrowers;
     }
 
     // getters
+    public int getBookId() {
+        return bookId;
+    }
+
     public String getAuthors() {
         if (authors == null || authors.isEmpty()) {
         return "\tNo authors";
@@ -112,31 +116,55 @@ public class Book {
         return publicationDate;
     }
 
-    public DLinkedList<User> getBorrowers() {
+    public QueueLinkedList getBorrowers() { // returns the queue of (User) borrowers
         Login login = new Login();
-        DLinkedList<User> borrowersList = new DLinkedList<>();
+        QueueLinkedList borrowersList = new QueueLinkedList();
         if (borrowers.isEmpty()) {
             return null;
         } else {
-            DNode<Integer> currNode = borrowers.head;
+            Node currNode = borrowers.head;
             while (currNode != null) {
-                User user = login.accounts.getUser(currNode.getItem());
-                borrowersList.addLast(user);
-                currNode = currNode.getNext();
+                User user = login.accounts.getUser((int) currNode.getItem());
+                borrowersList.enqueue(user);
+                currNode = currNode.getLink();
             }
             return borrowersList;
         }
     }
-
-    public DLinkedList<Integer> getBorrowersList(){
+    public QueueLinkedList getRequesters() { // returns the queue of (User) requesters
+        Login login = new Login();
+        QueueLinkedList requestersList = new QueueLinkedList();
+        if (requesters.isEmpty()) {
+            return null;
+        } else {
+            Node currNode = requesters.head;
+            while (currNode != null) {
+                User user = login.accounts.getUser((int) currNode.getItem());
+                requestersList.enqueue(user);
+                currNode = currNode.getLink();
+            }
+            return requestersList;
+        }
+    }
+    public QueueLinkedList getRequestersQueue() {
+        return requesters;
+    }
+    public QueueLinkedList getBorrowersQueue() {
         return borrowers;
     }
-
     public String getBorrowersKeys() {
         if (borrowers == null || borrowers.isEmpty()) {
             return "No Borrower/s";
         } else {
             return borrowers.toString();
+        }
+    }
+
+    public String getRequestersKeys() {
+        if (requesters == null || requesters.isEmpty()) {
+            return "No Requester/s";
+        } else {
+            return requesters.toString();
         }
     }
 

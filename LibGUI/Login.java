@@ -1,6 +1,8 @@
 package LibGUI;
 
+import DataStructures.BookLibrary;
 import DataStructures.Node;
+import DataStructures.QueueLinkedList;
 import Objects.User;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 public class Login {
     BufferedReader reader = null;
     public HashTest accounts = new HashTest();
+    BookLibrary bookFetcher = new BookLibrary();
 
     public Login() {
         getUserAccounts();
@@ -65,11 +68,28 @@ public class Login {
                     new FileReader("LibGUI\\UserAccounts.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] userDetails = line.split("//");
-                System.out.println(line);
+                String[] separator = line.split(":", 3);
+                String[] userDetails = separator[0].split("//");
+                String[] booksArr = separator[1].split("[,&]");
+                String[] requestArr = separator[2].split("[,&]");
+
+                QueueLinkedList borrowedBooks = new QueueLinkedList();
+                for (String book : booksArr) {
+                    if (!book.contains("No Borrowed Book/s") && !book.isBlank()) {
+                        borrowedBooks.enqueue(bookFetcher.searchBookwithKey(Integer.parseInt(book.trim())));
+                    }
+                }
+
+                QueueLinkedList requestedBooks = new QueueLinkedList();
+                for (String book : requestArr) {
+                    if (!book.contains("No Book/s Requests") && !book.isBlank()) {
+                        requestedBooks.enqueue(bookFetcher.searchBookwithKey(Integer.parseInt(book.trim())));
+                    }
+                }
+
                 User user = new User(userDetails[0], userDetails[1], userDetails[2], LocalDate.parse(userDetails[3]),
                         userDetails[4], userDetails[5], userDetails[6], userDetails[7], userDetails[8],
-                        encrypt(userDetails[7]));
+                        encrypt(userDetails[7]), borrowedBooks, requestedBooks);
                 storeAccount(user);
             }
         } catch (IOException e) {
@@ -169,8 +189,8 @@ public class Login {
                         writer.write(user.getFirstName() + "//" + user.getLastName() + "//" + user.getMiddleName()
                                 + "//" + user.getDOB() + "//" + user.getAddress() + "//" + user.getGender() + "//"
                                 + user.getPhoneNumber() + "//" + user.getIdentifier() + "//" + user.getPassword() + "//"
-                                + user.getKey());
-                        System.out.println("User " + user.getFirstName() + " successfully added.");
+                                + user.getKey() + ":" + user.getBorrowedBooksString() + ":" + user.getRequestedBooksString());
+
                         currNode = currNode.getLink();
                         writer.newLine();
                     }

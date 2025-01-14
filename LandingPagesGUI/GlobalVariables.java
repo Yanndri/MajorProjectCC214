@@ -7,9 +7,9 @@ import javax.swing.ImageIcon;
 // Where variables that needs to be accessed globally
 public class GlobalVariables {
     // User Information
-    public static User currentUser = null; // place holder for user 
     public static String username = "Uvuvwevwevwe onyetenyevwe ugwemubwem ossas";
     public static String userType = "User"; // checks wether it's an admin or user
+    public static User currentUser;
 
     // canvas size
     public static int width = 1000;

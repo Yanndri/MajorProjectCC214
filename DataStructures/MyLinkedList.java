@@ -172,24 +172,25 @@ public class MyLinkedList {
     public Object getFirstElement() {
         return head.getItem();
     }
-
-    public String toString() {
-        StringBuffer sb = new StringBuffer();
-        Node p = head;
-        if (p != null) {
-            while (p.getLink() != null) {
-                sb.append(p.getItem() + " --> ");
-                p = p.getLink();
-            }
-            if (head == tail)
-                sb.append(p.getItem() + " --> ");
-            else
-                sb.append(p.getItem() + " --> ");
-        }
-        sb.append("null");
-
-        return sb.toString();
-    }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Node p = head;
+		while (p != null) {
+			sb.append(p.getItem());
+			if (p.getLink() != null) {
+				if (count > 1) {
+					if (p.getLink().getLink() == null) { // if next node is tial
+						sb.append(" & ");
+					} else {
+						sb.append(", ");
+					}
+				}
+			}
+			p = p.getLink();
+		}
+		return sb.toString();
+	}
 
     public static void main(String[] args) {
         MyLinkedList list = new MyLinkedList();

@@ -18,7 +18,7 @@ public class MainUserPage extends CustomLayoutManager {
     HomePage homePage = new HomePage();
     SearchBooksPage searchBooksPage = new SearchBooksPage();
     BorrowedBooksPage borrowedBooksPage = new BorrowedBooksPage();
-    BorrowBooksPage borrowBooksPage = new BorrowBooksPage();
+    BorrowPageTest borrowBooksPage = new BorrowPageTest();
     TimeFrame clock = new TimeFrame();
     // ==============================
 
@@ -26,7 +26,7 @@ public class MainUserPage extends CustomLayoutManager {
     JPanel homePagePanel = homePage.getHomePagePanel();
     JPanel searchBooksPagePanel = searchBooksPage.getSearchBooksPage();
     JPanel borrowedBooksPagePanel = borrowedBooksPage.getBorrowedBooksPage();
-    JPanel borrower = borrowBooksPage.createBorrowerPanel();
+    JPanel borrower = borrowBooksPage.getBorrowedBooksPageTest();
     JPanel clockPanel = clock.getTimeFramePanel();
     // =================================
 
@@ -109,6 +109,7 @@ public class MainUserPage extends CustomLayoutManager {
         SingleActionListener(searchBooksButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                GUIComponents.isBorrowMode = false;
                 if (currentPanel != searchBooksPagePanel) {// exit if the button is on already
                     buttonToggledOn(searchBooksButton);
                     buttonToggledOff(homePageButton);
@@ -144,6 +145,7 @@ public class MainUserPage extends CustomLayoutManager {
         SingleActionListener(borrowBookButton, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                GUIComponents.isBorrowMode = true;
                 if (currentPanel != borrower) {
                     buttonToggledOn(borrowBookButton);
                     buttonToggledOff(homePageButton);
