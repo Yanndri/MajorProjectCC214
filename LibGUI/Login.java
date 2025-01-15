@@ -209,6 +209,22 @@ public class Login {
         }
     }
 
+    public boolean requestBook(User newUser){
+        if(newUser == null)
+            return false;
+        
+        //Replace the user in the Hashtable
+        int key = newUser.getKey();
+
+        User oldUser = accounts.getUser(key);
+     
+        accounts.delete(oldUser);
+
+        storeAccount(newUser);
+
+        return true;
+    }
+
     // public static void main(String[] args) {
     // Login login = new Login();
     // login.getUserAccounts();

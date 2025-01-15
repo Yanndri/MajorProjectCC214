@@ -5,6 +5,8 @@ import DataStructures.BookLibrary;
 import DataStructures.QueueLinkedList;
 import LibGUI.Login;
 import Objects.Book; // NOTE
+import Objects.User;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -400,15 +402,18 @@ public class GUIComponents {
     }
 
     public void requestBook(Book book){
+        BookLibrary bookFetcher = new BookLibrary();
+        Login login = new Login();
         int result = JOptionPane.showConfirmDialog(null,
         "Do you want to put a borrow request on the book" + book.getTitle() + "? ",
         "Book Request", JOptionPane.OK_CANCEL_OPTION);
         if(result == 0){
-            GlobalVariables.currentUser.addRequestedBook(book); // add the book in the list of requested book
-            book.addBorrower(GlobalVariables.currentUser); // add the user as a borrower to the book
-            new BookLibrary().updateFile(null, false);
-            new Login().updateFile();
+            User currentUser = GlobalVariables.currentUser;
+            currentUser.addRequestedBook(book); // add the book in the list of requested book
+            book.requestBook(currentUser); // add the user as a borrower to the book
+            login.requestBook(currentUser);
             System.out.println("Book Borrowers: "+book.getBorrowersKeys());
+            bookFetcher.borrowBook(book);
             JOptionPane.showMessageDialog(null, "Book request is pending, please wait for a Librarian to approve your request.", "Book Request",
                                         JOptionPane.INFORMATION_MESSAGE);
         }

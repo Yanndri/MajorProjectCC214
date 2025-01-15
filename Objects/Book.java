@@ -177,9 +177,9 @@ public class Book {
     }
 
     // queue
-    public void bookRequest(User borrower) {
+    public void requestBook(User requester) {
         if (!isAvailable())
-            requesters.enqueue(borrower);
+            requesters.enqueue(requester);
     }
 
     public void addBorrower(User borrower) {

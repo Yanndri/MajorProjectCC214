@@ -177,14 +177,15 @@ public class BookLibrary {
                 DNode<Book> currNode = bookshelf.head;
                 while (currNode != null) {
                     Book currBook = currNode.getItem();
-                    String bookDetails = String.format("%s : %d//%s//%s//%s//%d : %s",
+                    String bookDetails = String.format("%s : %d//%s//%s//%s//%d : %s : %s",
                             currBook.getAuthors().trim(),
                             currBook.getBookId(),
                             currBook.getTitle(),
                             currBook.getDescription(),
                             currBook.getPublicationDate(),
                             currBook.getTotalCopies(),
-                            currBook.getBorrowersKeys().trim());
+                            currBook.getBorrowersKeys().trim(),
+                            currBook.getRequestersKeys().trim());
 
                     // System.out.println("Writing book: " + bookDetails); // Debugging
                     writer.write(bookDetails);
@@ -225,6 +226,14 @@ public class BookLibrary {
         }
 
         return false;
+    }
+
+    public boolean borrowBook(Book book){
+        if(book == null)
+            return false;
+
+        updateBookDetails(book, book);
+        return true;
     }
 
     public boolean updateBookDetails(Book newBook, Book oldBook) {
