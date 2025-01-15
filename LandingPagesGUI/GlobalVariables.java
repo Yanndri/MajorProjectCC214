@@ -1,5 +1,6 @@
 package LandingPagesGUI;
 
+import Objects.User;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
@@ -8,6 +9,7 @@ public class GlobalVariables {
     // User Information
     public static String username;
     public static String userType = "User"; // checks wether it's an admin or user
+    public static User currentUser;
 
     // canvas size
     public static int width = 1000;

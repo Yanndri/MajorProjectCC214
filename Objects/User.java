@@ -3,14 +3,18 @@ package Objects;
 import java.time.LocalDate;
 import java.time.Period;
 
+import DataStructures.Node;
+import DataStructures.QueueLinkedList;
+
 public class User {
 
     String firstName, lastName, middleName, address, gender, phoneNumber, identifier, password;
     int key;
     LocalDate dob;
+    QueueLinkedList borrowedBooks, requestedBooks;
 
     public User(String firstName, String lastName, String middleName, LocalDate dob, String address, String gender,
-            String phoneNumber, String identifier, String password, int key) {
+            String phoneNumber, String identifier, String password, int key, QueueLinkedList borrowedBooks, QueueLinkedList requestedBooks) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -21,10 +25,17 @@ public class User {
         this.identifier = identifier;
         this.password = password;
         this.key = key;
+        this.borrowedBooks = borrowedBooks;
+        this.requestedBooks = requestedBooks;
+    }
+
+    public User(String firstName, String lastName, String middleName, LocalDate dob, String address, String gender,
+    String phoneNumber, String identifier, String password, int key){
+        this(firstName, lastName, middleName, dob, address, gender, phoneNumber, identifier, password, key, new QueueLinkedList(), new QueueLinkedList());
     }
 
     public User() {
-        this(null, null, null, null, null, null, null, null, null, 0);
+        this(null, null, null, null, null, null, null, null, null, 0, new QueueLinkedList(), new QueueLinkedList());
     }
 
     // setters
@@ -118,4 +129,61 @@ public class User {
     public int getKey() {
         return key;
     }
+
+    public void addBorrowedBook(Book book) {
+        if (book != null) {
+            if (borrowedBooks == null)
+                borrowedBooks = new QueueLinkedList();
+            borrowedBooks.enqueue(book);
+        }
+    }
+
+    public void addRequestedBook(Book book) {
+        if (book != null) {
+            if (requestedBooks == null)
+                requestedBooks = new QueueLinkedList();
+            requestedBooks.enqueue(book);
+        }
+    }
+
+    public String getBorrowedBooksString() {
+        if (borrowedBooks != null) {
+            StringBuilder sb = new StringBuilder();
+            Node currNode;
+            Book currBook;
+            for (currNode = borrowedBooks.head; currNode != null; currNode = currNode.getLink()) {
+                currBook = (Book) currNode.getItem();
+                sb.append(currBook.getBookId()).append(", ");
+                if (currNode.getLink() == borrowedBooks.tail) {
+                    sb.append("& ");
+                    sb.append(currBook.getBookId());
+                    break;
+                }
+            }
+            return sb.toString();
+        } else {
+            return "No Borrowed Book/s";
+        }
+    }
+
+    public String getRequestedBooksString() {
+        if (requestedBooks != null) {
+            StringBuilder sb = new StringBuilder();
+            Node currNode;
+            Book currBook;
+            for (currNode = requestedBooks.head; currNode != null; currNode = currNode.getLink()) {
+                currBook = (Book) currNode.getItem();
+                sb.append(currBook.getBookId()).append(", ");
+                if (currNode.getLink() == requestedBooks.tail) {
+                    sb.append("& ");
+                    sb.append(currBook.getBookId());
+                    break;
+                }
+            }
+            return sb.toString();
+        } else {
+            return "No Book/s Requests";
+        }
+    }
+
 }

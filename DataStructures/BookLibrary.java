@@ -1,5 +1,6 @@
 package DataStructures;
 
+import LibGUI.Login;
 import Objects.Book;
 import Objects.User;
 import java.io.BufferedReader;
@@ -7,28 +8,58 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class BookLibrary {
     public BookLibrary() {
         getBooks();
     }
 
+    private Set<Integer> usedBookIds = new HashSet<>();
     public DLinkedList<Book> bookshelf = new DLinkedList<>();
-    // public Login userAccounts = new Login();
 
     // Adding Method/s
     public void addBook(DLinkedList<String> authors, String title, String description, String publicationDate,
-            int noOfCopies, DLinkedList<Integer> borrowers) {
-        bookshelf.addLast(new Book(authors, title, description, publicationDate, noOfCopies, borrowers));
+            int noOfCopies, QueueLinkedList borrowers, QueueLinkedList requesters) {
+        int bookId = generateUniqueBookId();
+        Book newBook = new Book(bookId, authors, title, description, publicationDate, noOfCopies, borrowers,
+                requesters);
+        bookshelf.addLast(newBook);
     }
 
     public void addBook(Book book) {
         bookshelf.addLast(book);
     }
 
-    // Deleting Method/s
+    private int generateUniqueBookId() { // this is inefficient in larger data sets
+        int uniqueId = 0;
+        DNode<Book> currNode = bookshelf.head;
+        while (currNode != null) {
+            usedBookIds.add(currNode.getItem().getBookId());
+            currNode = currNode.getNext();
+        }
+        while (usedBookIds.contains(uniqueId)) {
+            uniqueId++;
+        }
+        usedBookIds.add(uniqueId);
+        return uniqueId;
+    }
 
     // Searching Methods
+
+    public Book searchBookwithKey(int key) {
+        DNode<Book> currBook = bookshelf.head;
+        while (currBook != null) {
+            if (currBook.getItem().getBookId() == key) {
+                return currBook.getItem();
+            }
+            currBook = currBook.getNext();
+        }
+        return null;
+    }
+
     public DLinkedList<Book> searchTitle(String title) { // returns a lists of books that contains the keyword
         // System.out.println("Library Test > searchTitle()");
         DLinkedList<Book> results = new DLinkedList<>();
@@ -68,19 +99,17 @@ public class BookLibrary {
                             "LandingPagesGUI\\AdminAcess\\Books.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] separator = line.split(":", 3);
-                if (separator.length == 3) {
+                String[] separator = line.split(":", 4);
+                if (separator.length == 4) {
                     String authorsPart = separator[0].trim(); // authors part
                     String bookPart = separator[1].trim(); // book detail
                     String borrowerPart = separator[2].trim(); // borrowers
-
-                    // System.out.println("borrowers: "+borrowerPart);
-                    // System.out.println("authors: "+authorsPart);
-                    // System.out.println("book: "+bookPart);
+                    String requesterPart = separator[3].trim(); // requesters
 
                     String[] authorsArray = authorsPart.split("[,&]");
                     String[] bookDetails = bookPart.split("//");
                     String[] borrowersArray = borrowerPart.split("[,&]");
+                    String[] requestersArray = requesterPart.split("[,&]");
 
                     DLinkedList<String> authors = new DLinkedList<>();
                     for (String author : authorsArray) {
@@ -89,16 +118,24 @@ public class BookLibrary {
                         }
                     }
 
-                    DLinkedList<Integer> borrowers = new DLinkedList<>();
+                    QueueLinkedList borrowers = new QueueLinkedList();
                     for (String borrower : borrowersArray) {
                         if (!borrower.equals("No Borrower/s") && !borrower.isBlank()) {
-                            borrowers.addLast(Integer.parseInt(borrower.trim()));
+                            borrowers.enqueue(Integer.parseInt(borrower.trim()));
                         }
                     }
 
-                    Book newBook = new Book(authors, bookDetails[0], bookDetails[1], bookDetails[2],
-                            Integer.parseInt(bookDetails[3]), borrowers);
-                    if (!bookshelf.isFound(newBook)) {
+                    QueueLinkedList requesters = new QueueLinkedList();
+                    for (String requester : requestersArray) {
+                        if (!requester.equals("No Requester/s") && !requester.isBlank()) {
+                            requesters.enqueue(Integer.parseInt(requester.trim()));
+                        }
+                    }
+
+                    Book newBook = new Book(Integer.parseInt(bookDetails[0]), authors, bookDetails[1], bookDetails[2],
+                            bookDetails[3],
+                            Integer.parseInt(bookDetails[4]), borrowers, requesters);
+                    if (!bookshelf.isFound(newBook)) { // anti duplication
                         addBook(newBook);
                     }
                 }
@@ -123,13 +160,15 @@ public class BookLibrary {
             writer = new BufferedWriter(new FileWriter("LandingPagesGUI\\AdminAcess\\Books.txt", append));
             if (append) {
                 // Append only the new book entry
-                String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
+                String bookDetails = String.format("%s : %d//%s//%s//%s//%d : %s : %s",
                         newBook.getAuthors().trim(),
+                        newBook.getBookId(),
                         newBook.getTitle(),
                         newBook.getDescription(),
                         newBook.getPublicationDate(),
                         newBook.getTotalCopies(),
-                        newBook.getBorrowersKeys().trim());
+                        newBook.getBorrowersKeys().trim(),
+                        newBook.getRequestersKeys());
                 writer.write(bookDetails);
                 writer.newLine();
             } else {
@@ -138,15 +177,16 @@ public class BookLibrary {
                 DNode<Book> currNode = bookshelf.head;
                 while (currNode != null) {
                     Book currBook = currNode.getItem();
-                    String bookDetails = String.format("%s : %s//%s//%s//%d : %s",
+                    String bookDetails = String.format("%s : %d//%s//%s//%s//%d : %s",
                             currBook.getAuthors().trim(),
+                            currBook.getBookId(),
                             currBook.getTitle(),
                             currBook.getDescription(),
                             currBook.getPublicationDate(),
                             currBook.getTotalCopies(),
-                            currBook.getBorrowersKeys());
+                            currBook.getBorrowersKeys().trim());
 
-                    System.out.println("Writing book: " + bookDetails); // Debugging
+                    // System.out.println("Writing book: " + bookDetails); // Debugging
                     writer.write(bookDetails);
                     writer.newLine();
 
@@ -187,12 +227,13 @@ public class BookLibrary {
         return false;
     }
 
-    public boolean updateBookDetails(Book newBook, Book oldBook){
-        
-        if(newBook == null || oldBook == null){
-            return false;}
+    public boolean updateBookDetails(Book newBook, Book oldBook) {
 
-        if(isBookFound(oldBook)){
+        if (newBook == null || oldBook == null) {
+            return false;
+        }
+
+        if (isBookFound(oldBook)) {
 
             int pos = getBookPosition(oldBook);
 
@@ -271,35 +312,54 @@ public class BookLibrary {
     // }
     // }
 
-    public static void main(String[] args) {
-        // DLinkedList author1 = new DLinkedList();
-        // author1.addLast("Peter");
-        // author1.addLast("JK Rowling");
-        // Book book1 = new Book(author1, "Harry Potter", "Desc1", "12/23/24", 1);
-
-        // DLinkedList author2 = new DLinkedList();
-        // author2.addLast("Pete");
-        // author2.addLast("John Rowling");
-        // Book book2 = new Book(author2, "Porter Harry", "Desc1", "12/23/24", 1);
-
-        BookLibrary lib = new BookLibrary();
-        // lib.getBooks();
-        Book currBook = (Book) lib.bookshelf.head.getItem(); // take note of this my guy
-
-        System.out.println("Head Author: " + currBook.getAuthorsList().head.getItem());
-
-        System.out.println(currBook.getAuthors());
-        // currBook.addAuthor("Test");
-        System.out.println(currBook.removeAuthor("Test"));
-        System.out.println("Borrowers: " + currBook.getBorrowersKeys());
-        DLinkedList<User> headBorrowers = currBook.getBorrowers();
-        User user = headBorrowers.head.getItem();
-        System.out.println("Borrower User: " + user.getFirstName());
-
-        System.out.println(currBook.getAuthors());
-
-        lib.updateFile(null, false);
-
+    public void approveBorrowRequest(Book book) {
+        if (book.isAvailable() && !book.getRequestersQueue().isEmpty()) {
+            int userKey = (int) book.getRequestersQueue().dequeue();
+            Login login = new Login();
+            User approvedUser = login.accounts.getUser(userKey);
+            book.addBorrower(approvedUser);
+            approvedUser.addBorrowedBook(book);
+            book.setNoOfCopies(-1); // Decrease the number of available copies
+            System.out.println("Approved User: " + approvedUser.getFirstName());
+        } else {
+            System.out.println("No available copies or no requesters.");
+        }
     }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BookLibrary bookFetcher = new BookLibrary();
+        Book currBook = bookFetcher.bookshelf.head.getItem();
+
+        while (true) {
+            System.out.println("Current Book: " + currBook.getTitle());
+            System.out.println("Borrowers: " + currBook.getBorrowersKeys());
+            System.out.println("Requesters: " + currBook.getRequestersKeys());
+            System.out.println("Do you want to approve the next requester? (yes/no)");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("yes")) {
+                bookFetcher.approveBorrowRequest(currBook);
+            } else {
+                System.out.println("Approval process terminated.");
+                break;
+            }
+        }
+
+        scanner.close();
+    }
+
+    // public static void main(String[] args) { // borrow
+    // BookLibrary bookFetcher = new BookLibrary();
+    // Book currBook = bookFetcher.bookshelf.head.getItem();
+    // QueueLinkedList queue = currBook.getBorrowers();
+    // // a much easier way to do it
+    // // User currUser = (User)
+    // // bookFetcher.bookshelf.head.getItem().getBorrowers().qFront();
+    // User frontUser = (User) queue.qFront();
+    // System.out.println("Front User: " + frontUser.getFirstName()); // borrower
+    // System.out.println("Requester: " + currBook.getRequestersKeys());
+
+    // }
 
 }
