@@ -34,7 +34,7 @@ public class CustomLayoutManager {
     }
 
     // Base Layout for the main panel(The background desgin)
-    public JPanel createMainPanel(User account) {
+    public JPanel createMainPanel() {
         System.out.println(this + " > Created a Main Panel");
         JPanel mainPanel = new JPanel();
         // design at the top
@@ -48,8 +48,6 @@ public class CustomLayoutManager {
         mainPanel.add(northPanel, BorderLayout.NORTH);
 
         northPanel.setBackground(GlobalVariables.lightestColor);
-
-        GlobalVariables.setUsername(account.getFirstName());
 
         // Children
         addProfile(northPanel);

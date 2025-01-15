@@ -15,7 +15,7 @@ public class MainUserPage extends CustomLayoutManager {
     User account;// current account that is logged in
 
     JFrame frame = createCanvas();
-    JPanel mainPanel; // used as a replacement for frame
+    JPanel mainPanel = createMainPanel(); // used as a replacement for frame
     JPanel currentPanel = new JPanel(); // the current panel page is checked here
     // This way you can edit the currentPanel(remove, setVisible(), etc.)
 
@@ -36,11 +36,7 @@ public class MainUserPage extends CustomLayoutManager {
     // =================================
 
     // Constructor where frame is maximized
-    public MainUserPage(User account) {
-        this.account = account;
-        GlobalVariables.setUsername(account.getFirstName());
-        GlobalVariables.setUserType("User");
-        mainPanel = createMainPanel(account);
+    public MainUserPage() {
         initialize(); // Initialize the components
     }
 
@@ -181,6 +177,6 @@ public class MainUserPage extends CustomLayoutManager {
     public static void main(String[] args) {
         User user = new User();
         user.setFirstName("Ryan");
-        new MainUserPage(user);
+        new MainUserPage();
     }
 }
