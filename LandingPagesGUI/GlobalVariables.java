@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 // Where variables that needs to be accessed globally
 public class GlobalVariables {
     // User Information
-    public static String username;
+    public static String username = "Uvuvwevwevwe onyetenyevwe ugwemubwem ossas";
     public static String userType = "User"; // checks wether it's an admin or user
     public static User currentUser;
 
@@ -33,9 +33,5 @@ public class GlobalVariables {
 
     public static void setUserType(String newUserType) {
         userType = newUserType;
-    }
-
-    public static void setUsername(String newUsername) {
-        username = newUsername;
     }
 }

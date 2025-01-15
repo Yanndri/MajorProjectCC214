@@ -48,25 +48,6 @@ public class Login {
                 password.equals(existingAccount.getPassword());
     }
 
-    public User getUserAccount(String username, String password) {
-        if (username.isEmpty() || password.isEmpty())
-            return null;
-
-        if (checkAccountCredentials(username, password)) {
-
-            int key = encrypt(username);
-
-            User account = accounts.getUser(key);
-
-            if (account != null)
-                return account;
-            else
-                return null;
-        }
-
-        return null;
-    }
-
     public boolean checkAdminCredentials(String username, String password) {
         String[] adminCredentials = getAdminCredentials();
 
